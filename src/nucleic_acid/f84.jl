@@ -15,7 +15,7 @@ struct F84abs <: F84
       error("F84 parameter β must be positive")
     elseif sum([πA,πC,πG,πT]) != 1.0
       error("F84 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<=0.0)
+    elseif any([πA,πC,πG,πT] .<= 0.0)
       error("F84 frequencies must be positive")
     end
     new(κ, β, πA, πC, πG, πT)

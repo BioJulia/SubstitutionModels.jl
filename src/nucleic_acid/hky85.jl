@@ -15,7 +15,7 @@ struct HKY85abs <: HKY85
       error("HKY85 parameter β must be positive")
     elseif sum([πA,πC,πG,πT]) != 1.0
       error("HKY85 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<=0.0)
+    elseif any([πA,πC,πG,πT] .<= 0.0)
       error("HKY85 frequencies must be positive")
     end
     new(α, β, πA, πC, πG, πT)

@@ -1,7 +1,7 @@
 _πAT(mod) = _πACGT(mod)
-_πGC(mod) = _πACGT(mod)
-_πG(mod) = _πGC(mod)
-_πC(mod) = _πGC(mod)
+_πCG(mod) = _πACGT(mod)
+_πG(mod) = _πCG(mod)
+_πC(mod) = _πCG(mod)
 _πA(mod) = _πAT(mod)
 _πT(mod) = _πAT(mod)
 _πACGU(mod) = _πACGT(mod)
@@ -24,17 +24,11 @@ end
 end
 
 "Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
-[[A→A, A→C, A→G, A→T]
- [C→A, C→C, C→G, C→T]
- [G→A, G→C, G→G, G→T]
- [T→A, T→C, T→G, T→T]]
 
- or
-
- [[A→A, A→C, A→G, A→U]
-  [C→A, C→C, C→G, C→U]
-  [G→A, G→C, G→G, G→U]
-  [U→A, U→C, U→G, U→U]]"
+  [[A→A, A→C, A→G, A→T]
+   [C→A, C→C, C→G, C→T]
+   [G→A, G→C, G→G, G→T]
+   [T→A, T→C, T→G, T→T]]"
 @inline function Q(mod::NASM)
     α = _α(mod) # α = r(T/U → C) = r(C → T/U)
     β = _β(mod) # β = r(T/U → A) = r(A → T/U)
@@ -55,19 +49,13 @@ end
 end
 
 "Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
-[[A→A, A→C, A→G, A→T]
- [C→A, C→C, C→G, C→T]
- [G→A, G→C, G→G, G→T]
- [T→A, T→C, T→G, T→T]]
 
- or
+  [[A→A, A→C, A→G, A→T]
+   [C→A, C→C, C→G, C→T]
+   [G→A, G→C, G→G, G→T]
+   [T→A, T→C, T→G, T→T]]
 
- [[A→A, A→C, A→G, A→U]
-  [C→A, C→C, C→G, C→U]
-  [G→A, G→C, G→G, G→U]
-  [U→A, U→C, U→G, U→U]]
-
-  for a specified time"
+for a specified time"
 @inline function P(mod::NASM, t::Float64)
   return expm(Q(mod) * t)
 end
