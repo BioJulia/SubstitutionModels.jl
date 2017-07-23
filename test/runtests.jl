@@ -32,3 +32,11 @@ end
   @test sum(_π(testmod)) == 1.0
   @test _πR(testmod) + _πY(testmod) == 1.0
 end
+
+@testset "HKY85" begin
+  testmod = HKY85(0.75, 0.3, 0.2, 0.2, 0.3)
+  @test Q(testmod) == Q(HKY85(0.75, 1.0, 0.3, 0.2, 0.2, 0.3))
+  @test isapprox(diag(P(testmod, 1.0e10)), _π(testmod), atol=1.0e-5)
+  @test sum(_π(testmod)) == 1.0
+  @test _πR(testmod) + _πY(testmod) == 1.0
+end
