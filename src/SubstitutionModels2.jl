@@ -12,6 +12,7 @@ module SubstitutionModels2
   include("core.jl")
   include("indexing.jl")
   include("nucleic_acid/jc69.jl")
+  include("nucleic_acid/k80.jl")
   include("nucleic_acid/nucleic_acid.jl")
 
   export
@@ -19,13 +20,17 @@ module SubstitutionModels2
     SM,
     NucleicAcidSubstitutionModel,
     NASM,
-    # AminoAcidSubstitutionModel,
     JC69,
     JC69abs,
     JC69rel,
-    Q,
-    P,
-    π,
-    μ
+    K80,
+    K80abs,
+    K80rel,
+    Q, P,
+    _π,
+    _πR, _πY,
+    _πA, _πC, _πG, _πT,
+    _μ,
+    _α, _β, _γ, _δ, _ϵ, _η
 
 end # module
