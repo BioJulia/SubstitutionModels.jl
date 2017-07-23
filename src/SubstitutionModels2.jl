@@ -17,6 +17,7 @@ module SubstitutionModels2
   include("nucleic_acid/f84.jl")
   include("nucleic_acid/hky85.jl")
   include("nucleic_acid/tn93.jl")
+  include("nucleic_acid/gtr.jl")
   include("nucleic_acid/nucleic_acid.jl")
 
   export
@@ -28,6 +29,7 @@ module SubstitutionModels2
     F84, F84abs, F84rel,
     HKY85, HKY85abs, HKY85rel,
     TN93, TN93abs, TN93rel,
+    GTR, GTRabs, GTRrel,
     Q, P,
     _π
 

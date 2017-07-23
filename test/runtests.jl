@@ -42,3 +42,10 @@ end
   @test isapprox(diag(P(testmod, 1.0e10)), _π(testmod), atol=1.0e-5)
   @test sum(_π(testmod)) == 1.0
 end
+
+@testset "GTR" begin
+  testmod = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 0.3, 0.2, 0.2, 0.3)
+  @test Q(testmod) == Q(GTR(1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 0.3, 0.2, 0.2, 0.3))
+  @test isapprox(diag(P(testmod, 1.0e10)), _π(testmod), atol=1.0e-5)
+  @test sum(_π(testmod)) == 1.0
+end
