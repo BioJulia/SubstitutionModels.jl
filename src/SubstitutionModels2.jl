@@ -13,6 +13,7 @@ module SubstitutionModels2
   include("indexing.jl")
   include("nucleic_acid/jc69.jl")
   include("nucleic_acid/k80.jl")
+  include("nucleic_acid/f81.jl")
   include("nucleic_acid/nucleic_acid.jl")
 
   export
@@ -26,6 +27,9 @@ module SubstitutionModels2
     K80,
     K80abs,
     K80rel,
+    F81,
+    F81abs,
+    F81rel,
     Q, P,
     _π,
     _πR, _πY,

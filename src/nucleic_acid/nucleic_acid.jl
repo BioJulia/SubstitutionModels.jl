@@ -23,32 +23,6 @@ end
   return _πT(mod) + _πC(mod)
 end
 
-"Generate a rate matrix for a `NucleicAcidSubstitutionModel`, of the form:
-[[A→A, A→C, A→G, A→T]
- [C→A, C→C, C→G, C→T]
- [G→A, G→C, G→G, G→T]
- [T→A, T→C, T→G, T→T]]
-
- or
-
- [[A→A, A→C, A→G, A→U]
-  [C→A, C→C, C→G, C→U]
-  [G→A, G→C, G→G, G→U]
-  [U→A, U→C, U→G, U→U]]"
-@inline function _R(mod::NASM)
-    α = _α(mod) # α = r(T/U → C) = r(C → T/U)
-    β = _β(mod) # β = r(T/U → A) = r(A → T/U)
-    γ = _γ(mod) # γ = r(T/U → G) = r(G → T/U)
-    δ = _δ(mod) # δ = r(C → A) = r(A → C)
-    ϵ = _ϵ(mod) # ϵ = r(C → G) = r(G → C)
-    η = _η(mod) # η = r(A → G) = r(G → A)
-
-    return SMatrix{4,4, Float64}(-(δ+η+β), δ, η, β,
-                                 δ, -(δ+ϵ+α), ϵ, α,
-                                 η, ϵ, -(η+ϵ+γ), γ,
-                                 β, α, γ, -(β+α+γ))
-end
-
 "Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
 [[A→A, A→C, A→G, A→T]
  [C→A, C→C, C→G, C→T]
@@ -62,7 +36,22 @@ end
   [G→A, G→C, G→G, G→U]
   [U→A, U→C, U→G, U→U]]"
 @inline function Q(mod::NASM)
-  return SDiagonal(_π(mod)) * _R(mod) * _μ(mod)
+    α = _α(mod) # α = r(T/U → C) = r(C → T/U)
+    β = _β(mod) # β = r(T/U → A) = r(A → T/U)
+    γ = _γ(mod) # γ = r(T/U → G) = r(G → T/U)
+    δ = _δ(mod) # δ = r(C → A) = r(A → C)
+    ϵ = _ϵ(mod) # ϵ = r(C → G) = r(G → C)
+    η = _η(mod) # η = r(A → G) = r(G → A)
+    πA = _πA(mod)
+    πC = _πC(mod)
+    πG = _πG(mod)
+    πT = _πT(mod)
+    μ = _μ(mod)
+
+    return SMatrix{4,4, Float64}(-(δ*πC+η*πG+β*πT), δ*πC, η*πG, β*πT,
+                                 δ*πA, -(δ*πA+ϵ*πG+α*πT), ϵ*πG, α*πT,
+                                 η*πA, ϵ*πC, -(η*πA+ϵ*πC+γ*πT), γ*πT,
+                                 β*πA, α*πC, γ*πG, -(β*πA+α*πC+γ*πG)) * μ
 end
 
 "Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
