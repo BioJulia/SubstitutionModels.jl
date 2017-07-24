@@ -1,4 +1,4 @@
-using SubstitutionModels2
+using SubstitutionModels
 using Base.Test
 
 @testset "JC69" begin

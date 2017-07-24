@@ -1,6 +1,6 @@
 __precompile__()
 
-module SubstitutionModels2
+module SubstitutionModels
 
   using
     BioSymbols,
