@@ -57,3 +57,27 @@ end
 @inline function _η(mod::JC69)
   return 1.
 end
+
+"Generate a P matrix for a `JC69` model, of the form:
+
+  [[A→A, A→C, A→G, A→T]
+   [C→A, C→C, C→G, C→T]
+   [G→A, G→C, G→G, G→T]
+   [T→A, T→C, T→G, T→T]]
+
+for a specified time"
+@inline function P(mod::JC69, t::Float64)
+  μ = _μ(mod)
+  ω = exp(-t * μ)
+  p1 = 0.25 + 0.75 * ω
+  p2 = 0.25 + 0.25 * ω
+  return SMatrix{4, 4, Float64}(p1, p2, p2, p2,
+                                p2, p1, p2, p2,
+                                p2, p2, p1, p2,
+                                p2, p2, p2, p1)
+end
+
+"Generate an array of P matrices for a specified array of times"
+function P(mod::JC69, t::Array{Float64})
+  return [P(mod, i) for i in t]
+end

@@ -42,10 +42,10 @@ end
     πT = _πT(mod)
     μ = _μ(mod)
 
-    return SMatrix{4,4, Float64}(-(δ*πC+η*πG+β*πT), δ*πC, η*πG, β*πT,
-                                 δ*πA, -(δ*πA+ϵ*πG+α*πT), ϵ*πG, α*πT,
-                                 η*πA, ϵ*πC, -(η*πA+ϵ*πC+γ*πT), γ*πT,
-                                 β*πA, α*πC, γ*πG, -(β*πA+α*πC+γ*πG)) * μ
+    return SMatrix{4, 4, Float64}(-(δ*πC+η*πG+β*πT), δ*πC, η*πG, β*πT,
+                                  δ*πA, -(δ*πA+ϵ*πG+α*πT), ϵ*πG, α*πT,
+                                  η*πA, ϵ*πC, -(η*πA+ϵ*πC+γ*πT), γ*πT,
+                                  β*πA, α*πC, γ*πG, -(β*πA+α*πC+γ*πG)) * μ
 end
 
 "Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
