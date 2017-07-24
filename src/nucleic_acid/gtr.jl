@@ -35,6 +35,11 @@ struct GTRabs <: GTR
   end
 end
 
+function show(io::IO, object::GTRabs)
+  print(io, "\r\e[0m\e[1mG\e[0meneralised \e[1mT\e[0mime \e[1mR\e[0meversible model (absolute rate form)
+α = $(object.α), β = $(object.β), γ = $(object.γ), δ = $(object.δ), ϵ = $(object.ϵ), η = $(object.η), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
+end
+
 struct GTRrel <: GTR
   α::Float64
   β::Float64
@@ -65,6 +70,11 @@ struct GTRrel <: GTR
     end
     new(α, β, γ, δ, ϵ, πA, πC, πG, πT)
   end
+end
+
+function show(io::IO, object::GTRrel)
+  print(io, "\r\e[0m\e[1mG\e[0meneralised \e[1mT\e[0mime \e[1mR\e[0meversible model (relative rate form)
+α = $(object.α), β = $(object.β), γ = $(object.γ), δ = $(object.δ), ϵ = $(object.ϵ), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
 
 GTR(α, β, γ, δ, ϵ, η, πA, πC, πG, πT) = GTRabs(α, β, γ, δ, ϵ, η, πA, πC, πG, πT)

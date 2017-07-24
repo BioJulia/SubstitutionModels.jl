@@ -22,6 +22,11 @@ struct F84abs <: F84
   end
 end
 
+function show(io::IO, object::F84abs)
+  print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m84\e[0m substitution model (absolute rate form)
+κ = $(object.κ), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
+end
+
 struct F84rel <: F84
   κ::Float64
   πA::Float64
@@ -39,6 +44,11 @@ struct F84rel <: F84
     end
     new(κ, πA, πC, πG, πT)
   end
+end
+
+function show(io::IO, object::F84rel)
+  print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m84\e[0m substitution model (relative rate form)
+κ = $(object.κ), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
 
 F84(κ, β, πA, πC, πG, πT) = F84abs(κ, β, πA, πC, πG, πT)

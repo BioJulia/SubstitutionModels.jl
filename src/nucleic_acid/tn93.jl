@@ -23,6 +23,11 @@ struct TN93abs <: TN93
   end
 end
 
+function show(io::IO, object::TN93abs)
+  print(io, "\r\e[0m\e[1mT\e[0mamura and \e[1mN\e[0mei 19\e[1m93\e[0m model (absolute rate form)
+α1 = $(object.α1), α2 = $(object.α1), β = $(object.β), π = [$(object.πAT), $(object.πCG), $(object.πCG), $(object.πAT)]")
+end
+
 struct TN93rel <: TN93
   κ1::Float64
   κ2::Float64
@@ -41,6 +46,11 @@ struct TN93rel <: TN93
     end
     new(κ1, κ2, πAT, πCG)
   end
+end
+
+function show(io::IO, object::TN93rel)
+  print(io, "\r\e[0m\e[1mT\e[0mamura and \e[1mN\e[0mei 19\e[1m93\e[0m model (relative rate form)
+κ1 = $(object.κ1), κ2 = $(object.κ1), π = [$(object.πAT), $(object.πCG), $(object.πCG), $(object.πAT)]")
 end
 
 TN93(α1, α2, β, πAT, πCG) = TN93abs(α1, α2, β, πAT, πCG)

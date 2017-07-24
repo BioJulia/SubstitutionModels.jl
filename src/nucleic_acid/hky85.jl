@@ -22,6 +22,11 @@ struct HKY85abs <: HKY85
   end
 end
 
+function show(io::IO, object::HKY85abs)
+  print(io, "\r\e[0m\e[1mH\e[0masegawa, \e[1mK\e[0mishino, and \e[1mY\e[0mano 19\e[1m85\e[0m model (absolute rate form)
+α = $(object.α), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
+end
+
 struct HKY85rel <: HKY85
   κ::Float64
   πA::Float64
@@ -39,6 +44,11 @@ struct HKY85rel <: HKY85
     end
     new(κ, πA, πC, πG, πT)
   end
+end
+
+function show(io::IO, object::HKY85rel)
+  print(io, "\r\e[0m\e[1mH\e[0masegawa, \e[1mK\e[0mishino, and \e[1mY\e[0mano 19\e[1m85\e[0m model (absolute rate form)
+κ = $(object.κ), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
 
 HKY85(α, β, πA, πC, πG, πT) = HKY85abs(α, β, πA, πC, πG, πT)

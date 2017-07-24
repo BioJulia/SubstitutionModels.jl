@@ -7,7 +7,8 @@ module SubstitutionModels2
     StaticArrays
 
   import
-    Base.getindex
+    Base.getindex,
+    Base.show
 
   include("core.jl")
   include("indexing.jl")

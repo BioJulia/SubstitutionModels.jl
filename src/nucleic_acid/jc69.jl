@@ -10,7 +10,16 @@ struct JC69abs <: JC69
   end
 end
 
+function show(io::IO, object::JC69abs)
+  print(io, "\r\e[0m\e[1mJ\e[0mukes and \e[1mC\e[0mantor 19\e[1m69\e[0m model (absolute rate form)
+λ = $(object.λ)")
+end
+
 struct JC69rel <: JC69
+end
+
+function show(io::IO, object::JC69rel)
+  print(io, "\r\e[0m\e[1mJ\e[0mukes and \e[1mC\e[0mantor 19\e[1m69\e[0m model (relative rate form)")
 end
 
 JC69(λ) = JC69abs(λ)

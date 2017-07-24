@@ -19,6 +19,11 @@ struct F81abs <: F81
   end
 end
 
+function show(io::IO, object::F81abs)
+  print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m81\e[0m model (absolute rate form)
+β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
+end
+
 struct F81rel <: F81
   πA::Float64
   πC::Float64
@@ -32,6 +37,11 @@ struct F81rel <: F81
     end
     new(πA, πC, πG, πT)
   end
+end
+
+function show(io::IO, object::F81rel)
+  print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m81\e[0m model (relative rate form)
+π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
 
 F81(β, πA, πC, πG, πT) = F81abs(β, πA, πC, πG, πT)

@@ -13,6 +13,11 @@ struct K80abs <: K80
   end
 end
 
+function show(io::IO, object::K80abs)
+  print(io, "\r\e[0m\e[1mK\e[0mimura 19\e[1m80\e[0m model (absolute rate form)
+α = $(object.α), β = $(object.β)")
+end
+
 struct K80rel <: K80
   κ::Float64
   function K80rel(κ::Float64)
@@ -21,6 +26,11 @@ struct K80rel <: K80
     end
     new(κ)
   end
+end
+
+function show(io::IO, object::K80rel)
+  print(io, "\r\e[0m\e[1mK\e[0mimura 19\e[1m80\e[0m model (relative rate form)
+κ = $(object.κ)")
 end
 
 K80(α, β) = K80abs(α, β)
