@@ -2,7 +2,7 @@
 
 **Development status:**
 
-[![Build Status](https://travis-ci.org/BioJulia/SubstitutionModels.jl.svg?branch=master)](https://travis-ci.org/BioJulia/SubstitutionModels.jl) [![Coverage Status](https://coveralls.io/repos/BioJulia/SubstitutionModels.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/SubstitutionModels.jl/blob/master/LICENSE) [![](https://img.shields.io/badge/docs-master-blue.svg)](https://biojulia.github.io/SubstitutionModels.jl/master) ![BioJulia maintainer: jangevaare](https://img.shields.io/badge/BioJulia%20Maintainer-jangevaare-orange.svg) ![BioJulia maintainer: Ward9250](https://img.shields.io/badge/BioJulia%20Maintainer-Ward9250-orange.svg)
+[![Build Status](https://travis-ci.org/BioJulia/SubstitutionModels.jl.svg?branch=master)](https://travis-ci.org/BioJulia/SubstitutionModels.jl) [![Coverage Status](https://coveralls.io/repos/github/BioJulia/SubstitutionModels.jl/badge.svg?branch=master)](https://coveralls.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/SubstitutionModels.jl/blob/master/LICENSE) ![BioJulia maintainer: jangevaare](https://img.shields.io/badge/BioJulia%20Maintainer-jangevaare-orange.svg) ![BioJulia maintainer: Ward9250](https://img.shields.io/badge/BioJulia%20Maintainer-Ward9250-orange.svg)
 
 ## Description
 
@@ -27,7 +27,7 @@ julia> Pkg.clone("https://github.com/BioJulia/SubstitutionModels.jl")
 
 We appreciate contributions from users including reporting bugs, fixing issues,
 improving performance and adding new features.
-Please go to the [contributing section of the documentation](biojulia.github.io/SubstitutionModels.jl/stable/contributing)
+Please go to the [contributing section of the documentation](http://biojulia.net/Contributing/latest/)
 for more information.
 
 If you have a question about
