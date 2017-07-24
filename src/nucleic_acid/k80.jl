@@ -147,3 +147,8 @@ function P(mod::K80rel, t::Float64)
                                 P₂, P₃, P₁, P₃,
                                 P₃, P₂, P₃, P₁)
 end
+
+"Generate an array of P matrices for a specified array of times"
+function P(mod::K80, t::Array{Float64})
+  return [P(mod, i) for i in t]
+end

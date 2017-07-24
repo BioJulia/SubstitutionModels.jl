@@ -100,3 +100,35 @@ end
 @inline function _η(mod::F81)
   return 1.0
 end
+
+@inline function P(mod::F81, t::Float64)
+  πA = _πA(mod)
+  πC = _πC(mod)
+  πG = _πG(mod)
+  πT = _πT(mod)
+
+  πR = _πR(mod)
+  πY = _πY(mod)
+
+  β = _μ(mod)
+  ω = exp(-β * t)
+
+  P₁  = πA + ((πA * πY / πR) + (πG / πR)) * ω
+  P₂  = πC + ((πC * πR / πY) + (πT / πY)) * ω
+  P₃  = πG + ((πG * πY / πR) + (πA / πR)) * ω
+  P₄  = πT + ((πT * πR / πY) + (πC / πY)) * ω
+  P₅  = πA * (1. - ω)
+  P₆  = πC * (1. - ω)
+  P₇  = πG * (1. - ω)
+  P₈  = πT * (1. - ω)
+
+  return SMatrix{4, 4, Float64}(P₁,  P₆,  P₇,  P₈,
+                                P₅,  P₂,  P₇,  P₈,
+                                P₅,  P₆,  P₃,  P₈,
+                                P₅,  P₆,  P₇,  P₄)
+end
+
+"Generate an array of P matrices for a specified array of times"
+function P(mod::F81, t::Array{Float64})
+  return [P(mod, i) for i in t]
+end
