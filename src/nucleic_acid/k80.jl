@@ -36,11 +36,7 @@ end
 K80(α, β) = K80abs(α, β)
 K80(κ) = K80rel(κ)
 
-@inline function _μ(mod::K80abs)
-  return mod.β
-end
-
-@inline function _μ(mod::K80rel)
+@inline function _μ(mod::K80)
   return 1.0
 end
 
@@ -50,32 +46,32 @@ end
 
 "α = r(T/U → C) = r(C → T/U)"
 @inline function _α(mod::K80abs)
-  return mod.α/mod.β
+  return mod.α
 end
 
 "β = r(T/U → A) = r(A → T/U)"
-@inline function _β(mod::K80)
-  return 1.0
+@inline function _β(mod::K80abs)
+  return mod.β
 end
 
 "γ = r(T/U → G) = r(G → T/U)"
-@inline function _γ(mod::K80)
-  return 1.0
+@inline function _γ(mod::K80abs)
+  return mod.β
 end
 
 "δ = r(C → A) = r(A → C)"
-@inline function _δ(mod::K80)
-  return 1.0
+@inline function _δ(mod::K80abs)
+  return mod.β
 end
 
 "ϵ = r(C → G) = r(G → C)"
-@inline function _ϵ(mod::K80)
-  return 1.0
+@inline function _ϵ(mod::K80abs)
+  return mod.β
 end
 
 "η = r(A → G) = r(G → A)"
 @inline function _η(mod::K80abs)
-  return mod.α/mod.β
+  return mod.α
 end
 
 "α = r(T/U → C) = r(C → T/U)"
@@ -83,7 +79,71 @@ end
   return mod.κ
 end
 
+"β = r(T/U → A) = r(A → T/U)"
+@inline function _β(mod::K80rel)
+  return 1.0
+end
+
+"γ = r(T/U → G) = r(G → T/U)"
+@inline function _γ(mod::K80rel)
+  return 1.0
+end
+
+"δ = r(C → A) = r(A → C)"
+@inline function _δ(mod::K80rel)
+  return 1.0
+end
+
+"ϵ = r(C → G) = r(G → C)"
+@inline function _ϵ(mod::K80rel)
+  return 1.0
+end
+
 "η = r(A → G) = r(G → A)"
 @inline function _η(mod::K80rel)
   return mod.κ
+end
+
+
+"Generate a P matrix for a `K80abs`, of the form:
+
+  [[A→A, A→C, A→G, A→T]
+   [C→A, C→C, C→G, C→T]
+   [G→A, G→C, G→G, G→T]
+   [T→A, T→C, T→G, T→T]]
+
+for a specified time"
+function P(mod::K80abs, t::Float64)
+  α = mod.α
+  β = mod.β
+  ω = 0.25 * exp(-4 * β * t)
+  τ = 0.5 * exp(-2 * (α + β) * t)
+  P₁ = 0.25 + ω + τ
+  P₂ = 0.25 + ω - τ
+  P₃ = 0.25 - ω
+  return SMatrix{4, 4, Float64}(P₁, P₃, P₂, P₃,
+                                P₃, P₁, P₃, P₂,
+                                P₂, P₃, P₁, P₃,
+                                P₃, P₂, P₃, P₁)
+end
+
+"Generate a P matrix for a `K80rel`, of the form:
+
+  [[A→A, A→C, A→G, A→T]
+   [C→A, C→C, C→G, C→T]
+   [G→A, G→C, G→G, G→T]
+   [T→A, T→C, T→G, T→T]]
+
+for a specified time"
+function P(mod::K80rel, t::Float64)
+  κ = mod.κ
+  ω = 0.25 * exp(-4 * t/(κ + 2))
+  τ = 0.5 * exp(-2 * t * (κ + 1)/(κ + 2))
+  P₁ = 0.25 + ω + τ
+  P₂ = 0.25 + ω - τ
+  P₃ = 0.25 - ω
+  return SMatrix{4, 4, Float64}(P₁, P₃, P₂, P₃,
+                                P₃, P₁, P₃, P₂,
+                                P₂, P₃, P₁, P₃,
+                                P₃, P₂, P₃, P₁)
 end

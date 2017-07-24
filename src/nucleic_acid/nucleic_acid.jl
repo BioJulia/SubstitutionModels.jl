@@ -1,12 +1,12 @@
-_πAT(mod) = _πACGT(mod)
-_πCG(mod) = _πACGT(mod)
-_πG(mod) = _πCG(mod)
-_πC(mod) = _πCG(mod)
-_πA(mod) = _πAT(mod)
-_πT(mod) = _πAT(mod)
-_πACGU(mod) = _πACGT(mod)
-_πAU(mod) = _πAT(mod)
-_πU(mod) = _πT(mod)
+const _πAT(mod) = _πACGT(mod)
+const _πCG(mod) = _πACGT(mod)
+const _πG(mod) = _πCG(mod)
+const _πC(mod) = _πCG(mod)
+const _πA(mod) = _πAT(mod)
+const _πT(mod) = _πAT(mod)
+const _πACGU(mod) = _πACGT(mod)
+const _πAU(mod) = _πAT(mod)
+const _πU(mod) = _πT(mod)
 
 "π = [πA, πC, πG, πT/πU]"
 @inline function _π(mod::NASM)
@@ -56,12 +56,14 @@ end
    [T→A, T→C, T→G, T→T]]
 
 for a specified time"
-@inline function P(mod::NASM, t::Float64)
+@inline function P_generic(mod::NASM, t::Float64)
   return expm(Q(mod) * t)
 end
 
 "Generate an array of P matrices for a specified array of times"
-function P(mod::NASM, t::Array{Float64})
+function P_generic(mod::NASM, t::Array{Float64})
   eig_vals, eig_vecs = eig(Q(mod))
   return [expm(eig_vecs * (diagm(eig_vals)*i) * eig_vecs') for i in t]
 end
+
+P(mod, t) = P_generic(mod, t)

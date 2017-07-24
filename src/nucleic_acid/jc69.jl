@@ -78,12 +78,12 @@ for a specified time"
 @inline function P(mod::JC69, t::Float64)
   μ = _μ(mod)
   ω = exp(-t * μ)
-  p1 = 0.25 + 0.75 * ω
-  p2 = 0.25 + 0.25 * ω
-  return SMatrix{4, 4, Float64}(p1, p2, p2, p2,
-                                p2, p1, p2, p2,
-                                p2, p2, p1, p2,
-                                p2, p2, p2, p1)
+  P₁ = 0.25 + 0.75 * ω
+  P₂ = 0.25 + 0.25 * ω
+  return SMatrix{4, 4, Float64}(P₁, P₂, P₂, P₂,
+                                P₂, P₁, P₂, P₂,
+                                P₂, P₂, P₁, P₂,
+                                P₂, P₂, P₂, P₁)
 end
 
 "Generate an array of P matrices for a specified array of times"
