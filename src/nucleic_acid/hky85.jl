@@ -44,11 +44,7 @@ end
 HKY85(α, β, πA, πC, πG, πT) = HKY85abs(α, β, πA, πC, πG, πT)
 HKY85(κ, πA, πC, πG, πT) = HKY85rel(κ, πA, πC, πG, πT)
 
-@inline function _μ(mod::HKY85abs)
-  return mod.β
-end
-
-@inline function _μ(mod::HKY85rel)
+@inline function _μ(mod::HKY85)
   return 1.0
 end
 
@@ -70,32 +66,32 @@ end
 
 "α = r(T/U → C) = r(C → T/U)"
 @inline function _α(mod::HKY85abs)
-  return mod.α/mod.β
+  return mod.α
 end
 
 "β = r(T/U → A) = r(A → T/U)"
 @inline function _β(mod::HKY85abs)
-  return 1.0
+  return mod.β
 end
 
 "γ = r(T/U → G) = r(G → T/U)"
 @inline function _γ(mod::HKY85abs)
-  return 1.0
+  return mod.β
 end
 
 "δ = r(C → A) = r(A → C)"
 @inline function _δ(mod::HKY85abs)
-  return 1.0
+  return mod.β
 end
 
 "ϵ = r(C → G) = r(G → C)"
 @inline function _ϵ(mod::HKY85abs)
-  return 1.0
+  return mod.β
 end
 
 "η = r(A → G) = r(G → A)"
 @inline function _η(mod::HKY85abs)
-  return mod.α/mod.β
+  return mod.α
 end
 
 "α = r(T/U → C) = r(C → T/U)"

@@ -44,22 +44,22 @@ end
 end
 
 "β = r(T/U → A) = r(A → T/U)"
-@inline function _β(mod::K80abs)
+@inline function _β(mod::K80)
   return 1.0
 end
 
 "γ = r(T/U → G) = r(G → T/U)"
-@inline function _γ(mod::K80abs)
+@inline function _γ(mod::K80)
   return 1.0
 end
 
 "δ = r(C → A) = r(A → C)"
-@inline function _δ(mod::K80abs)
+@inline function _δ(mod::K80)
   return 1.0
 end
 
 "ϵ = r(C → G) = r(G → C)"
-@inline function _ϵ(mod::K80abs)
+@inline function _ϵ(mod::K80)
   return 1.0
 end
 
@@ -71,26 +71,6 @@ end
 "α = r(T/U → C) = r(C → T/U)"
 @inline function _α(mod::K80rel)
   return mod.κ
-end
-
-"β = r(T/U → A) = r(A → T/U)"
-@inline function _β(mod::K80rel)
-  return 1.0
-end
-
-"γ = r(T/U → G) = r(G → T/U)"
-@inline function _γ(mod::K80rel)
-  return 1.0
-end
-
-"δ = r(C → A) = r(A → C)"
-@inline function _δ(mod::K80rel)
-  return 1.0
-end
-
-"ϵ = r(C → G) = r(G → C)"
-@inline function _ϵ(mod::K80rel)
-  return 1.0
 end
 
 "η = r(A → G) = r(G → A)"
