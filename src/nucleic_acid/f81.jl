@@ -110,6 +110,9 @@ end
 
 for a specified time"
 @inline function P(mod::F81, t::Float64)
+  if t < 0.0
+    error("t must be positive")
+  end
   πA = _πA(mod)
   πC = _πC(mod)
   πG = _πG(mod)

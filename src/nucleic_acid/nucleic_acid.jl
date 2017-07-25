@@ -57,11 +57,17 @@ end
 
 for a specified time"
 @inline function P_generic(mod::NASM, t::Float64)
+  if t < 0.0
+    error("t must be positive")
+  end
   return expm(Q(mod) * t)
 end
 
 "Generate an array of P matrices for a specified array of times"
 function P_generic(mod::NASM, t::Array{Float64})
+  if any(t .< 0.0)
+    error("t must be positive")
+  end
   eig_vals, eig_vecs = eig(Q(mod))
   return [expm(eig_vecs * (diagm(eig_vals)*i) * eig_vecs') for i in t]
 end

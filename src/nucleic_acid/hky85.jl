@@ -143,6 +143,9 @@ end
 
 for a specified time"
 @inline function P(mod::HKY85abs, t::Float64)
+  if t < 0.0
+    error("t must be positive")
+  end
   πA = _πA(mod)
   πC = _πC(mod)
   πG = _πG(mod)
@@ -186,6 +189,9 @@ end
 
 for a specified time"
 @inline function P(mod::HKY85rel, t::Float64)
+  if t < 0.0
+    error("t must be positive")
+  end
   πA = _πA(mod)
   πC = _πC(mod)
   πG = _πG(mod)

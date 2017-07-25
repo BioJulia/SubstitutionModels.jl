@@ -114,6 +114,9 @@ end
 
 for a specified time"
 function P(mod::K80abs, t::Float64)
+  if t < 0.0
+    error("t must be positive")
+  end
   α = mod.α
   β = mod.β
   ω = 0.25 * exp(-4 * β * t)
@@ -136,6 +139,9 @@ end
 
 for a specified time"
 function P(mod::K80rel, t::Float64)
+  if t < 0.0
+    error("t must be positive")
+  end
   κ = mod.κ
   ω = 0.25 * exp(-4 * t/(κ + 2))
   τ = 0.5 * exp(-2 * t * (κ + 1)/(κ + 2))

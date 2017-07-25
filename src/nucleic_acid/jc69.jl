@@ -76,6 +76,9 @@ end
 
 for a specified time"
 @inline function P(mod::JC69, t::Float64)
+  if t < 0.0
+    error("t must be positive")
+  end
   μ = _μ(mod)
   ω = exp(-t * μ)
   P₁ = 0.25 + 0.75 * ω
