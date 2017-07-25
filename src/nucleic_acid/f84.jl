@@ -108,6 +108,14 @@ end
   return 1.0 + mod.κ/_πY(mod)
 end
 
+"Generate a P matrix for a `F84`, of the form:
+
+  [[A→A, A→C, A→G, A→T]
+   [C→A, C→C, C→G, C→T]
+   [G→A, G→C, G→G, G→T]
+   [T→A, T→C, T→G, T→T]]
+
+for a specified time"
 @inline function P(mod::F84, t::Float64)
   πA = _πA(mod)
   πC = _πC(mod)
