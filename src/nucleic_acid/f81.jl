@@ -117,15 +117,15 @@ end
   P₂  = πC + ((πC * πR / πY) + (πT / πY)) * ω
   P₃  = πG + ((πG * πY / πR) + (πA / πR)) * ω
   P₄  = πT + ((πT * πR / πY) + (πC / πY)) * ω
-  P₅  = πA * (1. - ω)
-  P₆  = πC * (1. - ω)
-  P₇  = πG * (1. - ω)
-  P₈  = πT * (1. - ω)
+  P₅  = πA * (1.0 - ω)
+  P₆  = πC * (1.0 - ω)
+  P₇  = πG * (1.0 - ω)
+  P₈  = πT * (1.0 - ω)
 
-  return SMatrix{4, 4, Float64}(P₁,  P₆,  P₇,  P₈,
-                                P₅,  P₂,  P₇,  P₈,
-                                P₅,  P₆,  P₃,  P₈,
-                                P₅,  P₆,  P₇,  P₄)
+  return SMatrix{4, 4, Float64}(P₁,  P₅,  P₅,  P₅,
+                                P₆,  P₂,  P₆,  P₆,
+                                P₇,  P₇,  P₃,  P₇,
+                                P₈,  P₈,  P₈,  P₄)
 end
 
 "Generate an array of P matrices for a specified array of times"

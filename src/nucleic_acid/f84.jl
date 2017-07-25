@@ -107,3 +107,46 @@ end
 @inline function _η(mod::F84)
   return 1.0 + mod.κ/_πY(mod)
 end
+
+@inline function P(mod::F84, t::Float64)
+  πA = _πA(mod)
+  πC = _πC(mod)
+  πG = _πG(mod)
+  πT = _πT(mod)
+
+  πR = _πR(mod)
+  πY = _πY(mod)
+
+  β = _μ(mod)
+  κ = mod.κ
+
+  α₁ = (1.0 + κ / πY) * β
+  α₂ = (1.0 + κ / πR) * β
+
+  e₁ = exp(-β * t)
+  e₂ = exp(-(πR * α₂ + πY * β) * t)
+  e₃ = exp(-(πY * α₁ + πR * β) * t)
+
+  P₁  = πA + (πA * πY / πR) * e₁ + (πG / πR) * e₂
+  P₂  = πC + (πT * πR / πY) * e₁ + (πT / πY) * e₃
+  P₃  = πG + (πG * πY / πR) * e₁ + (πA / πR) * e₂
+  P₄  = πT + (πT * πR / πY) * e₁ + (πC / πY) * e₃
+  P₅  = πA * (1 - e₁)
+  P₆  = πA + (πA * πY / πR) * e₁ - (πA / πR) * e₂
+  P₇  = πC * (1 - e₁)
+  P₈  = πC + (πT * πR / πY) * e₁ - (πC / πY) * e₃
+  P₉  = πG + (πG * πY / πR) * e₁ - (πG / πR) * e₂
+  P₁₀ = πG * (1 - e₁)
+  P₁₁ = πT * (1 - e₁)
+  P₁₂ = πT + (πT * πR / πY) * e₁ - (πT / πY) * e₃
+
+  return SMatrix{4, 4, Float64}(P₁,  P₅,  P₆,  P₅,
+                                P₇,  P₂,  P₇,  P₈,
+                                P₉,  P₁₀, P₃,  P₁₀,
+                                P₁₁, P₁₂, P₁₁, P₄)
+end
+
+"Generate an array of P matrices for a specified array of times"
+function P(mod::F84, t::Array{Float64})
+  return [P(mod, i) for i in t]
+end
