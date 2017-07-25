@@ -4,14 +4,17 @@ module SubstitutionModels
 
   using
     BioSymbols,
+    BioSequences,
     StaticArrays
 
   import
     Base.getindex,
+    Base.setindex!,
     Base.show
 
   include("core.jl")
   include("indexing.jl")
+  include("differences.jl")
   include("nucleic_acid/jc69.jl")
   include("nucleic_acid/k80.jl")
   include("nucleic_acid/f81.jl")
@@ -24,6 +27,7 @@ module SubstitutionModels
   export
     SubstitutionModel, SM,
     NucleicAcidSubstitutionModel, NASM,
+    differences,
     JC69, JC69abs, JC69rel,
     K80, K80abs, K80rel,
     F81, F81abs, F81rel,
