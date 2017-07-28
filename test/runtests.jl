@@ -1,9 +1,29 @@
 using SubstitutionModels
+using BioSymbols
 using Base.Test
+
+
+function Qtest(mod::NASM)
+  x = Q(mod)
+  return x[DNA_A, DNA_A] == -(x[DNA_A, DNA_C] +
+                              x[DNA_A, DNA_G] +
+                              x[DNA_A, DNA_T]) &&
+         x[DNA_C, DNA_C] == -(x[DNA_C, DNA_A] +
+                              x[DNA_C, DNA_G] +
+                              x[DNA_C, DNA_T]) &&
+         x[DNA_G, DNA_G] == -(x[DNA_G, DNA_A] +
+                              x[DNA_G, DNA_C] +
+                              x[DNA_G, DNA_T]) &&
+         x[DNA_T, DNA_T] == -(x[DNA_T, DNA_A] +
+                              x[DNA_T, DNA_C] +
+                              x[DNA_T, DNA_G])
+end
+
 
 @testset "JC69" begin
   testmod1 = JC69()
   testmod2 = JC69(1.0)
+  @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
@@ -12,10 +32,12 @@ using Base.Test
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
 end
+
 
 @testset "K80" begin
   testmod1 = K80(0.5)
   testmod2 = K80(0.5, 1.0)
+  @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
@@ -24,10 +46,12 @@ end
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
 end
+
 
 @testset "F81" begin
   testmod1 = F81(0.1, 0.2, 0.3, 0.4)
   testmod2 = F81(1.0, 0.1, 0.2, 0.3, 0.4)
+  @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
@@ -36,10 +60,12 @@ end
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
 end
+
 
 @testset "F84" begin
   testmod1 = F84(0.75, 0.1, 0.2, 0.3, 0.4)
   testmod2 = F84(0.75, 1.0, 0.1, 0.2, 0.3, 0.4)
+  @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
@@ -48,10 +74,12 @@ end
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
 end
+
 
 @testset "HKY85" begin
   testmod1 = HKY85(0.75, 0.1, 0.2, 0.3, 0.4)
   testmod2 = HKY85(0.75, 1.0, 0.1, 0.2, 0.3, 0.4)
+  @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
@@ -60,10 +88,12 @@ end
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
 end
+
 
 @testset "TN93" begin
   testmod1 = TN93(0.6, 0.7, 0.3, 0.2)
   testmod2 = TN93(0.6, 0.7, 1.0, 0.3, 0.2)
+  @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
@@ -73,9 +103,11 @@ end
   @test sum(_π(testmod2)) == 1.0
 end
 
+
 @testset "GTR" begin
   testmod1 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 0.1, 0.2, 0.3, 0.4)
   testmod2 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 0.1, 0.2, 0.3, 0.4)
+  @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
