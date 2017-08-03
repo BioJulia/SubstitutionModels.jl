@@ -2,33 +2,35 @@ struct TN93abs <: TN93
   α1::Float64
   α2::Float64
   β::Float64
-  πAT::Float64
-  πCG::Float64
+  πA::Float64
+  πC::Float64
+  πG::Float64
+  πT::Float64
   function TN93abs(α1::Float64, α2::Float64, β::Float64,
-                   πAT::Float64, πCG::Float64)
+                   πA::Float64, πC::Float64, πG::Float64, πT::Float64)
     if α1 <= 0.
       error("TN93 parameter α1 must be positive")
     elseif α2 <= 0.
       error("TN93 parameter α2 must be positive")
     elseif β <= 0.
       error("TN93 parameter β must be positive")
-    elseif sum([πAT,πCG]) != 0.5
-      error("TN93 frequencies must sum to 0.5")
-    elseif any([πAT,πCG] .<= 0.0)
+    elseif sum([πA, πC, πG, πT]) != 1.0
+      error("TN93 frequencies must sum to 1.0")
+    elseif any([πA, πC, πG, πT] .<= 0.0)
       error("TN93 frequencies must be positive")
     end
-    new(α1, α2, β, πAT, πCG)
+    new(α1, α2, β, πA, πC, πG, πT)
   end
 end
 
 
 function show(io::IO, object::TN93abs)
   print(io, "\r\e[0m\e[1mT\e[0mamura and \e[1mN\e[0mei 19\e[1m93\e[0m model (absolute rate form)
-α1 = $(object.α1), α2 = $(object.α1), β = $(object.β), π = [$(object.πAT), $(object.πCG), $(object.πCG), $(object.πAT)]")
+α1 = $(object.α1), α2 = $(object.α1), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
 
 
-TN93(α1, α2, β, πAT, πCG) = TN93abs(α1, α2, β, πAT, πCG)
+TN93(α1, α2, β, πA, πC, πG, πT) = TN93abs(α1, α2, β, πA, πC, πG, πT)
 
 
 @inline function Q(mod::TN93abs)

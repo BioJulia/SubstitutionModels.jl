@@ -3,6 +3,8 @@
 **Development status:**
 
 [![Build Status](https://travis-ci.org/BioJulia/SubstitutionModels.jl.svg?branch=master)](https://travis-ci.org/BioJulia/SubstitutionModels.jl) [![Coverage Status](https://coveralls.io/repos/github/BioJulia/SubstitutionModels.jl/badge.svg?branch=master)](https://coveralls.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/SubstitutionModels.jl/blob/master/LICENSE) ![BioJulia maintainer: jangevaare](https://img.shields.io/badge/BioJulia%20Maintainer-jangevaare-orange.svg) ![BioJulia maintainer: Ward9250](https://img.shields.io/badge/BioJulia%20Maintainer-Ward9250-orange.svg)
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/stable)
+[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/latest)
 
 ## Description
 

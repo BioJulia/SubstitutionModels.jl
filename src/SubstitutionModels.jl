@@ -12,6 +12,7 @@ module SubstitutionModels
 
   include("core.jl")
   include("indexing.jl")
+  include("nucleic_acid/nucleic_acid.jl")
   include("nucleic_acid/jc69/abstract.jl")
   include("nucleic_acid/jc69/absolute.jl")
   include("nucleic_acid/jc69/relative.jl")
@@ -33,7 +34,6 @@ module SubstitutionModels
   include("nucleic_acid/gtr/abstract.jl")
   include("nucleic_acid/gtr/absolute.jl")
   include("nucleic_acid/gtr/relative.jl")
-  include("nucleic_acid/nucleic_acid.jl")
 
   export
     SubstitutionModel, SM,
@@ -45,7 +45,6 @@ module SubstitutionModels
     HKY85, HKY85abs, HKY85rel,
     TN93, TN93abs, TN93rel,
     GTR, GTRabs, GTRrel,
-    Q, P, P_generic,
-    _π
+    Q, P
 
 end # module

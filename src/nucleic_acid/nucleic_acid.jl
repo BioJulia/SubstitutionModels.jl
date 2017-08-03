@@ -1,38 +1,40 @@
-const _πAT(mod) = _πACGT(mod)
-const _πCG(mod) = _πACGT(mod)
-const _πG(mod) = _πCG(mod)
-const _πC(mod) = _πCG(mod)
-const _πA(mod) = _πAT(mod)
-const _πT(mod) = _πAT(mod)
+const _πA(mod) = _πACGT(mod)
+const _πC(mod) = _πACGT(mod)
+const _πG(mod) = _πACGT(mod)
+const _πT(mod) = _πACGT(mod)
 const _πACGU(mod) = _πACGT(mod)
-const _πAU(mod) = _πAT(mod)
-const _πU(mod) = _πT(mod)
 
 
-"π = [πA, πC, πG, πT/πU]"
+@inline function _πACGT(mod::NASM)
+  return 0.25
+end
+
 @inline function _π(mod::NASM)
   return SVector(_πA(mod), _πC(mod), _πG(mod), _πT(mod))
 end
 
 
-"πR = πA + πG"
 @inline function _πR(mod::NASM)
   return _πA(mod) + _πG(mod)
 end
 
 
-"πY = πT + πC"
 @inline function _πY(mod::NASM)
   return _πT(mod) + _πC(mod)
 end
 
 
-"Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
+"""
+Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
-  [[A→A, A→C, A→G, A→T]
-   [C→A, C→C, C→G, C→T]
-   [G→A, G→C, G→G, G→T]
-   [T→A, T→C, T→G, T→T]]"
+```math
+Q = \begin{bmatrix}
+Q_{A, A} & Q_{A, C} & Q_{A, G} & Q_{A, T} \\
+Q_{C, A} & Q_{C, C} & Q_{C, G} & Q_{C, T} \\
+Q_{G, A} & Q_{G, C} & Q_{G, G} & Q_{G, T} \\
+Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} \end{bmatrix}
+```
+"""
 @inline function Q(mod::NASM)
     α = _α(mod)
     β = _β(mod)
@@ -52,14 +54,6 @@ end
 end
 
 
-"Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
-
-  [[A→A, A→C, A→G, A→T]
-   [C→A, C→C, C→G, C→T]
-   [G→A, G→C, G→G, G→T]
-   [T→A, T→C, T→G, T→T]]
-
-for a specified time"
 @inline function P_generic(mod::NASM, t::Float64)
   if t < 0.0
     error("t must be positive")
@@ -68,7 +62,6 @@ for a specified time"
 end
 
 
-"Generate an array of P matrices for a specified array of times"
 function P_generic(mod::NASM, t::Array{Float64})
   if any(t .< 0.0)
     error("t must be positive")
@@ -83,4 +76,17 @@ function P_generic(mod::NASM, t::Array{Float64})
 end
 
 
-P(mod, t) = P_generic(mod, t)
+"""
+Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
+
+```math
+P = \begin{bmatrix}
+P_{A, A} & P_{A, C} & P_{A, G} & P_{A, T} \\
+P_{C, A} & P_{C, C} & P_{C, G} & P_{C, T} \\
+P_{G, A} & P_{G, C} & P_{G, G} & P_{G, T} \\
+P_{T, A} & P_{T, C} & P_{T, G} & P_{T, T} \end{bmatrix}.
+```
+
+for specified time
+"""
+P(mod::NASM, t) = P_generic(mod, t)

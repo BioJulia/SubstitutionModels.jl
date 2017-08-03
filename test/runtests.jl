@@ -3,6 +3,10 @@ using BioSymbols
 using Base.Test
 
 
+import SubstitutionModels._π,
+       SubstitutionModels.P_generic
+
+
 function Qtest(mod::NASM)
   x = Q(mod)
   return x[DNA_A, DNA_A] == -(x[DNA_A, DNA_C] +
@@ -91,8 +95,8 @@ end
 
 
 @testset "TN93" begin
-  testmod1 = TN93(0.6, 0.7, 0.3, 0.2)
-  testmod2 = TN93(0.6, 0.7, 1.0, 0.3, 0.2)
+  testmod1 = TN93(0.6, 0.7, 0.1, 0.2, 0.3, 0.4)
+  testmod2 = TN93(0.6, 0.7, 1.0, 0.1, 0.2, 0.3, 0.4)
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
