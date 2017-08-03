@@ -331,37 +331,51 @@
 </ul>
 <p><a id='Types-1'></a></p>
 <h2 id="types">Types</h2>
-<div class="codehilite"><pre><span></span>NucleicAcidSubstitutionModel
-</pre></div>
-
-
+<p><a id='SubstitutionModels.NucleicAcidSubstitutionModel' href='#SubstitutionModels.NucleicAcidSubstitutionModel'>#</a>
+<strong><code>SubstitutionModels.NucleicAcidSubstitutionModel</code></strong> &mdash; <em>Type</em>.</p>
+<p><code>NucleicAcidSubstitutionModel</code> is an abstract type that contains all models describing a substitution process impacting biological sequences of <code>DNA</code> or <code>RNA</code> with continous time Markov models.</p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/6e46612c92175d135909197d310f4026b2231e76/src/core.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
-<p><a id='SubstitutionModels.Q-Tuple{SubstitutionModels.NucleicAcidSubstitutionModel}' href='#SubstitutionModels.Q-Tuple{SubstitutionModels.NucleicAcidSubstitutionModel}'>#</a>
-<strong><code>SubstitutionModels.Q</code></strong> &mdash; <em>Method</em>.</p>
+<p><a id='SubstitutionModels.Q' href='#SubstitutionModels.Q'>#</a>
+<strong><code>SubstitutionModels.Q</code></strong> &mdash; <em>Function</em>.</p>
 <p>Generate a Q matrix for a <code>NucleicAcidSubstitutionModel</code>, of the form:</p>
-<p>[[A→A, A→C, A→G, A→T</p>
-<p>[C→A, C→C, C→G, C→T]</p>
-<p>[G→A, G→C, G→G, G→T]</p>
-<p>[T→A, T→C, T→G, T→T]]</p>
-<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/2881aff2485f6f2c06ab6adfc41f845374c2099a/src/nucleic_acid/nucleic_acid.jl#L30-L41' class='documenter-source'>source</a><br></p>
-<div class="codehilite"><pre><span></span>P(::NucleicAcidSubstitutionModel, ::Float64)
-P(::NucleicAcidSubstitutionModel, ::Array{Float64})
-</pre></div>
-
-
+<p><code>math   Q = egin{bmatrix}   Q_{A, A} &amp; Q_{A, C} &amp; Q_{A, G} &amp; Q_{A, T} 
+  Q_{C, A} &amp; Q_{C, C} &amp; Q_{C, G} &amp; Q_{C, T} 
+  Q_{G, A} &amp; Q_{G, C} &amp; Q_{G, G} &amp; Q_{G, T} 
+  Q_{T, A} &amp; Q_{T, C} &amp; Q_{T, G} &amp; Q_{T, T} nd{bmatrix}.</code></p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/6e46612c92175d135909197d310f4026b2231e76/src/nucleic_acid/nucleic_acid.jl#L27-L37' class='documenter-source'>source</a><br></p>
+<p><a id='SubstitutionModels.P' href='#SubstitutionModels.P'>#</a>
+<strong><code>SubstitutionModels.P</code></strong> &mdash; <em>Function</em>.</p>
+<p>Generate a P matrix for a <code>NucleicAcidSubstitutionModel</code>, of the form:</p>
+<p><code>math   P = egin{bmatrix}   P_{A, A} &amp; P_{A, C} &amp; P_{A, G} &amp; P_{A, T} 
+  P_{C, A} &amp; P_{C, C} &amp; P_{C, G} &amp; P_{C, T} 
+  P_{G, A} &amp; P_{G, C} &amp; P_{G, G} &amp; P_{G, T} 
+  P_{T, A} &amp; P_{T, C} &amp; P_{T, G} &amp; P_{T, T} nd{bmatrix}.</code></p>
+<p>for specified time</p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/6e46612c92175d135909197d310f4026b2231e76/src/nucleic_acid/nucleic_acid.jl#L79-L91' class='documenter-source'>source</a><br></p>
 <p><a id='Included-models-1'></a></p>
 <h2 id="included-models">Included models</h2>
+<p>Absolute and relative rate forms of the following popular substitution models are currently included in SubstitutionModels.jl:</p>
+<ul>
+<li><code>JC69</code></li>
+<li><code>K80</code></li>
+<li><code>F81</code></li>
+<li><code>F84</code></li>
+<li><code>HKY85</code></li>
+<li><code>TN93</code></li>
+<li><code>GTR</code></li>
+</ul>
 <p><a id='Custom-substitution-models-1'></a></p>
 <h2 id="custom-substitution-models">Custom substitution models</h2>
 <p>The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of <code>NucleicAcidSubstitutionModel</code>, and that it has a valid method for the <code>Q</code> function. If a method for the <code>P</code> function for  a substitution model is not defined, P matrices will be calculated using the  matrix exponential as follows:</p>
 <p>$$
-P = \expm \left(Q \times t \right).
+P = \text{expm} \left(Q \times t \right).
 $$</p>
-<p>For many substitution models the P matrix has a known form, and actually using julia's <code>expm</code> each time a P matrix required can be avoided by defining a method  for the <code>P</code> function, typically resulting in substantial computational savings.</p>
+<p>For many substitution models the P matrix has a known form. Rather than approximate and actually using julia's <code>expm</code> each time a P matrix required can be avoided by defining a method  for the <code>P</code> function, typically resulting in substantial computational savings.</p>
 <p>A user defined substitution model may be described as a special case of the Generalized Time Reversible model (GTR), which has a Q matrix of the form:</p>
 <p>$$
-Q = \begin{Bmatrix}
+Q = \begin{bmatrix}
 -(\delta \pi_{\text{C}} + \eta \pi_{\text{G}} + \beta \pi_{\text{T}}) &amp;
 \delta \pi_{\text{C}} &amp;
 \eta \pi_{\text{G}} &amp;
@@ -378,11 +392,13 @@ Q = \begin{Bmatrix}
 \beta \pi_{\text{A}} &amp;
 \alpha \pi_{\text{C}} &amp;
 \gamma \pi{\text{G}})
-\end{Bmatrix}.
+\end{bmatrix}.
 $$</p>
-<p>A new <code>NucleicAcidSubstitutionModel</code> may be described through define a methods for the following internal functions: <code>_α</code>, <code>_β</code>, <code>_γ</code>, <code>_δ</code>, <code>_ϵ</code>, and <code>_η</code>. If there are unequal base frequencies, methods for <code>_πA</code>, <code>_πC</code>, <code>_πG</code>, and <code>_πT</code> should also be defined.</p>
+<p>A new <code>NucleicAcidSubstitutionModel</code> may be described by defining a new method for each of the following internal functions: <code>_α</code>, <code>_β</code>, <code>_γ</code>, <code>_δ</code>, <code>_ϵ</code>, and <code>_η</code>. Additionally, if there are unequal base frequencies for this substitution model, methods for <code>_πA</code>, <code>_πC</code>, <code>_πG</code>, and <code>_πT</code> will need to be defined.</p>
 <ul>
-<li><a href=".#SubstitutionModels.Q-Tuple{SubstitutionModels.NucleicAcidSubstitutionModel}"><code>SubstitutionModels.Q</code></a></li>
+<li><a href=".#SubstitutionModels.NucleicAcidSubstitutionModel"><code>SubstitutionModels.NucleicAcidSubstitutionModel</code></a></li>
+<li><a href=".#SubstitutionModels.P"><code>SubstitutionModels.P</code></a></li>
+<li><a href=".#SubstitutionModels.Q"><code>SubstitutionModels.Q</code></a></li>
 </ul>
                 
                   
