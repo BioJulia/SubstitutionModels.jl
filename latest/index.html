@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Biological Sequence Substitution Models for Julia">
+      
+      
+        <link rel="canonical" href="https://biojulia.github.io/SubstitutionModels.jl/">
+      
+      
+        <meta name="author" content="The BioJulia Organisation">
+      
+      
+        <link rel="shortcut icon" href="./assets/images/favicon.png">
+      
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.8.0">
+    
+    
+      
+        <title>SubstitutionModels.jl</title>
+      
+    
+    
+      <script src="./assets/javascripts/modernizr-1df76c4e58.js"></script>
+    
+    
+      <link rel="stylesheet" href="./assets/stylesheets/application-bfecc7305d.css">
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="./assets/Documenter.css">
+    
+    
+  </head>
+  
+  
+  
+  
+    <body>
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <a href="https://biojulia.github.io/SubstitutionModels.jl/" title="SubstitutionModels.jl" class="md-icon md-icon--home md-header-nav__button">
+          </a>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+            
+            Home
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="" data-md-lang-tokenizer="[\s\-]+">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/BioJulia/SubstitutionModels.jl" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    
+      <i class="md-icon md-icon--home md-nav__button"></i>
+    
+    SubstitutionModels.jl
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/BioJulia/SubstitutionModels.jl" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Home
+      </label>
+    
+    <a href="." title="Home" class="md-nav__link md-nav__link--active">
+      Home
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#types" title="Types" class="md-nav__link">
+    Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" title="Functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#included-models" title="Included models" class="md-nav__link">
+    Included models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-substitution-models" title="Custom substitution models" class="md-nav__link">
+    Custom substitution models
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#types" title="Types" class="md-nav__link">
+    Types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functions" title="Functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#included-models" title="Included models" class="md-nav__link">
+    Included models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-substitution-models" title="Custom substitution models" class="md-nav__link">
+    Custom substitution models
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/BioJulia/SubstitutionModels.jl/edit/master/docs/index.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
+                <p><a id='SubstitutionModels.jl-Documentation-1'></a></p>
+<h1 id="substitutionmodelsjl-documentation">SubstitutionModels.jl Documentation</h1>
+<ul>
+<li><a href=".#SubstitutionModels.jl-Documentation-1">SubstitutionModels.jl Documentation</a><ul>
+<li><a href=".#Types-1">Types</a></li>
+<li><a href=".#Functions-1">Functions</a></li>
+<li><a href=".#Included-models-1">Included models</a></li>
+<li><a href=".#Custom-substitution-models-1">Custom substitution models</a></li>
+</ul>
+</li>
+</ul>
+<p><a id='Types-1'></a></p>
+<h2 id="types">Types</h2>
+<div class="codehilite"><pre><span></span>NucleicAcidSubstitutionModel
+</pre></div>
+
+
+<p><a id='Functions-1'></a></p>
+<h2 id="functions">Functions</h2>
+<p><a id='SubstitutionModels.Q-Tuple{SubstitutionModels.NucleicAcidSubstitutionModel}' href='#SubstitutionModels.Q-Tuple{SubstitutionModels.NucleicAcidSubstitutionModel}'>#</a>
+<strong><code>SubstitutionModels.Q</code></strong> &mdash; <em>Method</em>.</p>
+<p>Generate a Q matrix for a <code>NucleicAcidSubstitutionModel</code>, of the form:</p>
+<p>[[A→A, A→C, A→G, A→T</p>
+<p>[C→A, C→C, C→G, C→T]</p>
+<p>[G→A, G→C, G→G, G→T]</p>
+<p>[T→A, T→C, T→G, T→T]]</p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/2881aff2485f6f2c06ab6adfc41f845374c2099a/src/nucleic_acid/nucleic_acid.jl#L30-L41' class='documenter-source'>source</a><br></p>
+<div class="codehilite"><pre><span></span>P(::NucleicAcidSubstitutionModel, ::Float64)
+P(::NucleicAcidSubstitutionModel, ::Array{Float64})
+</pre></div>
+
+
+<p><a id='Included-models-1'></a></p>
+<h2 id="included-models">Included models</h2>
+<p><a id='Custom-substitution-models-1'></a></p>
+<h2 id="custom-substitution-models">Custom substitution models</h2>
+<p>The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of <code>NucleicAcidSubstitutionModel</code>, and that it has a valid method for the <code>Q</code> function. If a method for the <code>P</code> function for  a substitution model is not defined, P matrices will be calculated using the  matrix exponential as follows:</p>
+<p>$$
+P = \expm \left(Q \times t \right).
+$$</p>
+<p>For many substitution models the P matrix has a known form, and actually using julia's <code>expm</code> each time a P matrix required can be avoided by defining a method  for the <code>P</code> function, typically resulting in substantial computational savings.</p>
+<p>A user defined substitution model may be described as a special case of the Generalized Time Reversible model (GTR), which has a Q matrix of the form:</p>
+<p>$$
+Q = \begin{Bmatrix}
+-(\delta \pi_{\text{C}} + \eta \pi_{\text{G}} + \beta \pi_{\text{T}}) &amp;
+\delta \pi_{\text{C}} &amp;
+\eta \pi_{\text{G}} &amp;
+\beta \pi_{\text{T}} \
+\delta \pi_{\text{A}} &amp;
+-(\delta \pi_{\text{A}} + \epsilon \pi_{\text{G}} + \alpha \pi_{\text{T}}) &amp;
+\epsilon \pi_{\text{G}} &amp;
+\alpha \pi_{\text{T}} \
+\eta \pi_{\text{A}} &amp;
+\epsilon \pi_{\text{C}} &amp;
+-(\eta \pi_{\text{A}} + \epsilon \pi_{\text{C}} + \gamma \pi_{\text{T}}) &amp;
+\gamma \pi_{\text{T}}) \
+-(\beta \pi_{\text{A}} + \alpha \pi_{\text{C}} + \gamma \pi{\text{G}}) &amp;
+\beta \pi_{\text{A}} &amp;
+\alpha \pi_{\text{C}} &amp;
+\gamma \pi{\text{G}})
+\end{Bmatrix}.
+$$</p>
+<p>A new <code>NucleicAcidSubstitutionModel</code> may be described through define a methods for the following internal functions: <code>_α</code>, <code>_β</code>, <code>_γ</code>, <code>_δ</code>, <code>_ϵ</code>, and <code>_η</code>. If there are unequal base frequencies, methods for <code>_πA</code>, <code>_πC</code>, <code>_πG</code>, and <code>_πT</code> should also be defined.</p>
+<ul>
+<li><a href=".#SubstitutionModels.Q-Tuple{SubstitutionModels.NucleicAcidSubstitutionModel}"><code>SubstitutionModels.Q</code></a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright (c) 2017 The BioJulia Organisation
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="./assets/javascripts/application-1d6ee6ee6c.js"></script>
+      
+      
+      <script>app.initialize({url:{base:"."}})</script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+      
+        <script src="./assets/mathjaxhelper.js"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>

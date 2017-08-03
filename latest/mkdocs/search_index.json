@@ -1,0 +1,34 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "SubstitutionModels.jl Documentation\n\n\n\n\nSubstitutionModels.jl Documentation\n\n\nTypes\n\n\nFunctions\n\n\nIncluded models\n\n\nCustom substitution models\n\n\n\n\n\n\n\n\n\n\nTypes\n\n\nNucleicAcidSubstitutionModel\n\n\n\n\n\n\n\nFunctions\n\n\n#\n\n\nSubstitutionModels.Q\n \n \nMethod\n.\n\n\nGenerate a Q matrix for a \nNucleicAcidSubstitutionModel\n, of the form:\n\n\n[[A\u2192A, A\u2192C, A\u2192G, A\u2192T\n\n\n[C\u2192A, C\u2192C, C\u2192G, C\u2192T]\n\n\n[G\u2192A, G\u2192C, G\u2192G, G\u2192T]\n\n\n[T\u2192A, T\u2192C, T\u2192G, T\u2192T]]\n\n\nsource\n\n\nP(::NucleicAcidSubstitutionModel, ::Float64)\nP(::NucleicAcidSubstitutionModel, ::Array{Float64})\n\n\n\n\n\n\n\nIncluded models\n\n\n\n\nCustom substitution models\n\n\nThe set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of \nNucleicAcidSubstitutionModel\n, and that it has a valid method for the \nQ\n function. If a method for the \nP\n function for  a substitution model is not defined, P matrices will be calculated using the  matrix exponential as follows:\n\n\n$$\nP = \\expm \\left(Q \\times t \\right).\n$$\n\n\nFor many substitution models the P matrix has a known form, and actually using julia's \nexpm\n each time a P matrix required can be avoided by defining a method  for the \nP\n function, typically resulting in substantial computational savings.\n\n\nA user defined substitution model may be described as a special case of the Generalized Time Reversible model (GTR), which has a Q matrix of the form:\n\n\n$$\nQ = \\begin{Bmatrix}\n-(\\delta \\pi_{\\text{C}} + \\eta \\pi_{\\text{G}} + \\beta \\pi_{\\text{T}}) \n\n\\delta \\pi_{\\text{C}} \n\n\\eta \\pi_{\\text{G}} \n\n\\beta \\pi_{\\text{T}} \\\n\\delta \\pi_{\\text{A}} \n\n-(\\delta \\pi_{\\text{A}} + \\epsilon \\pi_{\\text{G}} + \\alpha \\pi_{\\text{T}}) \n\n\\epsilon \\pi_{\\text{G}} \n\n\\alpha \\pi_{\\text{T}} \\\n\\eta \\pi_{\\text{A}} \n\n\\epsilon \\pi_{\\text{C}} \n\n-(\\eta \\pi_{\\text{A}} + \\epsilon \\pi_{\\text{C}} + \\gamma \\pi_{\\text{T}}) \n\n\\gamma \\pi_{\\text{T}}) \\\n-(\\beta \\pi_{\\text{A}} + \\alpha \\pi_{\\text{C}} + \\gamma \\pi{\\text{G}}) \n\n\\beta \\pi_{\\text{A}} \n\n\\alpha \\pi_{\\text{C}} \n\n\\gamma \\pi{\\text{G}})\n\\end{Bmatrix}.\n$$\n\n\nA new \nNucleicAcidSubstitutionModel\n may be described through define a methods for the following internal functions: \n_\u03b1\n, \n_\u03b2\n, \n_\u03b3\n, \n_\u03b4\n, \n_\u03f5\n, and \n_\u03b7\n. If there are unequal base frequencies, methods for \n_\u03c0A\n, \n_\u03c0C\n, \n_\u03c0G\n, and \n_\u03c0T\n should also be defined.\n\n\n\n\nSubstitutionModels.Q", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#substitutionmodelsjl-documentation", 
+            "text": "SubstitutionModels.jl Documentation  Types  Functions  Included models  Custom substitution models", 
+            "title": "SubstitutionModels.jl Documentation"
+        }, 
+        {
+            "location": "/#types", 
+            "text": "NucleicAcidSubstitutionModel", 
+            "title": "Types"
+        }, 
+        {
+            "location": "/#functions", 
+            "text": "#  SubstitutionModels.Q     Method .  Generate a Q matrix for a  NucleicAcidSubstitutionModel , of the form:  [[A\u2192A, A\u2192C, A\u2192G, A\u2192T  [C\u2192A, C\u2192C, C\u2192G, C\u2192T]  [G\u2192A, G\u2192C, G\u2192G, G\u2192T]  [T\u2192A, T\u2192C, T\u2192G, T\u2192T]]  source  P(::NucleicAcidSubstitutionModel, ::Float64)\nP(::NucleicAcidSubstitutionModel, ::Array{Float64})", 
+            "title": "Functions"
+        }, 
+        {
+            "location": "/#included-models", 
+            "text": "", 
+            "title": "Included models"
+        }, 
+        {
+            "location": "/#custom-substitution-models", 
+            "text": "The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of  NucleicAcidSubstitutionModel , and that it has a valid method for the  Q  function. If a method for the  P  function for  a substitution model is not defined, P matrices will be calculated using the  matrix exponential as follows:  $$\nP = \\expm \\left(Q \\times t \\right).\n$$  For many substitution models the P matrix has a known form, and actually using julia's  expm  each time a P matrix required can be avoided by defining a method  for the  P  function, typically resulting in substantial computational savings.  A user defined substitution model may be described as a special case of the Generalized Time Reversible model (GTR), which has a Q matrix of the form:  $$\nQ = \\begin{Bmatrix}\n-(\\delta \\pi_{\\text{C}} + \\eta \\pi_{\\text{G}} + \\beta \\pi_{\\text{T}})  \n\\delta \\pi_{\\text{C}}  \n\\eta \\pi_{\\text{G}}  \n\\beta \\pi_{\\text{T}} \\\n\\delta \\pi_{\\text{A}}  \n-(\\delta \\pi_{\\text{A}} + \\epsilon \\pi_{\\text{G}} + \\alpha \\pi_{\\text{T}})  \n\\epsilon \\pi_{\\text{G}}  \n\\alpha \\pi_{\\text{T}} \\\n\\eta \\pi_{\\text{A}}  \n\\epsilon \\pi_{\\text{C}}  \n-(\\eta \\pi_{\\text{A}} + \\epsilon \\pi_{\\text{C}} + \\gamma \\pi_{\\text{T}})  \n\\gamma \\pi_{\\text{T}}) \\\n-(\\beta \\pi_{\\text{A}} + \\alpha \\pi_{\\text{C}} + \\gamma \\pi{\\text{G}})  \n\\beta \\pi_{\\text{A}}  \n\\alpha \\pi_{\\text{C}}  \n\\gamma \\pi{\\text{G}})\n\\end{Bmatrix}.\n$$  A new  NucleicAcidSubstitutionModel  may be described through define a methods for the following internal functions:  _\u03b1 ,  _\u03b2 ,  _\u03b3 ,  _\u03b4 ,  _\u03f5 , and  _\u03b7 . If there are unequal base frequencies, methods for  _\u03c0A ,  _\u03c0C ,  _\u03c0G , and  _\u03c0T  should also be defined.   SubstitutionModels.Q", 
+            "title": "Custom substitution models"
+        }
+    ]
+}
