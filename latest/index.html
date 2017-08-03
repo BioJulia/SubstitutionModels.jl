@@ -242,6 +242,19 @@
     Custom substitution models
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#p-matrix-calculation-for-user-defined-substitution-models" title="P matrix calculation for user defined substitution models" class="md-nav__link">
+    P matrix calculation for user defined substitution models
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
       
@@ -299,6 +312,19 @@
     Custom substitution models
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#p-matrix-calculation-for-user-defined-substitution-models" title="P matrix calculation for user defined substitution models" class="md-nav__link">
+    P matrix calculation for user defined substitution models
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
       
@@ -334,7 +360,7 @@
 <p><a id='SubstitutionModels.NucleicAcidSubstitutionModel' href='#SubstitutionModels.NucleicAcidSubstitutionModel'>#</a>
 <strong><code>SubstitutionModels.NucleicAcidSubstitutionModel</code></strong> &mdash; <em>Type</em>.</p>
 <p><code>NucleicAcidSubstitutionModel</code> is an abstract type that contains all models describing a substitution process impacting biological sequences of <code>DNA</code> or <code>RNA</code> with continous time Markov models.</p>
-<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/6e46612c92175d135909197d310f4026b2231e76/src/core.jl#L7-L11' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/af8d6e91ed7ec95d9b60c03fafc8215c1643ae22/src/core.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
 <p><a id='SubstitutionModels.Q' href='#SubstitutionModels.Q'>#</a>
@@ -344,7 +370,7 @@
   Q_{C, A} &amp; Q_{C, C} &amp; Q_{C, G} &amp; Q_{C, T} 
   Q_{G, A} &amp; Q_{G, C} &amp; Q_{G, G} &amp; Q_{G, T} 
   Q_{T, A} &amp; Q_{T, C} &amp; Q_{T, G} &amp; Q_{T, T} nd{bmatrix}.</code></p>
-<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/6e46612c92175d135909197d310f4026b2231e76/src/nucleic_acid/nucleic_acid.jl#L27-L37' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/af8d6e91ed7ec95d9b60c03fafc8215c1643ae22/src/nucleic_acid/nucleic_acid.jl#L27-L37' class='documenter-source'>source</a><br></p>
 <p><a id='SubstitutionModels.P' href='#SubstitutionModels.P'>#</a>
 <strong><code>SubstitutionModels.P</code></strong> &mdash; <em>Function</em>.</p>
 <p>Generate a P matrix for a <code>NucleicAcidSubstitutionModel</code>, of the form:</p>
@@ -353,7 +379,7 @@
   P_{G, A} &amp; P_{G, C} &amp; P_{G, G} &amp; P_{G, T} 
   P_{T, A} &amp; P_{T, C} &amp; P_{T, G} &amp; P_{T, T} nd{bmatrix}.</code></p>
 <p>for specified time</p>
-<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/6e46612c92175d135909197d310f4026b2231e76/src/nucleic_acid/nucleic_acid.jl#L79-L91' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/af8d6e91ed7ec95d9b60c03fafc8215c1643ae22/src/nucleic_acid/nucleic_acid.jl#L79-L91' class='documenter-source'>source</a><br></p>
 <p><a id='Included-models-1'></a></p>
 <h2 id="included-models">Included models</h2>
 <p>Absolute and relative rate forms of the following popular substitution models are currently included in SubstitutionModels.jl:</p>
@@ -368,33 +394,29 @@
 </ul>
 <p><a id='Custom-substitution-models-1'></a></p>
 <h2 id="custom-substitution-models">Custom substitution models</h2>
-<p>The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of <code>NucleicAcidSubstitutionModel</code>, and that it has a valid method for the <code>Q</code> function. If a method for the <code>P</code> function for  a substitution model is not defined, P matrices will be calculated using the  matrix exponential as follows:</p>
+<p>The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of <code>NucleicAcidSubstitutionModel</code>, and that it has a valid method for the <code>Q</code> function.</p>
+<p>There are two means of accomplishing this. The first method involves recognizing that most substitution models are special cases of the Generalized Time Reversible (GTR) model, which has a Q matrix of the form:</p>
+<p>$$
+Q = \begin{bmatrix}-(\delta \pi_{\text{C}} + \eta \pi_{\text{G}} + \beta \pi_{\text{T}}) &amp; \delta \pi_{\text{C}} &amp; \beta \pi_{\text{T}} \ \delta \pi_{\text{A}} &amp; -(\delta \pi_{\text{A}} + \epsilon \pi_{\text{G}} + \alpha \pi_{\text{T}}) &amp; \epsilon \pi_{\text{G}} &amp; \alpha \pi_{\text{T}} \ \eta \pi_{\text{A}} &amp; \epsilon \pi_{\text{C}} &amp; -(\eta \pi_{\text{A}} + \epsilon \pi_{\text{C}} + \gamma \pi_{\text{T}}) &amp; \gamma \pi_{\text{T}}) \ -(\beta \pi_{\text{A}} + \alpha \pi_{\text{C}} + \gamma \pi{\text{G}}) &amp; \beta \pi_{\text{A}} &amp; \alpha \pi_{\text{C}} &amp; \gamma \pi{\text{G}}) \end{bmatrix}.
+$$</p>
+<p>Seeing this, a substitution model can be described by defining methods for the following internal functions:</p>
+<ul>
+<li><code>_α</code>,</li>
+<li><code>_β</code>,</li>
+<li><code>_γ</code>,</li>
+<li><code>_δ</code>,</li>
+<li><code>_ϵ</code>, and</li>
+<li><code>_η</code>.</li>
+</ul>
+<p>If this substitution model allows for unequal base frequencies, methods for <code>_πA</code>, <code>_πC</code>, <code>_πG</code>, and <code>_πT</code> will also need to be defined. With these, SubstitutionModels.jl will calculate the correct Q and P matrices.</p>
+<p>The second method of describing a new substitution model's Q matrix is to do so directly by defining a new method for the <code>Q</code> function.</p>
+<p><a id='P-matrix-calculation-for-user-defined-substitution-models-1'></a></p>
+<h3 id="p-matrix-calculation-for-user-defined-substitution-models">P matrix calculation for user defined substitution models</h3>
+<p>P matrices are found as follows:</p>
 <p>$$
 P = \text{expm} \left(Q \times t \right).
 $$</p>
-<p>For many substitution models the P matrix has a known form. Rather than approximate and actually using julia's <code>expm</code> each time a P matrix required can be avoided by defining a method  for the <code>P</code> function, typically resulting in substantial computational savings.</p>
-<p>A user defined substitution model may be described as a special case of the Generalized Time Reversible model (GTR), which has a Q matrix of the form:</p>
-<p>$$
-Q = \begin{bmatrix}
--(\delta \pi_{\text{C}} + \eta \pi_{\text{G}} + \beta \pi_{\text{T}}) &amp;
-\delta \pi_{\text{C}} &amp;
-\eta \pi_{\text{G}} &amp;
-\beta \pi_{\text{T}} \
-\delta \pi_{\text{A}} &amp;
--(\delta \pi_{\text{A}} + \epsilon \pi_{\text{G}} + \alpha \pi_{\text{T}}) &amp;
-\epsilon \pi_{\text{G}} &amp;
-\alpha \pi_{\text{T}} \
-\eta \pi_{\text{A}} &amp;
-\epsilon \pi_{\text{C}} &amp;
--(\eta \pi_{\text{A}} + \epsilon \pi_{\text{C}} + \gamma \pi_{\text{T}}) &amp;
-\gamma \pi_{\text{T}}) \
--(\beta \pi_{\text{A}} + \alpha \pi_{\text{C}} + \gamma \pi{\text{G}}) &amp;
-\beta \pi_{\text{A}} &amp;
-\alpha \pi_{\text{C}} &amp;
-\gamma \pi{\text{G}})
-\end{bmatrix}.
-$$</p>
-<p>A new <code>NucleicAcidSubstitutionModel</code> may be described by defining a new method for each of the following internal functions: <code>_α</code>, <code>_β</code>, <code>_γ</code>, <code>_δ</code>, <code>_ϵ</code>, and <code>_η</code>. Additionally, if there are unequal base frequencies for this substitution model, methods for <code>_πA</code>, <code>_πC</code>, <code>_πG</code>, and <code>_πT</code> will need to be defined.</p>
+<p>For many substitution models, the P matrix has a known form. Rather than calculating an approximate P matrix using julia's <code>expm</code> function, an exact method for the <code>P</code> function may be optionally defined. This is highly recommended when it is possible, as it typically results in substantial computational savings.</p>
 <ul>
 <li><a href=".#SubstitutionModels.NucleicAcidSubstitutionModel"><code>SubstitutionModels.NucleicAcidSubstitutionModel</code></a></li>
 <li><a href=".#SubstitutionModels.P"><code>SubstitutionModels.P</code></a></li>
