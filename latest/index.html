@@ -217,20 +217,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#types" title="Types" class="md-nav__link">
-    Types
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#included-models" title="Included models" class="md-nav__link">
     Included models
   </a>
@@ -287,20 +273,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#types" title="Types" class="md-nav__link">
-    Types
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#functions" title="Functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#included-models" title="Included models" class="md-nav__link">
     Included models
   </a>
@@ -346,40 +318,37 @@
                 
                 <p><a id='SubstitutionModels.jl-Documentation-1'></a></p>
 <h1 id="substitutionmodelsjl-documentation">SubstitutionModels.jl Documentation</h1>
-<ul>
-<li><a href=".#SubstitutionModels.jl-Documentation-1">SubstitutionModels.jl Documentation</a><ul>
-<li><a href=".#Types-1">Types</a></li>
-<li><a href=".#Functions-1">Functions</a></li>
-<li><a href=".#Included-models-1">Included models</a></li>
-<li><a href=".#Custom-substitution-models-1">Custom substitution models</a></li>
-</ul>
-</li>
-</ul>
-<p><a id='Types-1'></a></p>
-<h2 id="types">Types</h2>
 <p><a id='SubstitutionModels.NucleicAcidSubstitutionModel' href='#SubstitutionModels.NucleicAcidSubstitutionModel'>#</a>
 <strong><code>SubstitutionModels.NucleicAcidSubstitutionModel</code></strong> &mdash; <em>Type</em>.</p>
 <p><code>NucleicAcidSubstitutionModel</code> is an abstract type that contains all models describing a substitution process impacting biological sequences of <code>DNA</code> or <code>RNA</code> with continous time Markov models.</p>
-<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/af8d6e91ed7ec95d9b60c03fafc8215c1643ae22/src/core.jl#L7-L11' class='documenter-source'>source</a><br></p>
-<p><a id='Functions-1'></a></p>
-<h2 id="functions">Functions</h2>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/68bb8592a0df468142225bbe9438b878c8a3f5d1/src/core.jl#L7-L11' class='documenter-source'>source</a><br></p>
 <p><a id='SubstitutionModels.Q' href='#SubstitutionModels.Q'>#</a>
 <strong><code>SubstitutionModels.Q</code></strong> &mdash; <em>Function</em>.</p>
 <p>Generate a Q matrix for a <code>NucleicAcidSubstitutionModel</code>, of the form:</p>
-<p><code>math   Q = egin{bmatrix}   Q_{A, A} &amp; Q_{A, C} &amp; Q_{A, G} &amp; Q_{A, T} 
-  Q_{C, A} &amp; Q_{C, C} &amp; Q_{C, G} &amp; Q_{C, T} 
-  Q_{G, A} &amp; Q_{G, C} &amp; Q_{G, G} &amp; Q_{G, T} 
-  Q_{T, A} &amp; Q_{T, C} &amp; Q_{T, G} &amp; Q_{T, T} nd{bmatrix}.</code></p>
-<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/af8d6e91ed7ec95d9b60c03fafc8215c1643ae22/src/nucleic_acid/nucleic_acid.jl#L27-L37' class='documenter-source'>source</a><br></p>
+<p>
+<script type="math/tex; mode=display">
+Q = egin{bmatrix}
+Q_{A, A} & Q_{A, C} & Q_{A, G} & Q_{A, T} \
+Q_{C, A} & Q_{C, C} & Q_{C, G} & Q_{C, T} \
+Q_{G, A} & Q_{G, C} & Q_{G, G} & Q_{G, T} \
+Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} nd{bmatrix}
+</script>
+</p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/68bb8592a0df468142225bbe9438b878c8a3f5d1/src/nucleic_acid/nucleic_acid.jl#L27-L37' class='documenter-source'>source</a><br></p>
 <p><a id='SubstitutionModels.P' href='#SubstitutionModels.P'>#</a>
 <strong><code>SubstitutionModels.P</code></strong> &mdash; <em>Function</em>.</p>
 <p>Generate a P matrix for a <code>NucleicAcidSubstitutionModel</code>, of the form:</p>
-<p><code>math   P = egin{bmatrix}   P_{A, A} &amp; P_{A, C} &amp; P_{A, G} &amp; P_{A, T} 
-  P_{C, A} &amp; P_{C, C} &amp; P_{C, G} &amp; P_{C, T} 
-  P_{G, A} &amp; P_{G, C} &amp; P_{G, G} &amp; P_{G, T} 
-  P_{T, A} &amp; P_{T, C} &amp; P_{T, G} &amp; P_{T, T} nd{bmatrix}.</code></p>
+<p>
+<script type="math/tex; mode=display">
+P = egin{bmatrix}
+P_{A, A} & P_{A, C} & P_{A, G} & P_{A, T} \
+P_{C, A} & P_{C, C} & P_{C, G} & P_{C, T} \
+P_{G, A} & P_{G, C} & P_{G, G} & P_{G, T} \
+P_{T, A} & P_{T, C} & P_{T, G} & P_{T, T} nd{bmatrix}.
+</script>
+</p>
 <p>for specified time</p>
-<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/af8d6e91ed7ec95d9b60c03fafc8215c1643ae22/src/nucleic_acid/nucleic_acid.jl#L79-L91' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/BioJulia/SubstitutionModels.jl/tree/68bb8592a0df468142225bbe9438b878c8a3f5d1/src/nucleic_acid/nucleic_acid.jl#L79-L91' class='documenter-source'>source</a><br></p>
 <p><a id='Included-models-1'></a></p>
 <h2 id="included-models">Included models</h2>
 <p>Absolute and relative rate forms of the following popular substitution models are currently included in SubstitutionModels.jl:</p>
@@ -396,9 +365,16 @@
 <h2 id="custom-substitution-models">Custom substitution models</h2>
 <p>The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of <code>NucleicAcidSubstitutionModel</code>, and that it has a valid method for the <code>Q</code> function.</p>
 <p>There are two means of accomplishing this. The first method involves recognizing that most substitution models are special cases of the Generalized Time Reversible (GTR) model, which has a Q matrix of the form:</p>
-<p>$$
-Q = \begin{bmatrix}-(\delta \pi_{\text{C}} + \eta \pi_{\text{G}} + \beta \pi_{\text{T}}) &amp; \delta \pi_{\text{C}} &amp; \beta \pi_{\text{T}} \ \delta \pi_{\text{A}} &amp; -(\delta \pi_{\text{A}} + \epsilon \pi_{\text{G}} + \alpha \pi_{\text{T}}) &amp; \epsilon \pi_{\text{G}} &amp; \alpha \pi_{\text{T}} \ \eta \pi_{\text{A}} &amp; \epsilon \pi_{\text{C}} &amp; -(\eta \pi_{\text{A}} + \epsilon \pi_{\text{C}} + \gamma \pi_{\text{T}}) &amp; \gamma \pi_{\text{T}}) \ -(\beta \pi_{\text{A}} + \alpha \pi_{\text{C}} + \gamma \pi{\text{G}}) &amp; \beta \pi_{\text{A}} &amp; \alpha \pi_{\text{C}} &amp; \gamma \pi{\text{G}}) \end{bmatrix}.
-$$</p>
+<p>
+<script type="math/tex; mode=display">
+Q = \begin{bmatrix}
+-(\delta \pi_{\text{C}} + \eta \pi_{\text{G}} + \beta \pi_{\text{T}}) & \delta \pi_{\text{C}} & \eta \pi_{\text{G}} & \beta \pi_{\text{T}} \\
+\delta \pi_{\text{A}} & -(\delta \pi_{\text{A}} + \epsilon \pi_{\text{G}} + \alpha \pi_{\text{T}}) & \epsilon \pi_{\text{G}} & \alpha \pi_{\text{T}} \\
+\eta \pi_{\text{A}} & \epsilon \pi_{\text{C}} & -(\eta \pi_{\text{A}} + \epsilon \pi_{\text{C}} + \gamma \pi_{\text{T}}) & \gamma \pi_{\text{T}} \\
+\beta \pi_{\text{A}} & \alpha \pi_{\text{C}} & \gamma \pi_{\text{G}} & -(\beta \pi_{\text{A}} + \alpha \pi_{\text{C}} + \gamma \pi_{\text{G}})
+\end{bmatrix}.
+</script>
+</p>
 <p>Seeing this, a substitution model can be described by defining methods for the following internal functions:</p>
 <ul>
 <li><code>_α</code>,</li>
@@ -413,15 +389,12 @@ $$</p>
 <p><a id='P-matrix-calculation-for-user-defined-substitution-models-1'></a></p>
 <h3 id="p-matrix-calculation-for-user-defined-substitution-models">P matrix calculation for user defined substitution models</h3>
 <p>P matrices are found as follows:</p>
-<p>$$
+<p>
+<script type="math/tex; mode=display">
 P = \text{expm} \left(Q \times t \right).
-$$</p>
+</script>
+</p>
 <p>For many substitution models, the P matrix has a known form. Rather than calculating an approximate P matrix using julia's <code>expm</code> function, an exact method for the <code>P</code> function may be optionally defined. This is highly recommended when it is possible, as it typically results in substantial computational savings.</p>
-<ul>
-<li><a href=".#SubstitutionModels.NucleicAcidSubstitutionModel"><code>SubstitutionModels.NucleicAcidSubstitutionModel</code></a></li>
-<li><a href=".#SubstitutionModels.P"><code>SubstitutionModels.P</code></a></li>
-<li><a href=".#SubstitutionModels.Q"><code>SubstitutionModels.Q</code></a></li>
-</ul>
                 
                   
                 
@@ -465,7 +438,7 @@ $$</p>
       
       <script>app.initialize({url:{base:"."}})</script>
       
-        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
       
         <script src="./assets/mathjaxhelper.js"></script>
       
