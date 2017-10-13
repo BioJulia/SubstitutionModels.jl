@@ -24,7 +24,7 @@ end
 end
 
 
-"""
+doc"""
 Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
 ```math
@@ -76,7 +76,7 @@ function P_generic(mod::NASM, t::Array{Float64})
 end
 
 
-"""
+doc"""
 Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
 ```math
