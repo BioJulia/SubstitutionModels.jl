@@ -5,23 +5,13 @@ const _πT(mod) = _πACGT(mod)
 const _πACGU(mod) = _πACGT(mod)
 
 
-@inline function _πACGT(mod::NASM)
-  return 0.25
-end
+_πACGT(mod::NASM) = 0.25
 
-@inline function _π(mod::NASM)
-  return SVector(_πA(mod), _πC(mod), _πG(mod), _πT(mod))
-end
+_π(mod::NASM) = SVector(_πA(mod), _πC(mod), _πG(mod), _πT(mod))
 
+_πR(mod::NASM) = _πA(mod) + _πG(mod)
 
-@inline function _πR(mod::NASM)
-  return _πA(mod) + _πG(mod)
-end
-
-
-@inline function _πY(mod::NASM)
-  return _πT(mod) + _πC(mod)
-end
+_πY(mod::NASM) = _πT(mod) + _πC(mod)
 
 
 doc"""
@@ -55,24 +45,24 @@ end
 
 
 @inline function P_generic(mod::NASM, t::Float64)
-  if t < 0.0
-    error("t must be positive")
-  end
-  return expm(Q(mod) * t)
+    if t < 0.0
+        error("t must be positive")
+    end
+    return expm(Q(mod) * t)
 end
 
 
 function P_generic(mod::NASM, t::Array{Float64})
-  if any(t .< 0.0)
-    error("t must be positive")
-  end
-  try
-    eig_vals, eig_vecs = eig(Q(mod))
-    return [eig_vecs * expm(diagm(eig_vals)*i) * eig_vecs' for i in t]
-  catch
-    eig_vals, eig_vecs = eig(Array(Q(mod)))
-    return [SMatrix(eig_vecs * expm(diagm(eig_vals)*i) * eig_vecs') for i in t]
-  end
+    if any(t .< 0.0)
+        error("t must be positive")
+    end
+    try
+        eig_vals, eig_vecs = eig(Q(mod))
+        return [eig_vecs * expm(diagm(eig_vals)*i) * eig_vecs' for i in t]
+    catch
+        eig_vals, eig_vecs = eig(Array(Q(mod)))
+        return [SMatrix(eig_vecs * expm(diagm(eig_vals)*i) * eig_vecs') for i in t]
+    end
 end
 
 
