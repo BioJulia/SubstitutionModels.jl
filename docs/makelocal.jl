@@ -1,9 +1,17 @@
 using Documenter, SubstitutionModels
 
 makedocs(
-format = :html,
-sitename = "SubstitutionModels.jl",
-pages = ["index.md"]
+    modules = [SubstitutionModels],
+    format = :html,
+    sitename = "SubstitutionModels.jl",
+    pages = [
+        "Home" => "index.md",
+        "Manual" => [
+
+        ],
+        "Contributing" => "contributing.md"
+    ],
+    authors = "Justin Angevarre & Ben J. Ward, at the BioJulia organisation, and contributors."
 )
 
 deploydocs(

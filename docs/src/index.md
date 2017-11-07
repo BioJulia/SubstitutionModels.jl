@@ -1,73 +1,33 @@
-# SubstitutionModels.jl Documentation
+# SubstitutionModels.jl
 
-```@docs
-NucleicAcidSubstitutionModel
+[![Latest Release](https://img.shields.io/github/release/BioJulia/SubstitutionModels.jl.svg)](https://github.com/BioJulia/SubstitutionModels.jl/releases/latest)
+[![NaturalSelection](http://pkg.julialang.org/badges/SubstitutionModels_0.6.svg)](http://pkg.julialang.org/?pkg=SubstitutionModels)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/SubstitutionModels.jl/blob/master/LICENSE)
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/stable)
+![BioJulia maintainer: jangevaare](https://img.shields.io/badge/BioJulia%20Maintainer-jangevaare-orange.svg)
+![BioJulia maintainer: Ward9250](https://img.shields.io/badge/BioJulia%20Maintainer-Ward9250-orange.svg)
+
+**Development status:**
+
+[![Build Status](https://travis-ci.org/BioJulia/SubstitutionModels.jl.svg?branch=master)](https://travis-ci.org/BioJulia/SubstitutionModels.jl)
+[![Coverage Status](https://coveralls.io/repos/github/BioJulia/SubstitutionModels.jl/badge.svg?branch=master)](https://coveralls.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master)
+[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/latest)
+
+## Description
+
+SubstitutionModels.jl provides facilities to model the substitution process of
+biological sequences. Such models are essential for the analysis of sequence
+evolution, phylogenetics, and simulation.
+
+We first aim to provide the most common substitution models
+used in the literature, but aim to build an extendable framework using julia's
+type system and traits, so as custom model types can be created and used.
+
+## Installation
+
+Until SubstitutionModels.jl has had an official release, the current development version can be installed
+from the Julia REPL:
+
+```julia
+julia> Pkg.clone("https://github.com/BioJulia/SubstitutionModels.jl")
 ```
-
-```@docs
-Q
-```
-
-```@docs
-P
-```
-
-## Included models
-
-Absolute and relative rate forms of the following popular substitution models are
-currently included in SubstitutionModels.jl:
-* `JC69`
-* `K80`
-* `F81`
-* `F84`
-* `HKY85`
-* `TN93`
-* `GTR`
-
-## Custom substitution models
-The set of substitution models included in this package is easily extended with
-user defined types. When defining a new substitution model, the minimum
-requirement is that it is a subtype of `NucleicAcidSubstitutionModel`, and that
-it has a valid method for the `Q` function.
-
-There are two means of accomplishing this. The first method involves
-recognizing that most substitution models are special cases of the Generalized
-Time Reversible (GTR) model, which has a Q matrix of the form:
-
-```math
-Q = \begin{bmatrix}
--(\delta \pi_{\text{C}} + \eta \pi_{\text{G}} + \beta \pi_{\text{T}}) & \delta \pi_{\text{C}} & \eta \pi_{\text{G}} & \beta \pi_{\text{T}} \\
-\delta \pi_{\text{A}} & -(\delta \pi_{\text{A}} + \epsilon \pi_{\text{G}} + \alpha \pi_{\text{T}}) & \epsilon \pi_{\text{G}} & \alpha \pi_{\text{T}} \\
-\eta \pi_{\text{A}} & \epsilon \pi_{\text{C}} & -(\eta \pi_{\text{A}} + \epsilon \pi_{\text{C}} + \gamma \pi_{\text{T}}) & \gamma \pi_{\text{T}} \\
-\beta \pi_{\text{A}} & \alpha \pi_{\text{C}} & \gamma \pi_{\text{G}} & -(\beta \pi_{\text{A}} + \alpha \pi_{\text{C}} + \gamma \pi_{\text{G}})
-\end{bmatrix}.
-```
-
-Seeing this, a substitution model can be described by defining methods for the
-following internal functions:
-* `_α`,
-* `_β`,
-* `_γ`,
-* `_δ`,
-* `_ϵ`, and
-* `_η`.
-
-If this substitution model allows for unequal base frequencies, methods for
-`_πA`, `_πC`, `_πG`, and `_πT` will also need to be defined. With these,
-SubstitutionModels.jl will calculate the correct Q and P matrices.
-
-The second method of describing a new substitution model's Q matrix is to do so
-directly by defining a new method for the `Q` function.
-
-### P matrix calculation for user defined substitution models
-P matrices are found as follows:
-
-```math
-P = \text{expm} \left(Q \times t \right).
-```
-
-For many substitution models, the P matrix has a known form. Rather than
-calculating an approximate P matrix using julia's `expm` function, an exact
-method for the `P` function may be optionally defined. This is highly
-recommended when it is possible, as it typically results in substantial
-computational savings.
