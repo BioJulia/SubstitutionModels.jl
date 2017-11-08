@@ -27,11 +27,11 @@ type system and traits, so as custom model types can be created and used.
 
 ## Installation
 
-Until SubstitutionModels.jl has had an official release, the current development version can be installed
+The current release version can be installed
 from the Julia REPL:
 
 ```julia
-julia> Pkg.clone("https://github.com/BioJulia/SubstitutionModels.jl")
+julia> Pkg.add("SubstitutionModels")
 ```
 
 ## Contributing and Questions
