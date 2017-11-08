@@ -1,7 +1,7 @@
 # SubstitutionModels.jl
 
 [![Latest Release](https://img.shields.io/github/release/BioJulia/SubstitutionModels.jl.svg)](https://github.com/BioJulia/SubstitutionModels.jl/releases/latest)
-[![NaturalSelection](http://pkg.julialang.org/badges/SubstitutionModels_0.6.svg)](http://pkg.julialang.org/?pkg=SubstitutionModels)
+[![SubstitutionModels](http://pkg.julialang.org/badges/SubstitutionModels_0.6.svg)](http://pkg.julialang.org/?pkg=SubstitutionModels)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/SubstitutionModels.jl/blob/master/LICENSE)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/stable)
 ![BioJulia maintainer: jangevaare](https://img.shields.io/badge/BioJulia%20Maintainer-jangevaare-orange.svg)
@@ -10,7 +10,7 @@
 **Development status:**
 
 [![Build Status](https://travis-ci.org/BioJulia/SubstitutionModels.jl.svg?branch=master)](https://travis-ci.org/BioJulia/SubstitutionModels.jl)
-[![Coverage Status](https://coveralls.io/repos/github/BioJulia/SubstitutionModels.jl/badge.svg?branch=master)](https://coveralls.io/github/BioJulia/SubstitutionModels.jl?branch=master) [![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master)
+[![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master)
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/latest)
 
 ## Description
