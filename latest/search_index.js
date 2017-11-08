@@ -29,7 +29,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "Installation",
     "category": "section",
-    "text": "Until SubstitutionModels.jl has had an official release, the current development version can be installed from the Julia REPL:julia> Pkg.clone(\"https://github.com/BioJulia/SubstitutionModels.jl\")"
+    "text": "The current release version can be installed from the Julia REPL:julia> Pkg.add(\"SubstitutionModels\")"
 },
 
 {
