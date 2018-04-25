@@ -21,7 +21,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "Description",
     "category": "section",
-    "text": "SubstitutionModels.jl provides facilities to model the substitution process of biological sequences. Such models are essential for the analysis of sequence evolution, phylogenetics, and simulation.We first aim to provide the most common substitution models used in the literature, but aim to build an extendable framework using julia's type system and traits, so as custom model types can be created and used."
+    "text": "SubstitutionModels.jl provides facilities to model the substitution process of biological sequences. Such models are essential for the analysis of sequence evolution, phylogenetics, and simulation.We first aim to provide the most common substitution models used in the literature, but aim to build an extendable framework using julia\'s type system and traits, so as custom model types can be created and used."
 },
 
 {
@@ -68,7 +68,7 @@ var documenterSearchIndex = {"docs": [
     "location": "man/models.html#SubstitutionModels.NucleicAcidSubstitutionModel",
     "page": "Substitution models",
     "title": "SubstitutionModels.NucleicAcidSubstitutionModel",
-    "category": "Type",
+    "category": "type",
     "text": "NucleicAcidSubstitutionModel is an abstract type that contains all models describing a substitution process impacting biological sequences of DNA or RNA with continous time Markov models.\n\n\n\n"
 },
 
@@ -92,7 +92,7 @@ var documenterSearchIndex = {"docs": [
     "location": "man/pqmatrices.html#SubstitutionModels.Q",
     "page": "Q and P matrices",
     "title": "SubstitutionModels.Q",
-    "category": "Function",
+    "category": "function",
     "text": "Generate a Q matrix for a NucleicAcidSubstitutionModel, of the form:\n\nQ = beginbmatrix\nQ_A A  Q_A C  Q_A G  Q_A T \nQ_C A  Q_C C  Q_C G  Q_C T \nQ_G A  Q_G C  Q_G G  Q_G T \nQ_T A  Q_T C  Q_T G  Q_T T endbmatrix\n\n\n\n"
 },
 
@@ -100,7 +100,7 @@ var documenterSearchIndex = {"docs": [
     "location": "man/pqmatrices.html#SubstitutionModels.P",
     "page": "Q and P matrices",
     "title": "SubstitutionModels.P",
-    "category": "Function",
+    "category": "function",
     "text": "Generate a P matrix for a NucleicAcidSubstitutionModel, of the form:\n\nP = beginbmatrix\nP_A A  P_A C  P_A G  P_A T \nP_C A  P_C C  P_C G  P_C T \nP_G A  P_G C  P_G G  P_G T \nP_T A  P_T C  P_T G  P_T T endbmatrix\n\nfor specified time\n\n\n\n"
 },
 
@@ -109,7 +109,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Q and P matrices",
     "title": "Q and P Matrices",
     "category": "section",
-    "text": "Evolutionary analyses of sequences are conducted on a wide variety of time scales.Thus, it is convenient to express these models in terms of the instantaneous rates of change between different states. This representation of the model is typically called the model's Q Matrix.QIf we are given a starting state at one position in a DNA sequence, the model's Q matrix and a branch length expressing the expected number of changes to have occurred since the ancestor, then we can derive the probability of the descendant sequence having each of the four states.This transformation from the instantaneous rate matrix (Q Matrix), to a probability matrix for a given time period (P Matrix), is described here.P"
+    "text": "Evolutionary analyses of sequences are conducted on a wide variety of time scales.Thus, it is convenient to express these models in terms of the instantaneous rates of change between different states. This representation of the model is typically called the model\'s Q Matrix.QIf we are given a starting state at one position in a DNA sequence, the model\'s Q matrix and a branch length expressing the expected number of changes to have occurred since the ancestor, then we can derive the probability of the descendant sequence having each of the four states.This transformation from the instantaneous rate matrix (Q Matrix), to a probability matrix for a given time period (P Matrix), is described here.P"
 },
 
 {
@@ -133,7 +133,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Provided models & custom models",
     "title": "Custom substitution models",
     "category": "section",
-    "text": "The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of NucleicAcidSubstitutionModel, and that it has a valid method for the Q function.There are two means of accomplishing this. The first method involves recognizing that most substitution models are special cases of the Generalized Time Reversible (GTR) model, which has a Q matrix of the form:Q = beginbmatrix\n-(delta pi_textC + eta pi_textG + beta pi_textT)  delta pi_textC  eta pi_textG  beta pi_textT \ndelta pi_textA  -(delta pi_textA + epsilon pi_textG + alpha pi_textT)  epsilon pi_textG  alpha pi_textT \neta pi_textA  epsilon pi_textC  -(eta pi_textA + epsilon pi_textC + gamma pi_textT)  gamma pi_textT \nbeta pi_textA  alpha pi_textC  gamma pi_textG  -(beta pi_textA + alpha pi_textC + gamma pi_textG)\nendbmatrixSeeing this, a substitution model can be described by defining methods for the following internal functions:_α,\n_β,\n_γ,\n_δ,\n_ϵ, and\n_η.If this substitution model allows for unequal base frequencies, methods for _πA, _πC, _πG, and _πT will also need to be defined. With these, SubstitutionModels.jl will calculate the correct Q and P matrices.The second method of describing a new substitution model's Q matrix is to do so directly by defining a new method for the Q function."
+    "text": "The set of substitution models included in this package is easily extended with user defined types. When defining a new substitution model, the minimum requirement is that it is a subtype of NucleicAcidSubstitutionModel, and that it has a valid method for the Q function.There are two means of accomplishing this. The first method involves recognizing that most substitution models are special cases of the Generalized Time Reversible (GTR) model, which has a Q matrix of the form:Q = beginbmatrix\n-(delta pi_textC + eta pi_textG + beta pi_textT)  delta pi_textC  eta pi_textG  beta pi_textT \ndelta pi_textA  -(delta pi_textA + epsilon pi_textG + alpha pi_textT)  epsilon pi_textG  alpha pi_textT \neta pi_textA  epsilon pi_textC  -(eta pi_textA + epsilon pi_textC + gamma pi_textT)  gamma pi_textT \nbeta pi_textA  alpha pi_textC  gamma pi_textG  -(beta pi_textA + alpha pi_textC + gamma pi_textG)\nendbmatrixSeeing this, a substitution model can be described by defining methods for the following internal functions:_α,\n_β,\n_γ,\n_δ,\n_ϵ, and\n_η.If this substitution model allows for unequal base frequencies, methods for _πA, _πC, _πG, and _πT will also need to be defined. With these, SubstitutionModels.jl will calculate the correct Q and P matrices.The second method of describing a new substitution model\'s Q matrix is to do so directly by defining a new method for the Q function."
 },
 
 {
