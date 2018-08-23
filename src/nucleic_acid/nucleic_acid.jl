@@ -14,7 +14,7 @@ _πR(mod::NASM) = _πA(mod) + _πG(mod)
 _πY(mod::NASM) = _πT(mod) + _πC(mod)
 
 
-doc"""
+@doc doc"
 Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
 ```math
@@ -24,7 +24,7 @@ Q_{C, A} & Q_{C, C} & Q_{C, G} & Q_{C, T} \\
 Q_{G, A} & Q_{G, C} & Q_{G, G} & Q_{G, T} \\
 Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} \end{bmatrix}
 ```
-"""
+"
 @inline function Q(mod::NASM)
     α = _α(mod)
     β = _β(mod)
@@ -48,7 +48,7 @@ end
     if t < 0.0
         error("t must be positive")
     end
-    return expm(Q(mod) * t)
+    return exp(Q(mod) * t)
 end
 
 
@@ -58,15 +58,15 @@ function P_generic(mod::NASM, t::Array{Float64})
     end
     try
         eig_vals, eig_vecs = eig(Q(mod))
-        return [eig_vecs * expm(diagm(eig_vals)*i) * eig_vecs' for i in t]
+        return [eig_vecs * exp(diagm(eig_vals)*i) * eig_vecs' for i in t]
     catch
         eig_vals, eig_vecs = eig(Array(Q(mod)))
-        return [SMatrix(eig_vecs * expm(diagm(eig_vals)*i) * eig_vecs') for i in t]
+        return [SMatrix(eig_vecs * exp(diagm(eig_vals)*i) * eig_vecs') for i in t]
     end
 end
 
 
-doc"""
+@doc doc"
 Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
 ```math
@@ -78,5 +78,5 @@ P_{T, A} & P_{T, C} & P_{T, G} & P_{T, T} \end{bmatrix}.
 ```
 
 for specified time
-"""
+"
 P(mod::NASM, t) = P_generic(mod, t)

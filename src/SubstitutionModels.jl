@@ -4,7 +4,8 @@ module SubstitutionModels
 
   using
     BioSymbols,
-    StaticArrays
+    StaticArrays,
+    LinearAlgebra
 
   import
     Base.getindex,

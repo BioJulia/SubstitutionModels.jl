@@ -1,6 +1,7 @@
 using SubstitutionModels
 using BioSymbols
-using Base.Test
+using Test
+using LinearAlgebra
 
 
 import SubstitutionModels._π,
