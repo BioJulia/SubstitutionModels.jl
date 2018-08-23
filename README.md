@@ -31,7 +31,8 @@ The current release version can be installed
 from the Julia REPL:
 
 ```julia
-julia> Pkg.add("SubstitutionModels")
+julia> using Pkg
+julia> add("SubstitutionModels")
 ```
 
 ## Contributing and Questions
