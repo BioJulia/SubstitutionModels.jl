@@ -18,7 +18,7 @@ makedocs(
 
 deploydocs(
     repo = "github.com/BioJulia/SubstitutionModels.jl.git",
-    julia = "0.6",
+    julia = "0.7",
     osname = "linux",
     target = "build",
     deps = nothing,

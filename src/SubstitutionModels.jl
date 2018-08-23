@@ -1,5 +1,3 @@
-__precompile__()
-
 module SubstitutionModels
 
   using
@@ -9,7 +7,9 @@ module SubstitutionModels
 
   import
     Base.getindex,
-    Base.show
+    Base.show,
+    Base.setindex!,
+    Base.checkbounds
 
   include("core.jl")
   include("indexing.jl")
