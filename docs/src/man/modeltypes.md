@@ -50,7 +50,7 @@ directly by defining a new method for the `Q` function.
 P matrices are calculated as follows through matrix exponentiation:
 
 ```math
-P = \text{expm} \left(Q \times t \right).
+P = \text{exp} \left(Q \times t \right).
 ```
 
 SubstitutionModels.jl provides generic methods that perform this exponentiation

@@ -1,14 +1,15 @@
-__precompile__()
-
 module SubstitutionModels
 
   using
     BioSymbols,
-    StaticArrays
+    StaticArrays,
+    LinearAlgebra
 
   import
     Base.getindex,
-    Base.show
+    Base.show,
+    Base.setindex!,
+    Base.checkbounds
 
   include("core.jl")
   include("indexing.jl")

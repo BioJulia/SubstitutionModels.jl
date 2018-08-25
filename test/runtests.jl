@@ -1,6 +1,8 @@
 using SubstitutionModels
 using BioSymbols
-using Base.Test
+using Test
+using LinearAlgebra
+using StaticArrays
 
 
 import SubstitutionModels._π,
@@ -119,4 +121,11 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+end
+
+@testset "Indexing" begin
+  testmat = MMatrix{4, 4,Int64}(1:16)
+  @test testmat[DNA_A] == testmat[DNA_A, DNA_A]
+  testmat[DNA_G] = 100
+  @test testmat[DNA_G] == 100
 end
