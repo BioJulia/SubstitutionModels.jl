@@ -44,7 +44,7 @@ end
 
 @inline function P_generic(mod::NASM, t::Float64)
     if t < 0.0
-        error("t must be positive")
+        @error "t must be positive"
     end
     return exp(Q(mod) * t)
 end
@@ -52,7 +52,7 @@ end
 
 function P_generic(mod::NASM, t::Array{Float64})
     if any(t .< 0.0)
-        error("t must be positive")
+        @error "t must be positive"
     end
     try
         eig_vals, eig_vecs = eig(Q(mod))

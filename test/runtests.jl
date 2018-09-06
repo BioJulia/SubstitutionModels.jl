@@ -1,5 +1,5 @@
 using SubstitutionModels
-using BioSymbols
+using BioSequences
 using Test
 using LinearAlgebra
 using StaticArrays
@@ -128,4 +128,11 @@ end
   @test testmat[DNA_A] == testmat[DNA_A, DNA_A]
   testmat[DNA_G] = 100
   @test testmat[DNA_G] == 100
+end
+
+@testset "Distances" begin
+  # JC69
+  d = distance(JC69, dna"ATCGCCTA", dna"ATCGCCTG")
+  @test mean(d) == 0.13674116759546595
+  @test variance(d) == 0.0140625
 end

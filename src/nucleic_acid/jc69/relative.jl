@@ -21,7 +21,7 @@ end
 
 @inline function P(mod::JC69rel, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   e₁ = exp(-t)
   P₁ = 0.25 + 0.75 * e₁

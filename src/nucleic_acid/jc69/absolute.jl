@@ -2,7 +2,7 @@ struct JC69abs <: JC69
     λ::Float64
     function JC69abs(λ::Float64)
         if λ <= 0.
-            error("JC69 parameter λ must be positive")
+            @error "JC69 parameter λ must be positive"
         end
         new(λ)
     end
@@ -31,7 +31,7 @@ end
 
 function P(mod::JC69abs, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   λ = mod.λ
   ω = exp(-t * λ)

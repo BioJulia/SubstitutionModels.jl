@@ -7,11 +7,11 @@ struct F81abs <: F81
   function F81abs(β::Float64,
                   πA::Float64, πC::Float64, πG::Float64, πT::Float64)
     if β <= 0.
-      error("F81 parameter β must be positive")
+      @error "F81 parameter β must be positive"
     elseif sum([πA,πC,πG,πT]) != 1.0
-      error("F81 frequencies must sum to 1.0")
+      @error "F81 frequencies must sum to 1.0"
     elseif any([πA,πC,πG,πT] .<=0.0)
-      error("F81 frequencies must be positive")
+      @error "F81 frequencies must be positive"
     end
     new(β, πA, πC, πG, πT)
   end
@@ -49,7 +49,7 @@ end
 
 @inline function P(mod::F81abs, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   β = mod.β
   πA = _πA(mod); πC = _πC(mod); πG = _πG(mod); πT = _πT(mod)

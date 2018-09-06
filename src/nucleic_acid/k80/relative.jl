@@ -2,7 +2,7 @@ struct K80rel <: K80
   κ::Float64
   function K80rel(κ::Float64)
     if κ <= 0.
-      error("K80 parameter κ must be positive")
+      @error "K80 parameter κ must be positive"
     end
     new(κ)
   end
@@ -34,7 +34,7 @@ end
 
 @inline function P(mod::K80rel, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   κ = mod.κ
 

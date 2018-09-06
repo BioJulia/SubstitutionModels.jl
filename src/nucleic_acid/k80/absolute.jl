@@ -3,9 +3,9 @@ struct K80abs <: K80
   β::Float64
   function K80abs(α::Float64, β::Float64)
     if α <= 0.
-      error("K80 parameter α must be positive")
+      @error "K80 parameter α must be positive"
     elseif β <= 0.
-      error("K80 parameter β must be positive")
+      @error "K80 parameter β must be positive"
     end
     new(α, β)
   end
@@ -37,7 +37,7 @@ end
 
 @inline function P(mod::K80abs, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   α = mod.α; β = mod.β
 

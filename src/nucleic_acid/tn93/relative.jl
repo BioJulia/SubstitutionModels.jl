@@ -8,13 +8,13 @@ struct TN93rel <: TN93
   function TN93rel(κ1::Float64, κ2::Float64,
                    πA::Float64, πC::Float64, πG::Float64, πT::Float64)
     if κ1 <= 0.
-      error("TN93 parameter κ1 must be positive")
+      @error "TN93 parameter κ1 must be positive"
     elseif κ2 <= 0.
-      error("TN93 parameter κ2 must be positive")
+      @error "TN93 parameter κ2 must be positive"
     elseif sum([πA, πC, πG, πT]) != 1.0
-      error("TN93 frequencies must sum to 1.0")
+      @error "TN93 frequencies must sum to 1.0"
     elseif any([πA, πC, πG, πT] .<= 0.0)
-      error("TN93 frequencies must be positive")
+      @error "TN93 frequencies must be positive"
     end
     new(κ1, κ2, πA, πC, πG, πT)
   end
@@ -57,7 +57,7 @@ end
 
 @inline function P(mod::TN93rel, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   κ₁ = mod.κ1; κ₂ = mod.κ2
   πA = _πA(mod); πC = _πC(mod); πG = _πG(mod); πT = _πT(mod)

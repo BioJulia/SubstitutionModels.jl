@@ -1,9 +1,10 @@
 module SubstitutionModels
 
   using
-    BioSymbols,
+    BioSequences,
     StaticArrays,
-    LinearAlgebra
+    LinearAlgebra,
+    Logging
 
   import
     Base.getindex,
@@ -12,7 +13,9 @@ module SubstitutionModels
     Base.checkbounds
 
   include("core.jl")
-  include("indexing.jl")
+  include("Distance.jl")
+  include("nucleic_acid/indexing.jl")
+  include("nucleic_acid/differences.jl")
   include("nucleic_acid/nucleic_acid.jl")
   include("nucleic_acid/jc69/abstract.jl")
   include("nucleic_acid/jc69/absolute.jl")
@@ -39,6 +42,7 @@ module SubstitutionModels
   export
     SubstitutionModel, SM,
     NucleicAcidSubstitutionModel, NASM,
+    Distance,
     JC69, JC69abs, JC69rel,
     K80, K80abs, K80rel,
     F81, F81abs, F81rel,
@@ -46,6 +50,10 @@ module SubstitutionModels
     HKY85, HKY85abs, HKY85rel,
     TN93, TN93abs, TN93rel,
     GTR, GTRabs, GTRrel,
-    Q, P
+    Q, P,
+    substitutions,
+    transitions, transversions,
+    purine_transitions, pyrimidine_transitions,
+    distance, mean, variance
 
 end # module

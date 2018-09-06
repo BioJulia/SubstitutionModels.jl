@@ -8,13 +8,13 @@ struct F84abs <: F84
   function F84abs(κ::Float64, β::Float64,
                   πA::Float64, πC::Float64, πG::Float64, πT::Float64)
     if κ <= 0.
-      error("F84 parameter α must be positive")
+      @error "F84 parameter α must be positive"
     elseif β <= 0.
-      error("F84 parameter β must be positive")
+      @error "F84 parameter β must be positive"
     elseif sum([πA,πC,πG,πT]) != 1.0
-      error("F84 frequencies must sum to 1.0")
+      @error "F84 frequencies must sum to 1.0"
     elseif any([πA,πC,πG,πT] .<= 0.0)
-      error("F84 frequencies must be positive")
+      @error "F84 frequencies must be positive"
     end
     new(κ, β, πA, πC, πG, πT)
   end
@@ -60,7 +60,7 @@ end
 
 @inline function P(mod::F84abs, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   β = mod.β; κ = mod.κ
   πA = _πA(mod); πC = _πC(mod); πG = _πG(mod); πT = _πT(mod)

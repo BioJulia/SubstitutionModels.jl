@@ -7,11 +7,11 @@ struct F84rel <: F84
   function F84rel(κ::Float64,
                   πA::Float64, πC::Float64, πG::Float64, πT::Float64)
     if κ <= 0.
-      error("F84 parameter κ must be positive")
+      @error "F84 parameter κ must be positive"
     elseif sum([πA,πC,πG,πT]) != 1.0
-      error("F84 frequencies must sum to 1.0")
+      @error "F84 frequencies must sum to 1.0"
     elseif any([πA,πC,πG,πT] .<=0.0)
-      error("F84 frequencies must be positive")
+      @error "F84 frequencies must be positive"
     end
     new(κ, πA, πC, πG, πT)
   end
@@ -57,7 +57,7 @@ end
 
 @inline function P(mod::F84rel, t::Float64)
   if t < 0.0
-    error("t must be positive")
+    @error "t must be positive"
   end
   κ = mod.κ
   πA = _πA(mod); πC = _πC(mod); πG = _πG(mod); πT = _πT(mod)
