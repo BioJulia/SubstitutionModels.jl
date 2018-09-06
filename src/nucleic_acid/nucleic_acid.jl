@@ -17,13 +17,11 @@ _πY(mod::NASM) = _πT(mod) + _πC(mod)
 """
 Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
-```math
-Q = \begin{bmatrix}
-Q_{A, A} & Q_{A, C} & Q_{A, G} & Q_{A, T} \\
-Q_{C, A} & Q_{C, C} & Q_{C, G} & Q_{C, T} \\
-Q_{G, A} & Q_{G, C} & Q_{G, G} & Q_{G, T} \\
-Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} \end{bmatrix}
-```
+\$Q = \\begin{bmatrix}
+Q_{A, A} & Q_{A, C} & Q_{A, G} & Q_{A, T} \\\\
+Q_{C, A} & Q_{C, C} & Q_{C, G} & Q_{C, T} \\\\
+Q_{G, A} & Q_{G, C} & Q_{G, G} & Q_{G, T} \\\\
+Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} \\end{bmatrix}\$
 """
 @inline function Q(mod::NASM)
     α = _α(mod)
@@ -69,13 +67,11 @@ end
 """
 Generate a P matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
-```math
-P = \begin{bmatrix}
-P_{A, A} & P_{A, C} & P_{A, G} & P_{A, T} \\
-P_{C, A} & P_{C, C} & P_{C, G} & P_{C, T} \\
-P_{G, A} & P_{G, C} & P_{G, G} & P_{G, T} \\
-P_{T, A} & P_{T, C} & P_{T, G} & P_{T, T} \end{bmatrix}.
-```
+\$P = \\begin{bmatrix}
+P_{A, A} & P_{A, C} & P_{A, G} & P_{A, T} \\\\
+P_{C, A} & P_{C, C} & P_{C, G} & P_{C, T} \\\\
+P_{G, A} & P_{G, C} & P_{G, G} & P_{G, T} \\\\
+P_{T, A} & P_{T, C} & P_{T, G} & P_{T, T} \\end{bmatrix}\$
 
 for specified time
 """
