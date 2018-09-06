@@ -93,7 +93,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Q and P matrices",
     "title": "SubstitutionModels.Q",
     "category": "function",
-    "text": "Generate a Q matrix for a NucleicAcidSubstitutionModel, of the form:\n\nQ = eginbmatrix\nQ_A A  Q_A C  Q_A G  Q_A T \nQ_C A  Q_C C  Q_C G  Q_C T \nQ_G A  Q_G C  Q_G G  Q_G T \nQ_T A  Q_T C  Q_T G  Q_T T ndbmatrix\n\n\n\n\n\n"
+    "text": "Generate a Q matrix for a NucleicAcidSubstitutionModel, of the form:\n\nQ = beginbmatrix\nQ_A A  Q_A C  Q_A G  Q_A T \nQ_C A  Q_C C  Q_C G  Q_C T \nQ_G A  Q_G C  Q_G G  Q_G T \nQ_T A  Q_T C  Q_T G  Q_T T endbmatrix\n\n\n\n\n\n"
 },
 
 {
@@ -101,7 +101,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Q and P matrices",
     "title": "SubstitutionModels.P",
     "category": "function",
-    "text": "Generate a P matrix for a NucleicAcidSubstitutionModel, of the form:\n\nP = eginbmatrix\nP_A A  P_A C  P_A G  P_A T \nP_C A  P_C C  P_C G  P_C T \nP_G A  P_G C  P_G G  P_G T \nP_T A  P_T C  P_T G  P_T T ndbmatrix\n\nfor specified time\n\n\n\n\n\n"
+    "text": "Generate a P matrix for a NucleicAcidSubstitutionModel, of the form:\n\nP = beginbmatrix\nP_A A  P_A C  P_A G  P_A T \nP_C A  P_C C  P_C G  P_C T \nP_G A  P_G C  P_G G  P_G T \nP_T A  P_T C  P_T G  P_T T endbmatrix\n\nfor specified time\n\n\n\n\n\n"
 },
 
 {
