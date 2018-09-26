@@ -1,4 +1,4 @@
-struct F84abs <: F84
+mutable struct F84abs <: F84
   κ::Float64
   β::Float64
   πA::Float64
@@ -20,6 +20,47 @@ struct F84abs <: F84
   end
 end
 
+"""
+```julia-repl
+julia> model = F84(0.6, 0.4, 0.25, 0.25, 0.25, 0.25);
+
+julia> setrate!(model, [0.5, 0.5, 0.25, 0.25, 0.25, 0.25])
+Felsenstein 1984 substitution model (absolute rate form)
+κ = 0.5, β = 0.5, π = [0.25, 0.25, 0.25, 0.25]
+```
+"""
+@inline function setrate!(mod::F84abs, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 6
+    @error "F84 rate must be a vector of length 6"
+  else 
+    #separate vector into pieces
+    κ = rate[1]
+    β = rate[2]
+    πA = rate[3]
+    πC = rate[4]
+    πG = rate[5]
+    πT = rate[6]
+    #check correctness of rates (from above)
+    if κ <= 0.
+      @error "F84 parameter α must be positive"
+    elseif β <= 0.
+      @error "F84 parameter β must be positive"
+    elseif sum([πA,πC,πG,πT]) != 1.0
+      @error "F84 frequencies must sum to 1.0"
+    elseif any([πA,πC,πG,πT] .<= 0.0)
+      @error "F84 frequencies must be positive"
+    end
+    #assign rates
+    mod.κ = κ
+    mod.β = β
+    mod.πA = πA
+    mod.πC = πC
+    mod.πG = πG
+    mod.πT = πT
+  end
+  return mod
+end
 
 function show(io::IO, object::F84abs)
   print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m84\e[0m substitution model (absolute rate form)

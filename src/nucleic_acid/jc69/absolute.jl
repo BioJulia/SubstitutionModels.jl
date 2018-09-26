@@ -1,4 +1,4 @@
-struct JC69abs <: JC69
+mutable struct JC69abs <: JC69
     λ::Float64
     function JC69abs(λ::Float64)
         if λ <= 0.
@@ -8,6 +8,31 @@ struct JC69abs <: JC69
     end
 end
 
+"""
+```julia-repl
+julia> model = JC69(1.0);
+
+julia> setrate!(model, [0.5])
+Jukes and Cantor 1969 model (absolute rate form)
+λ = 0.5
+```
+"""
+@inline function setrate!(mod::JC69abs, rate::Vector{Float64})
+    #check length of vector
+    if length(rate) != 1
+      @error "JC69 rate must be a vector of length 1"
+    else 
+      #separate vector into pieces
+      λ = rate[1]
+      #check correctness of rates (from above)
+      if λ <= 0.
+        @error "JC69 parameter λ must be positive"
+      end
+      #add rate
+      mod.λ = λ
+    end
+    return mod
+end
 
 function show(io::IO, object::JC69abs)
   print(io, "\r\e[0m\e[1mJ\e[0mukes and \e[1mC\e[0mantor 19\e[1m69\e[0m model (absolute rate form)

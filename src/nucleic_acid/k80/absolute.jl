@@ -1,4 +1,4 @@
-struct K80abs <: K80
+mutable struct K80abs <: K80
   α::Float64
   β::Float64
   function K80abs(α::Float64, β::Float64)
@@ -9,6 +9,35 @@ struct K80abs <: K80
     end
     new(α, β)
   end
+end
+
+"""
+```julia-repl
+julia> model = K80(0.6, 0.6);
+
+julia> setrate!(model, [0.5, 0.5])
+Kimura 1980 model (absolute rate form)
+α = 0.5, β = 0.5
+```
+"""
+@inline function setrate!(mod::K80abs, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 2
+    @error "K80 rate must be a vector of length 2"
+  else 
+    #separate vector into pieces
+    α = rate[1]
+    β = rate[2]
+    if α <= 0.
+      @error "K80 parameter α must be positive"
+    elseif β <= 0.
+      @error "K80 parameter β must be positive"
+    end
+    #set new rate
+    mod.α = α
+    mod.β = β
+  end
+  return mod
 end
 
 

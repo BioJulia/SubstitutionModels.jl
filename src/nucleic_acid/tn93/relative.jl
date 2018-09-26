@@ -1,4 +1,4 @@
-struct TN93rel <: TN93
+mutable struct TN93rel <: TN93
   κ1::Float64
   κ2::Float64
   πA::Float64
@@ -18,6 +18,48 @@ struct TN93rel <: TN93
     end
     new(κ1, κ2, πA, πC, πG, πT)
   end
+end
+
+"""
+```julia-repl
+julia> model = TN93(0.6, 0.6, 0.25, 0.25, 0.25, 0.25);
+
+julia> setrate!(model, [0.5, 0.5, 0.25, 0.25, 0.25, 0.25])
+Tamura and Nei 1993 model (relative rate form)
+κ1 = 0.5, κ2 = 0.5, π = [0.25, 0.25, 0.25, 0.25]
+```
+"""
+@inline function setrate!(mod::TN93rel, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 6
+  @error "TN93 rate must be a vector of length 6"
+  else 
+    #separate vector into pieces
+    κ1 = rate[1]
+    κ2 = rate[2]
+    πA = rate[3]
+    πC = rate[4]
+    πG = rate[5]
+    πT = rate[6]
+    #check correctness of rates (from above)
+    if κ1 <= 0.
+      @error "TN93 parameter κ1 must be positive"
+    elseif κ2 <= 0.
+      @error "TN93 parameter κ2 must be positive"
+    elseif sum([πA, πC, πG, πT]) != 1.0
+      @error "TN93 frequencies must sum to 1.0"
+    elseif any([πA, πC, πG, πT] .<= 0.0)
+      @error "TN93 frequencies must be positive"
+    end
+  #add rate
+  mod.κ1 = κ1
+  mod.κ2 = κ2
+  mod.πA = πA
+  mod.πC = πC
+  mod.πG = πG
+  mod.πT = πT
+  end
+  return mod
 end
 
 

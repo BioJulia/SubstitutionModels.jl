@@ -1,4 +1,4 @@
-struct GTRrel <: GTR
+mutable struct GTRrel <: GTR
   α::Float64
   β::Float64
   γ::Float64
@@ -30,6 +30,59 @@ struct GTRrel <: GTR
   end
 end
 
+"""
+```julia-repl
+julia> model = GTR(0.3, 0.6, 0.6, 0.4, 0.4, 0.25, 0.25, 0.25, 0.25);
+
+julia> setrate!(model, [0.5, 0.5, 0.5, 0.5, 0.5, 0.25, 0.25, 0.25, 0.25])
+Generalised Time Reversible model (relative rate form)
+α = 0.5, β = 0.5, γ = 0.5, δ = 0.5, ϵ = 0.5, π = [0.25, 0.25, 0.25, 0.25]
+```
+"""
+@inline function setrate!(mod::GTRrel, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 9
+    @error "GTR rate must be a vector of length 9"
+  else 
+      #separate vector into pieces
+    α = rate[1]
+    β = rate[2]
+    γ = rate[3]
+    δ = rate[4]
+    ϵ = rate[5]
+    πA = rate[6]
+    πC = rate[7]
+    πG = rate[8]
+    πT = rate[9]
+    #check correctness of rates (from above)
+    if α <= 0.
+      @error "GTR parameter α must be positive"
+    elseif β <= 0.
+      @error "GTR parameter β must be positive"
+    elseif γ <= 0.
+      @error "GTR parameter γ must be positive"
+    elseif δ <= 0.
+      @error "GTR parameter δ must be positive"
+    elseif ϵ <= 0.
+      @error "GTR parameter ϵ must be positive"
+    elseif sum([πA,πC,πG,πT]) != 1.0
+      @error "GTR frequencies must sum to 1.0"
+    elseif any([πA,πC,πG,πT] .<= 0.0)
+      @error "GTR frequencies must be positive"
+    end
+    #add rate
+    mod.α = α
+    mod.β = β
+    mod.γ = γ
+    mod.δ = δ
+    mod.ϵ = ϵ
+    mod.πA = πA
+    mod.πC = πC
+    mod.πG = πG
+    mod.πT = πT
+  end
+  return mod
+end
 
 function show(io::IO, object::GTRrel)
   print(io, "\r\e[0m\e[1mG\e[0meneralised \e[1mT\e[0mime \e[1mR\e[0meversible model (relative rate form)

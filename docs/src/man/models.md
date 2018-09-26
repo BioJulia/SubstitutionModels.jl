@@ -1,6 +1,6 @@
 # SubstitutionModels.jl
 
-## What are subsitution models?
+## What are substitution models?
 
 Substitution models are phenomenological descriptions of the evolution of DNA,
 as a string of four discrete states. A, T (U in RNA), C, and G.
@@ -23,4 +23,11 @@ to transversions.
 
 ```@docs
 NucleicAcidSubstitutionModel
+```
+
+## Update model rates:
+
+NucleicAcidSbustitutionModel object rates can be modified using the `setrate!` function.
+```@docs
+setrate!
 ```

@@ -1,13 +1,29 @@
-struct JC69rel <: JC69 end
+mutable struct JC69rel <: JC69 end
 
 
 function show(io::IO, object::JC69rel)
-  print(io, "\r\e[0m\e[1mJ\e[0mukes and \e[1mC\e[0mantor 19\e[1m69\e[0m model (relative rate form)")
+  print(io, "\r\e[0m\e[1mJ\e[0mukes and \e[1mC\e[0mantor 19\e[1m69\e[0m model 
+  (relative rate form)")
 end
 
 
 JC69() = JC69rel()
 
+"""
+Jukes and Cantor 1969 relative has no rate.
+
+```julia-repl
+julia> model = JC69();
+
+julia> setrate!(model)
+Jukes and Cantor 1969 model
+  (relative rate form)
+```
+"""
+@inline function setrate!(mod::JC69rel)
+  #nothing to do here. This function is needed to avoid an error.
+  return mod
+end
 
 @inline function Q(mod::JC69rel)
   Q₁ =  0.25

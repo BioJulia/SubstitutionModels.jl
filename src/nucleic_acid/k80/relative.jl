@@ -1,4 +1,4 @@
-struct K80rel <: K80
+mutable struct K80rel <: K80
   κ::Float64
   function K80rel(κ::Float64)
     if κ <= 0.
@@ -8,6 +8,31 @@ struct K80rel <: K80
   end
 end
 
+"""
+```julia-repl
+julia> model = K80(0.6);
+
+julia> setrate!(model, [0.5])
+Kimura 1980 model (relative rate form)
+κ = 0.5
+```
+"""
+@inline function setrate!(mod::K80rel, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 1
+    @error "K80 rate must be a vector of length 1"
+  else 
+    #separate vector into pieces
+    κ = rate[1]
+    #check correctness of rates (from above)
+    if κ <= 0.
+      @error "K80 parameter κ must be positive"
+    end
+    #add rate
+    mod.κ = κ
+  end
+  return mod
+end
 
 function show(io::IO, object::K80rel)
   print(io, "\r\e[0m\e[1mK\e[0mimura 19\e[1m80\e[0m model (relative rate form)

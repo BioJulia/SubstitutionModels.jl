@@ -1,4 +1,4 @@
-struct TN93abs <: TN93
+mutable struct TN93abs <: TN93
   α1::Float64
   α2::Float64
   β::Float64
@@ -23,6 +23,51 @@ struct TN93abs <: TN93
   end
 end
 
+"""
+```julia-repl
+julia> model = TN93(0.4, 0.6, 0.6, 0.25, 0.25, 0.25, 0.25);
+
+julia> setrate!(model, [0.5, 0.5, 0.5, 0.25, 0.25, 0.25, 0.25])
+Tamura and Nei 1993 model (absolute rate form)
+α1 = 0.5, α2 = 0.5, β = 0.5, π = [0.25, 0.25, 0.25, 0.25]
+```
+"""
+@inline function setrate!(mod::TN93abs, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 7
+  @error "TN93 rate must be a vector of length 7"
+  else 
+    #separate vector into pieces
+    α1 = rate[1]
+    α2 = rate[2]
+    β = rate[3]
+    πA = rate[4]
+    πC = rate[5]
+    πG = rate[6]
+    πT = rate[7]
+    #check correctness of rates
+    if α1 <= 0.
+      @error "TN93 parameter α1 must be positive"
+    elseif α2 <= 0.
+      @error "TN93 parameter α2 must be positive"
+    elseif β <= 0.
+      @error "TN93 parameter β must be positive"
+    elseif sum([πA, πC, πG, πT]) != 1.0
+      @error "TN93 frequencies must sum to 1.0"
+    elseif any([πA, πC, πG, πT] .<= 0.0)
+      @error "TN93 frequencies must be positive"
+    end
+    #add rates
+    mod.α1 = α1
+    mod.α2 = α2
+    mod.β = β
+    mod.πA = πA
+    mod.πC = πC
+    mod.πG = πG
+    mod.πT = πT
+  end
+  return mod
+end
 
 function show(io::IO, object::TN93abs)
   print(io, "\r\e[0m\e[1mT\e[0mamura and \e[1mN\e[0mei 19\e[1m93\e[0m model (absolute rate form)

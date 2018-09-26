@@ -37,7 +37,12 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+
+  setrate!(testmod1)
+  setrate!(testmod2, [.5])
+  @test testmod2.λ ≈ .5
 end
+
 
 
 @testset "K80" begin
@@ -51,6 +56,12 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+
+  setrate!(testmod1, [0.6])
+  setrate!(testmod2, [0.5, 0.6])
+  @test testmod1.κ ≈ 0.6
+  @test testmod2.α ≈ 0.5
+  @test testmod2.β ≈ 0.6
 end
 
 
@@ -65,6 +76,18 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+
+  setrate!(testmod1, [0.2, 0.3, 0.25, 0.25])
+  setrate!(testmod2, [0.8, 0.2, 0.3, 0.25, 0.25])
+  @test testmod1.πA ≈ 0.2
+  @test testmod1.πC ≈ 0.3
+  @test testmod1.πG ≈ 0.25
+  @test testmod1.πT ≈ 0.25
+  @test testmod2.β ≈ 0.8
+  @test testmod2.πA ≈ 0.2
+  @test testmod2.πC ≈ 0.3
+  @test testmod2.πG ≈ 0.25
+  @test testmod2.πT ≈ 0.25
 end
 
 
@@ -79,6 +102,20 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+
+  setrate!(testmod1, [0.6, 0.2, 0.3, 0.25, 0.25])
+  setrate!(testmod2, [1.0, 0.8, 0.2, 0.3, 0.25, 0.25])
+  @test testmod1.κ ≈ 0.6
+  @test testmod1.πA ≈ 0.2
+  @test testmod1.πC ≈ 0.3
+  @test testmod1.πG ≈ 0.25
+  @test testmod1.πT ≈ 0.25
+  @test testmod2.κ ≈ 1.0
+  @test testmod2.β ≈ 0.8
+  @test testmod2.πA ≈ 0.2
+  @test testmod2.πC ≈ 0.3
+  @test testmod2.πG ≈ 0.25
+  @test testmod2.πT ≈ 0.25
 end
 
 
@@ -93,6 +130,20 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+
+  setrate!(testmod1, [0.8, 0.2, 0.3, 0.25, 0.25])
+  setrate!(testmod2, [0.8, 0.9, 0.2, 0.3, 0.25, 0.25])
+  @test testmod1.κ ≈ 0.8 
+  @test testmod1.πA ≈ 0.2
+  @test testmod1.πC ≈ 0.3
+  @test testmod1.πG ≈ 0.25
+  @test testmod1.πT ≈ 0.25
+  @test testmod2.α ≈ 0.8
+  @test testmod2.β ≈ 0.9
+  @test testmod2.πA ≈ 0.2
+  @test testmod2.πC ≈ 0.3
+  @test testmod2.πG ≈ 0.25
+  @test testmod2.πT ≈ 0.25
 end
 
 
@@ -107,6 +158,22 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+
+  setrate!(testmod1, [0.5, 0.6, 0.2, 0.3, 0.25, 0.25])
+  setrate!(testmod2, [0.8, 0.6, 0.9, 0.2, 0.3, 0.25, 0.25])
+  @test testmod1.κ1 ≈ 0.5
+  @test testmod1.κ2 ≈ 0.6
+  @test testmod1.πA ≈ 0.2
+  @test testmod1.πC ≈ 0.3
+  @test testmod1.πG ≈ 0.25
+  @test testmod1.πT ≈ 0.25
+  @test testmod2.α1 ≈ 0.8
+  @test testmod2.α2 ≈ 0.6
+  @test testmod2.β ≈ 0.9
+  @test testmod2.πA ≈ 0.2
+  @test testmod2.πC ≈ 0.3
+  @test testmod2.πG ≈ 0.25
+  @test testmod2.πT ≈ 0.25
 end
 
 
@@ -121,6 +188,28 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+
+  setrate!(testmod1, [0.5, 0.6, 0.7, 0.8, 0.9, 0.2, 0.3, 0.25, 0.25])
+  setrate!(testmod2, [0.8, 0.5, 0.6, 0.7, 0.8, 0.9, 0.2, 0.3, 0.25, 0.25])
+  @test testmod1.α ≈ 0.5
+  @test testmod1.β ≈ 0.6
+  @test testmod1.γ ≈ 0.7
+  @test testmod1.δ ≈ 0.8
+  @test testmod1.ϵ ≈ 0.9
+  @test testmod1.πA ≈ 0.2
+  @test testmod1.πC ≈ 0.3
+  @test testmod1.πG ≈ 0.25
+  @test testmod1.πT ≈ 0.25
+  @test testmod2.α ≈ 0.8
+  @test testmod2.β ≈ 0.5
+  @test testmod2.γ ≈ 0.6
+  @test testmod2.δ ≈ 0.7
+  @test testmod2.ϵ ≈ 0.8
+  @test testmod2.η ≈ 0.9
+  @test testmod2.πA ≈ 0.2
+  @test testmod2.πC ≈ 0.3
+  @test testmod2.πG ≈ 0.25
+  @test testmod2.πT ≈ 0.25
 end
 
 @testset "Indexing" begin

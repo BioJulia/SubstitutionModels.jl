@@ -1,4 +1,4 @@
-struct HKY85abs <: HKY85
+mutable struct HKY85abs <: HKY85
   α::Float64
   β::Float64
   πA::Float64
@@ -20,6 +20,47 @@ struct HKY85abs <: HKY85
   end
 end
 
+"""
+```julia-repl
+julia> model = HKY85(0.6, 0.4, 0.25, 0.25, 0.25, 0.25);
+
+julia> setrate!(model, [0.5, 0.5, 0.25, 0.25, 0.25, 0.25])
+Hasegawa, Kishino, and Yano 1985 model (absolute rate form)
+α = 0.5, β = 0.5, π = [0.25, 0.25, 0.25, 0.25]
+```
+"""
+@inline function setrate!(mod::HKY85abs, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 6
+    @error "HKY85 rate must be a vector of length 6"
+  else 
+    #separate vector into pieces
+    α = rate[1]
+    β = rate[2]
+    πA = rate[3]
+    πC = rate[4]
+    πG = rate[5]
+    πT = rate[6]
+    #check correctness of rates
+    if α <= 0.
+      @error "HKY85 parameter α must be positive"
+    elseif β <= 0.
+      @error "HKY85 parameter β must be positive"
+    elseif sum([πA,πC,πG,πT]) != 1.0
+      @error "HKY85 frequencies must sum to 1.0"
+    elseif any([πA,πC,πG,πT] .<= 0.0)
+      @error "HKY85 frequencies must be positive"
+    end
+    #add rates
+    mod.α = α
+    mod.β = β
+    mod.πA = πA
+    mod.πC = πC
+    mod.πG = πG
+    mod.πT = πT
+  end
+  return mod
+end
 
 function show(io::IO, object::HKY85abs)
   print(io, "\r\e[0m\e[1mH\e[0masegawa, \e[1mK\e[0mishino, and \e[1mY\e[0mano 19\e[1m85\e[0m model (absolute rate form)

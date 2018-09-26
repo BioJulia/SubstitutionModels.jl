@@ -1,4 +1,4 @@
-struct F81abs <: F81
+mutable struct F81abs <: F81
   β::Float64
   πA::Float64
   πC::Float64
@@ -17,6 +17,43 @@ struct F81abs <: F81
   end
 end
 
+"""
+```julia-repl
+julia> model = F81(0.6, 0.25, 0.25, 0.25, 0.25);
+
+julia> setrate!(model, [0.5, 0.25, 0.25, 0.25, 0.25])
+Felsenstein 1981 model (absolute rate form)
+β = 0.5, π = [0.25, 0.25, 0.25, 0.25]
+```
+"""
+@inline function setrate!(mod::F81abs, rate::Vector{Float64})
+  #check length of vector
+  if length(rate) != 5
+    @error "F81 rate must be a vector of length 5"
+  else 
+    #separate vector into pieces
+    β = rate[1]
+    πA = rate[2]
+    πC = rate[3]
+    πG = rate[4]
+    πT = rate[5]
+    #check correctness of rates
+    if β <= 0.
+      @error "F81 parameter β must be positive"
+    elseif sum([πA,πC,πG,πT]) != 1.0
+      @error "F81 frequencies must sum to 1.0"
+    elseif any([πA,πC,πG,πT] .<=0.0)
+      @error "F81 frequencies must be positive"
+    end
+    #add rates
+    mod.β = β
+    mod.πA = πA
+    mod.πC = πC
+    mod.πG = πG
+    mod.πT = πT
+  end
+  return mod
+end
 
 function show(io::IO, object::F81abs)
   print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m81\e[0m model (absolute rate form)

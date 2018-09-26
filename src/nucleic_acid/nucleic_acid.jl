@@ -15,6 +15,19 @@ _πY(mod::NASM) = _πT(mod) + _πC(mod)
 
 
 """
+    setrate!(mod::NucleicAcidSubstitutionModel, rate::Vector{Float64})
+
+Modify the rates of a `NucleicAcidSubstitutionModel`. If vector is incorrect length 
+or parameters incorrectly specified, provide error messages. Examples given for each.
+
+"""
+@inline function setrate!(mod::NASM)
+    @error "setrate not defined for $(typeof(mod))."
+end
+
+
+
+"""
 Generate a Q matrix for a `NucleicAcidSubstitutionModel`, of the form:
 
 \$Q = \\begin{bmatrix}

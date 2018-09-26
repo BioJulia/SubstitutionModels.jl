@@ -46,6 +46,7 @@ module SubstitutionModels
     HKY85, HKY85abs, HKY85rel,
     TN93, TN93abs, TN93rel,
     GTR, GTRabs, GTRrel,
-    Q, P
+    Q, P,
+    setrate!
 
 end # module
