@@ -14,6 +14,6 @@ matrix:
     - julia: nightly
   fast_finish: true
 after_success:
-  - julia -e 'using Pkg; Pkg.add("Documenter"); Pkg.add("Coverage")'
+  - julia -e 'using Pkg; ps=Pkg.PackageSpec(name="Documenter", version="0.19"); Pkg.add(ps); Pkg.pin(ps); Pkg.add("Coverage")'
   - julia -e 'using Coverage; import SubstitutionModels; cd(dirname(dirname(pathof(SubstitutionModels)))); Codecov.submit(process_folder())'
   - julia -e 'import SubstitutionModels; cd(dirname(dirname(pathof(SubstitutionModels)))); include(joinpath("docs", "make.jl"))'
