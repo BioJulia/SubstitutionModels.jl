@@ -41,7 +41,6 @@ Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} \\end{bmatrix}\$
                    β * πT, α * πT, γ * πT, -(β * πA + α * πC + γ * πG))
 end
 
-
 @inline function P_generic(mod::NASM, t::Float64)
     if t < 0.0
         error("t must be positive")
@@ -54,12 +53,38 @@ function P_generic(mod::NASM, t::Array{Float64})
     if any(t .< 0.0)
         error("t must be positive")
     end
+
     try
-        eig_vals, eig_vecs = eig(Q(mod))
-        return [eig_vecs * exp(diagm(eig_vals)*i) * eig_vecs' for i in t]
+        q = Q(mod)
+
+        # Use symmetrical similar matrix if possible:
+        # B is similar (has same eigenvalues) to Q, but is symmetrical if the model is reversible.
+        # Eigenvalue decomposition is easier with symmetrical matrix
+        # NB: computation of B described in Inferring Phylogenies, Felsenstein, p.206
+
+        rootπ = sqrt.(_π(mod))
+        b = diagm(0 => rootπ) * q * diagm(0 => 1.0 ./ rootπ)
+
+        # If B is symmetrical, then do eigenvalue decomposition on B. The resulting
+        # eigenvalues are the same as for Q, then Q's eigenvectors can be obtained by
+        # a simple conversion.
+        if ishermitian(round.(b, digits=12))
+            eig_vals, r = eigen(b)
+            eig_vecs = diagm(0 => 1.0 ./ rootπ) * r # eig_vecs are the eigenvectors of Q
+            eig_vecs_inv = r' * diagm(0 => rootπ)
+
+        # If B is not symmetrical, fall back to directly obtaining eigenvalues from Q
+        else
+            eig_vals, eig_vecs = eigen(Array(q))
+            eig_vecs_inv = inv(eig_vecs)
+        end
+
+        return [SMatrix{size(q)...}(eig_vecs * diagm(0 => exp.(eig_vals .* i)) * eig_vecs_inv) for i in t]
+
     catch
-        eig_vals, eig_vecs = eig(Array(Q(mod)))
-        return [SMatrix(eig_vecs * exp(diagm(eig_vals)*i) * eig_vecs') for i in t]
+        # Any errors, fall back to direct use of matrix exponential
+        return [P_generic(mod, i) for i in t]
+
     end
 end
 
