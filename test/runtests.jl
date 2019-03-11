@@ -117,6 +117,10 @@ end
   @test Q(testmod1) == Q(testmod2)
   @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
   @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
+  @test P(testmod1, [1.0 2.0])[1] ≈ P_generic(testmod1, 1.0)
+  @test P(testmod2, [1.0 2.0])[1] ≈ P_generic(testmod2, 1.0)
+  @test P(testmod1, [1.0 2.0])[2] ≈ P_generic(testmod1, 2.0)
+  @test P(testmod2, [1.0 2.0])[2] ≈ P_generic(testmod2, 2.0)
   @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0

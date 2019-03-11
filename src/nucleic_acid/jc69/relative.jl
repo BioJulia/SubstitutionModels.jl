@@ -25,7 +25,7 @@ end
   end
   e₁ = exp(-t)
   P₁ = 0.25 + 0.75 * e₁
-  P₂ = 0.25 + 0.25 * e₁
+  P₂ = 0.25 - 0.25 * e₁
   return Pmatrix(P₁, P₂, P₂, P₂,
                  P₂, P₁, P₂, P₂,
                  P₂, P₂, P₁, P₂,

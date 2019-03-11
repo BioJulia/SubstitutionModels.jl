@@ -36,7 +36,7 @@ function P(mod::JC69abs, t::Float64)
   λ = mod.λ
   ω = exp(-t * λ)
   P₁ = 0.25 + 0.75 * ω
-  P₂ = 0.25 + 0.25 * ω
+  P₂ = 0.25 - 0.25 * ω
   return Pmatrix(P₁, P₂, P₂, P₂,
                  P₂, P₁, P₂, P₂,
                  P₂, P₂, P₁, P₂,
