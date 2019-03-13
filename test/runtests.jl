@@ -37,6 +37,8 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
+  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
 end
 
 
@@ -51,6 +53,8 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
+  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
 end
 
 
@@ -65,6 +69,8 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
+  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
 end
 
 
@@ -79,6 +85,8 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
+  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
 end
 
 
@@ -93,6 +101,8 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
+  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
 end
 
 
@@ -107,6 +117,8 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
+  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
 end
 
 
@@ -125,6 +137,8 @@ end
   @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
   @test sum(_π(testmod1)) == 1.0
   @test sum(_π(testmod2)) == 1.0
+  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
+  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
 end
 
 @testset "Indexing" begin

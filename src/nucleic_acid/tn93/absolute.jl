@@ -26,7 +26,7 @@ end
 
 function show(io::IO, object::TN93abs)
   print(io, "\r\e[0m\e[1mT\e[0mamura and \e[1mN\e[0mei 19\e[1m93\e[0m model (absolute rate form)
-α1 = $(object.α1), α2 = $(object.α1), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
+α1 = $(object.α1), α2 = $(object.α2), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
 
 
@@ -71,13 +71,13 @@ end
   e₃ = exp(-(πY * α₁ + πR * β) * t)
 
   P₁  = πA + (πA * πY / πR) * e₁ + (πG / πR) * e₂
-  P₂  = πC + (πT * πR / πY) * e₁ + (πT / πY) * e₃
+  P₂  = πC + (πC * πR / πY) * e₁ + (πT / πY) * e₃ ####
   P₃  = πG + (πG * πY / πR) * e₁ + (πA / πR) * e₂
   P₄  = πT + (πT * πR / πY) * e₁ + (πC / πY) * e₃
   P₅  = πA * (1 - e₁)
   P₆  = πA + (πA * πY / πR) * e₁ - (πA / πR) * e₂
   P₇  = πC * (1 - e₁)
-  P₈  = πC + (πT * πR / πY) * e₁ - (πC / πY) * e₃
+  P₈  = πC + (πC * πR / πY) * e₁ - (πC / πY) * e₃ ####
   P₉  = πG + (πG * πY / πR) * e₁ - (πG / πR) * e₂
   P₁₀ = πG * (1 - e₁)
   P₁₁ = πT * (1 - e₁)
