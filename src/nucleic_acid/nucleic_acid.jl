@@ -22,6 +22,12 @@ Q_{A, A} & Q_{A, C} & Q_{A, G} & Q_{A, T} \\\\
 Q_{C, A} & Q_{C, C} & Q_{C, G} & Q_{C, T} \\\\
 Q_{G, A} & Q_{G, C} & Q_{G, G} & Q_{G, T} \\\\
 Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} \\end{bmatrix}\$
+
+Call as either
+1) `Q(model)`, or
+2) `Q(model, bool)`
+Form (2) scales the matrix so that ``_π(model) ⋅ -diag(Q(model)) = 1``
+when bool=true. `Q(model, false)` is equivalent to `Q(model)`.
 """
 @inline function Q(mod::NASM)
     α = _α(mod)
@@ -41,11 +47,38 @@ Q_{T, A} & Q_{T, C} & Q_{T, G} & Q_{T, T} \\end{bmatrix}\$
                    β * πT, α * πT, γ * πT, -(β * πA + α * πC + γ * πG))
 end
 
+
+function Q(mod::NASM, scale::Bool)
+  if scale
+    q = Q(mod)
+    scale = 1/(-diag(q)' * _π(mod))
+    return q * scale
+  else
+    Q(mod)
+  end
+end
+
+
+scale_generic(mod::NASM) = 1/(-diag(Q(mod))' * _π(mod))
+
+
+_scale(mod::NASM) = scale_generic(mod)
+
+
 @inline function P_generic(mod::NASM, t::Float64)
     if t < 0.0
         error("t must be positive")
     end
     return exp(Q(mod) * t)
+end
+
+
+function P_generic(mod::NASM, t, scale::Bool)
+    if scale
+        P(mod, t * _scale(mod))
+    else
+        P(mod, t)
+    end
 end
 
 
@@ -99,5 +132,15 @@ P_{G, A} & P_{G, C} & P_{G, G} & P_{G, T} \\\\
 P_{T, A} & P_{T, C} & P_{T, G} & P_{T, T} \\end{bmatrix}\$
 
 for specified time
+
+Call as either
+1) `P(model, t)`, or
+2) `P(model, t, bool)`
+Form (2) obtains its probabilities from the scaled Q matrix if bool=true.
+Branch lengths estimated from a scaled P matrix are in units of expected
+number of substitutions per site. `P(model, t, false)` is equivalent to
+`P(model, t)`.
 """
 P(mod::NASM, t) = P_generic(mod, t)
+
+P(mod::NASM, t, scale) = P_generic(mod, t, scale)
