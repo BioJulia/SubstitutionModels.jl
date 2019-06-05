@@ -6,15 +6,18 @@ struct TN93rel <: TN93
   πG::Float64
   πT::Float64
   function TN93rel(κ1::Float64, κ2::Float64,
-                   πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if κ1 <= 0.
-      error("TN93 parameter κ1 must be positive")
-    elseif κ2 <= 0.
-      error("TN93 parameter κ2 must be positive")
-    elseif sum([πA, πC, πG, πT]) != 1.0
-      error("TN93 frequencies must sum to 1.0")
-    elseif any([πA, πC, πG, πT] .<= 0.0)
-      error("TN93 frequencies must be positive")
+                   πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                   safe::Bool=true)
+    if safe
+      if κ1 <= 0.
+        error("TN93 parameter κ1 must be positive")
+      elseif κ2 <= 0.
+        error("TN93 parameter κ2 must be positive")
+      elseif sum([πA, πC, πG, πT]) != 1.0
+        error("TN93 frequencies must sum to 1.0")
+      elseif any([πA, πC, πG, πT] .<= 0.0)
+        error("TN93 frequencies must be positive")
+      end
     end
     new(κ1, κ2, πA, πC, πG, πT)
   end
@@ -27,8 +30,11 @@ function show(io::IO, object::TN93rel)
 end
 
 
-const TN93(κ1, κ2, πA, πC, πG, πT) = TN93rel(κ1, κ2, πA, πC, πG, πT)
+function TN93(κ1::F, κ2::F, πA::F, πC::F, πG::F, πT::F, safe::Bool=true) where F <: Float64
+  return TN93rel(κ1, κ2, πA, πC, πG, πT, safe)
+end
 
+TN93rel(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = TN93rel(θ[1], θ[2], π[1], π[2], π[3], π[4], safe)
 
 @inline function Q(mod::TN93rel)
   κ₁ = mod.κ1; κ₂ = mod.κ2

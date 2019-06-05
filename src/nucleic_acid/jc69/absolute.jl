@@ -1,12 +1,17 @@
 struct JC69abs <: JC69
     λ::Float64
-    function JC69abs(λ::Float64)
-        if λ <= 0.
-            error("JC69 parameter λ must be positive")
+    function JC69abs(λ::Float64, safe::Bool=true)
+        if safe
+          if λ <= 0.
+              error("JC69 parameter λ must be positive")
+          end
         end
         new(λ)
     end
 end
+
+
+JC69abs(θ::AbstractArray, safe::Bool=true) = JC69abs(θ[1], safe)
 
 
 function show(io::IO, object::JC69abs)
@@ -15,7 +20,7 @@ function show(io::IO, object::JC69abs)
 end
 
 
-JC69(λ) = JC69abs(λ)
+JC69(λ::Float64, safe::Bool=true) = JC69abs(λ, safe)
 
 
 function Q(mod::JC69abs)

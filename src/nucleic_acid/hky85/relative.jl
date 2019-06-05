@@ -5,13 +5,16 @@ struct HKY85rel <: HKY85
   πG::Float64
   πT::Float64
   function HKY85rel(κ::Float64,
-                  πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if κ <= 0.
-      error("HKY85 parameter κ must be positive")
-    elseif sum([πA,πC,πG,πT]) != 1.0
-      error("HKY85 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<=0.0)
-      error("HKY85 frequencies must be positive")
+                    πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                    safe::Bool=true)
+    if safe
+      if κ <= 0.
+        error("HKY85 parameter κ must be positive")
+      elseif sum([πA,πC,πG,πT]) != 1.0
+        error("HKY85 frequencies must sum to 1.0")
+      elseif any([πA,πC,πG,πT] .<=0.0)
+        error("HKY85 frequencies must be positive")
+      end
     end
     new(κ, πA, πC, πG, πT)
   end
@@ -24,7 +27,10 @@ function show(io::IO, object::HKY85rel)
 end
 
 
-HKY85(κ, πA, πC, πG, πT) = HKY85rel(κ, πA, πC, πG, πT)
+HKY85(κ, πA, πC, πG, πT, safe::Bool=true) = HKY85rel(κ, πA, πC, πG, πT, safe)
+
+
+HKY85rel(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = HKY85rel(θ[1], π[1], π[2], π[3], π[4], safe)
 
 
 @inline function Q(mod::HKY85rel)

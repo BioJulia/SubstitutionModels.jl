@@ -9,6 +9,9 @@ end
 JC69() = JC69rel()
 
 
+JC69rel(θ::AbstractArray, safe::Bool=true) = JC69rel()
+
+
 @inline function Q(mod::JC69rel)
   Q₁ =  0.25
   Q₂ = -(Q₁ * 3)

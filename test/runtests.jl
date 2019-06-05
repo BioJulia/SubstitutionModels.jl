@@ -49,7 +49,7 @@ end
 @testset "JC69" begin
   testmod1 = JC69()
   testmod2 = JC69(1.0)
-  testmod3 = JC69(2.0)
+  testmod3 = JC69abs([2.0])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)
@@ -77,7 +77,7 @@ end
 @testset "K80" begin
   testmod1 = K80(0.5)
   testmod2 = K80(0.5, 1.0)
-  testmod3 = K80(0.5, 2.0)
+  testmod3 = K80abs([0.5, 2.0])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)
@@ -103,7 +103,7 @@ end
 @testset "F81" begin
   testmod1 = F81(0.1, 0.2, 0.3, 0.4)
   testmod2 = F81(1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = F81(2.0, 0.1, 0.2, 0.3, 0.4)
+  testmod3 = F81abs([2.0], [0.1, 0.2, 0.3, 0.4])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)
@@ -129,7 +129,7 @@ end
 @testset "F84" begin
   testmod1 = F84(0.75, 0.1, 0.2, 0.3, 0.4)
   testmod2 = F84(0.75, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = F84(0.75, 2.0, 0.1, 0.2, 0.3, 0.4)
+  testmod3 = F84abs([0.75, 2.0], [0.1, 0.2, 0.3, 0.4])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)
@@ -155,7 +155,7 @@ end
 @testset "HKY85" begin
   testmod1 = HKY85(0.75, 0.1, 0.2, 0.3, 0.4)
   testmod2 = HKY85(0.75, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = HKY85(0.75, 2.0, 0.1, 0.2, 0.3, 0.4)
+  testmod3 = HKY85abs([0.75, 2.0], [0.1, 0.2, 0.3, 0.4])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)
@@ -181,7 +181,7 @@ end
 @testset "TN93" begin
   testmod1 = TN93(0.6, 0.7, 0.1, 0.2, 0.3, 0.4)
   testmod2 = TN93(0.6, 0.7, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = TN93(0.6, 0.7, 2.0, 0.1, 0.2, 0.3, 0.4)
+  testmod3 = TN93abs([0.6, 0.7, 2.0], [0.1, 0.2, 0.3, 0.4])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)
@@ -207,7 +207,7 @@ end
 @testset "GTR" begin
   testmod1 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 0.1, 0.2, 0.3, 0.4)
   testmod2 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 2.0, 0.1, 0.2, 0.3, 0.4)
+  testmod3 = GTRrel([1.0, 2.0, 3.0, 4.0, 5.0, 2.0], [0.1, 0.2, 0.3, 0.4])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)

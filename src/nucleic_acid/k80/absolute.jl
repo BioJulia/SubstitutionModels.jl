@@ -1,11 +1,13 @@
 struct K80abs <: K80
   α::Float64
   β::Float64
-  function K80abs(α::Float64, β::Float64)
-    if α <= 0.
-      error("K80 parameter α must be positive")
-    elseif β <= 0.
-      error("K80 parameter β must be positive")
+  function K80abs(α::Float64, β::Float64, safe::Bool=true)
+    if safe
+      if α <= 0.
+        error("K80 parameter α must be positive")
+      elseif β <= 0.
+        error("K80 parameter β must be positive")
+      end
     end
     new(α, β)
   end
@@ -18,7 +20,10 @@ function show(io::IO, object::K80abs)
 end
 
 
-const K80(α, β) = K80abs(α, β)
+K80(α::Float64, β::Float64, safe::Bool=true) = K80abs(α, β, safe)
+
+
+K80abs(θ::AbstractArray, safe::Bool=true) = K80abs(θ[1], θ[2], safe)
 
 
 @inline function Q(mod::K80abs)

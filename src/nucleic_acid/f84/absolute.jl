@@ -6,15 +6,18 @@ struct F84abs <: F84
   πG::Float64
   πT::Float64
   function F84abs(κ::Float64, β::Float64,
-                  πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if κ <= 0.
-      error("F84 parameter α must be positive")
-    elseif β <= 0.
-      error("F84 parameter β must be positive")
-    elseif sum([πA,πC,πG,πT]) != 1.0
-      error("F84 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<= 0.0)
-      error("F84 frequencies must be positive")
+                  πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                  safe::Bool=true)
+    if safe
+      if κ <= 0.
+        error("F84 parameter α must be positive")
+      elseif β <= 0.
+        error("F84 parameter β must be positive")
+      elseif sum([πA,πC,πG,πT]) != 1.0
+        error("F84 frequencies must sum to 1.0")
+      elseif any([πA,πC,πG,πT] .<= 0.0)
+        error("F84 frequencies must be positive")
+      end
     end
     new(κ, β, πA, πC, πG, πT)
   end
@@ -27,7 +30,10 @@ function show(io::IO, object::F84abs)
 end
 
 
-F84(κ, β, πA, πC, πG, πT) = F84abs(κ, β, πA, πC, πG, πT)
+F84(κ, β, πA, πC, πG, πT, safe::Bool=true) = F84abs(κ, β, πA, πC, πG, πT, safe)
+
+
+F84abs(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = F84abs(θ[1], θ[2], π[1], π[2], π[3], π[4], safe)
 
 
 @inline function Q(mod::F84abs)

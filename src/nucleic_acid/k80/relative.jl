@@ -1,8 +1,11 @@
 struct K80rel <: K80
   κ::Float64
-  function K80rel(κ::Float64)
-    if κ <= 0.
-      error("K80 parameter κ must be positive")
+  function K80rel(κ::Float64,
+                  safe::Bool=true)
+    if safe
+      if κ <= 0.
+        error("K80 parameter κ must be positive")
+      end
     end
     new(κ)
   end
@@ -15,7 +18,10 @@ function show(io::IO, object::K80rel)
 end
 
 
-const K80(κ) = K80rel(κ)
+K80(κ::Float64, safe::Bool=true) = K80rel(κ, safe)
+
+
+K80rel(θ::AbstractArray, safe::Bool=true) = K80rel(θ[1], safe)
 
 
 @inline function Q(mod::K80rel)

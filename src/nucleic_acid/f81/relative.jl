@@ -3,11 +3,14 @@ struct F81rel <: F81
   πC::Float64
   πG::Float64
   πT::Float64
-  function F81rel(πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if sum([πA,πC,πG,πT]) != 1.0
-      error("F81 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<=0.0)
-      error("F81 frequencies must be positive")
+  function F81rel(πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                  safe::Bool=true)
+    if safe
+      if sum([πA,πC,πG,πT]) != 1.0
+        error("F81 frequencies must sum to 1.0")
+      elseif any([πA,πC,πG,πT] .<=0.0)
+        error("F81 frequencies must be positive")
+      end
     end
     new(πA, πC, πG, πT)
   end
@@ -20,7 +23,10 @@ function show(io::IO, object::F81rel)
 end
 
 
-F81(πA, πC, πG, πT) = F81rel(πA, πC, πG, πT)
+F81(πA, πC, πG, πT, safe::Bool=true) = F81rel(πA, πC, πG, πT)
+
+
+F81rel(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = F81rel(π[1], π[2], π[3], π[4], safe)
 
 
 @inline function Q(mod::F81rel)

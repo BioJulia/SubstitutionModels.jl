@@ -7,17 +7,20 @@ struct TN93abs <: TN93
   πG::Float64
   πT::Float64
   function TN93abs(α1::Float64, α2::Float64, β::Float64,
-                   πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if α1 <= 0.
-      error("TN93 parameter α1 must be positive")
-    elseif α2 <= 0.
-      error("TN93 parameter α2 must be positive")
-    elseif β <= 0.
-      error("TN93 parameter β must be positive")
-    elseif sum([πA, πC, πG, πT]) != 1.0
-      error("TN93 frequencies must sum to 1.0")
-    elseif any([πA, πC, πG, πT] .<= 0.0)
-      error("TN93 frequencies must be positive")
+                   πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                   safe::Bool=true)
+    if safe
+      if α1 <= 0.
+        error("TN93 parameter α1 must be positive")
+      elseif α2 <= 0.
+        error("TN93 parameter α2 must be positive")
+      elseif β <= 0.
+        error("TN93 parameter β must be positive")
+      elseif sum([πA, πC, πG, πT]) != 1.0
+        error("TN93 frequencies must sum to 1.0")
+      elseif any([πA, πC, πG, πT] .<= 0.0)
+        error("TN93 frequencies must be positive")
+      end
     end
     new(α1, α2, β, πA, πC, πG, πT)
   end
@@ -30,7 +33,10 @@ function show(io::IO, object::TN93abs)
 end
 
 
-TN93(α1, α2, β, πA, πC, πG, πT) = TN93abs(α1, α2, β, πA, πC, πG, πT)
+TN93(α1::F, α2::F, β::F, πA::F, πC::F, πG::F, πT::F, safe::Bool=true) where F <: Float64 = TN93abs(α1, α2, β, πA, πC, πG, πT, safe)
+
+
+TN93abs(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = TN93abs(θ[1], θ[2], θ[3], π[1], π[2], π[3], π[4], safe)
 
 
 @inline function Q(mod::TN93abs)
