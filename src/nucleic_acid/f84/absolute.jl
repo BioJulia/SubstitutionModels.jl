@@ -33,7 +33,18 @@ end
 F84(κ, β, πA, πC, πG, πT, safe::Bool=true) = F84abs(κ, β, πA, πC, πG, πT, safe)
 
 
-F84abs(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = F84abs(θ[1], θ[2], π[1], π[2], π[3], π[4], safe)
+function F84abs(θ_vec::A,
+                π_vec::A,
+                safe::Bool=true) where A <: AbstractArray
+  if safe
+    if length(θ_vec) != 2
+      error("Incorrect parameter vector length")
+    elseif length(π_vec) != 4
+      error("Incorrect base frequency vector length")
+    end
+  end
+  return F84abs(θ_vec[1], θ_vec[2], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
+end
 
 
 @inline function Q(mod::F84abs)

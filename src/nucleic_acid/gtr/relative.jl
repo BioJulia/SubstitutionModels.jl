@@ -43,8 +43,18 @@ end
 GTR(α, β, γ, δ, ϵ, πA, πC, πG, πT, safe::Bool=true) = GTRrel(α, β, γ, δ, ϵ, πA, πC, πG, πT, safe)
 
 
-GTRrel(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = GTRrel(θ[1], θ[2], θ[3], θ[4], θ[5], π[1], π[2], π[3], π[4], safe)
-
+function GTRrel(θ_vec::A,
+                π_vec::A,
+                safe::Bool=true) where A <: AbstractArray
+  if safe
+    if length(θ_vec) != 5
+      error("Incorrect parameter vector length")
+    elseif length(π_vec) != 4
+      error("Incorrect base frequency vector length")
+    end
+  end
+  return GTRrel(θ_vec[1], θ_vec[2], θ_vec[3], θ_vec[4], θ_vec[5], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
+end
 
 const _α(mod::GTRrel) = mod.α
 const _β(mod::GTRrel) = mod.β

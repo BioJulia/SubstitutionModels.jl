@@ -36,7 +36,18 @@ end
 TN93(α1::F, α2::F, β::F, πA::F, πC::F, πG::F, πT::F, safe::Bool=true) where F <: Float64 = TN93abs(α1, α2, β, πA, πC, πG, πT, safe)
 
 
-TN93abs(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = TN93abs(θ[1], θ[2], θ[3], π[1], π[2], π[3], π[4], safe)
+function TN93abs(θ_vec::A,
+                 π_vec::A,
+                 safe::Bool=true) where A <: AbstractArray
+  if safe
+    if length(θ_vec) != 3
+      error("Incorrect parameter vector length")
+    elseif length(π_vec) != 4
+      error("Incorrect base frequency vector length")
+    end
+  end
+  return TN93abs(θ_vec[1], θ_vec[2], θ_vec[3], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
+end
 
 
 @inline function Q(mod::TN93abs)

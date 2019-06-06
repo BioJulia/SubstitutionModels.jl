@@ -205,9 +205,9 @@ end
 
 
 @testset "GTR" begin
-  testmod1 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 0.1, 0.2, 0.3, 0.4)
+  testmod1 = GTRrel([1.0, 2.0, 3.0, 4.0, 5.0], [0.1, 0.2, 0.3, 0.4])
   testmod2 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = GTRrel([1.0, 2.0, 3.0, 4.0, 5.0, 2.0], [0.1, 0.2, 0.3, 0.4])
+  testmod3 = GTRabs([1.0, 2.0, 3.0, 4.0, 5.0, 2.0], [0.1, 0.2, 0.3, 0.4])
   @test Qtest(testmod1)
   @test Q(testmod1) == Q(testmod2)
   @test test_scaling(testmod1)

@@ -34,7 +34,20 @@ function TN93(κ1::F, κ2::F, πA::F, πC::F, πG::F, πT::F, safe::Bool=true) w
   return TN93rel(κ1, κ2, πA, πC, πG, πT, safe)
 end
 
-TN93rel(θ::AbstractArray, π::AbstractArray, safe::Bool=true) = TN93rel(θ[1], θ[2], π[1], π[2], π[3], π[4], safe)
+
+function TN93rel(θ_vec::A,
+                 π_vec::A,
+                 safe::Bool=true) where A <: AbstractArray
+  if safe
+    if length(θ_vec) != 2
+      error("Incorrect parameter vector length")
+    elseif length(π_vec) != 4
+      error("Incorrect base frequency vector length")
+    end
+  end
+  return TN93rel(θ_vec[1], θ_vec[2], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
+end
+
 
 @inline function Q(mod::TN93rel)
   κ₁ = mod.κ1; κ₂ = mod.κ2

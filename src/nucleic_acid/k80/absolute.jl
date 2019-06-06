@@ -23,7 +23,15 @@ end
 K80(α::Float64, β::Float64, safe::Bool=true) = K80abs(α, β, safe)
 
 
-K80abs(θ::AbstractArray, safe::Bool=true) = K80abs(θ[1], θ[2], safe)
+function K80abs(θ_vec::A,
+                safe::Bool=true) where A <: AbstractArray
+  if safe
+    if length(θ_vec) != 2
+      error("Incorrect parameter vector length")
+    end
+  end
+  return K80abs(θ_vec[1], θ_vec[2], safe)
+end
 
 
 @inline function Q(mod::K80abs)

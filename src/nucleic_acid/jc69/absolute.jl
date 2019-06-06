@@ -11,7 +11,15 @@ struct JC69abs <: JC69
 end
 
 
-JC69abs(θ::AbstractArray, safe::Bool=true) = JC69abs(θ[1], safe)
+function JC69abs(θ_vec::A,
+                 safe::Bool=true) where A <: AbstractArray
+  if safe
+    if length(θ_vec) != 1
+      error("Incorrect parameter vector length")
+    end
+  end
+  return  JC69abs(θ_vec[1], safe)
+end
 
 
 function show(io::IO, object::JC69abs)

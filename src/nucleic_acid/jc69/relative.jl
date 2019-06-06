@@ -9,7 +9,15 @@ end
 JC69() = JC69rel()
 
 
-JC69rel(θ::AbstractArray, safe::Bool=true) = JC69rel()
+function JC69rel(θ_vec::A,
+                 safe::Bool=true) where A <: AbstractArray
+  if safe
+    if length(θ_vec) != 0
+      error("Incorrect parameter vector length")
+    end
+  end
+  return JC69rel()
+end
 
 
 @inline function Q(mod::JC69rel)
