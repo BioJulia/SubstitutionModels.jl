@@ -3,7 +3,6 @@
 **Release status:**
 
 [![Latest Release](https://img.shields.io/github/release/BioJulia/SubstitutionModels.jl.svg)](https://github.com/BioJulia/SubstitutionModels.jl/releases/latest)
-[![SubstitutionModels](http://pkg.julialang.org/badges/SubstitutionModels_0.6.svg)](http://pkg.julialang.org/?pkg=SubstitutionModels)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/SubstitutionModels.jl/blob/master/LICENSE)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/stable)
 ![BioJulia maintainer: jangevaare](https://img.shields.io/badge/BioJulia%20Maintainer-jangevaare-orange.svg)

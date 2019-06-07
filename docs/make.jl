@@ -2,7 +2,7 @@ using Documenter, SubstitutionModels
 
 makedocs(
     modules = [SubstitutionModels],
-    format = :html,
+    format = Documenter.HTML(),
     sitename = "SubstitutionModels.jl",
     pages = [
         "Home" => "index.md",
@@ -17,10 +17,5 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/BioJulia/SubstitutionModels.jl.git",
-    julia = "0.7",
-    osname = "linux",
-    target = "build",
-    deps = nothing,
-    make = nothing
+    repo = "github.com/BioJulia/SubstitutionModels.jl.git"
 )
