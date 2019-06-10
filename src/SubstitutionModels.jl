@@ -5,12 +5,6 @@ module SubstitutionModels
     StaticArrays,
     LinearAlgebra
 
-  import
-    Base.getindex,
-    Base.show,
-    Base.setindex!,
-    Base.checkbounds
-
   include("core.jl")
   include("indexing.jl")
   include("nucleic_acid/nucleic_acid.jl")

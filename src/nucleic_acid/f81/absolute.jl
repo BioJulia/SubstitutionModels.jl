@@ -21,7 +21,7 @@ struct F81abs <: F81
 end
 
 
-function show(io::IO, object::F81abs)
+function Base.show(io::IO, object::F81abs)
   print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m81\e[0m model (absolute rate form)
 β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end

@@ -1,16 +1,11 @@
-const _πA(mod) = _πACGT(mod)
-const _πC(mod) = _πACGT(mod)
-const _πG(mod) = _πACGT(mod)
-const _πT(mod) = _πACGT(mod)
-const _πACGU(mod) = _πACGT(mod)
-
-
 _πACGT(mod::NASM) = 0.25
-
+_πACGU(mod) = _πACGT(mod)
+_πA(mod) = _πACGT(mod)
+_πC(mod) = _πACGT(mod)
+_πG(mod) = _πACGT(mod)
+_πT(mod) = _πACGT(mod)
 _π(mod::NASM) = SVector(_πA(mod), _πC(mod), _πG(mod), _πT(mod))
-
 _πR(mod::NASM) = _πA(mod) + _πG(mod)
-
 _πY(mod::NASM) = _πT(mod) + _πC(mod)
 
 

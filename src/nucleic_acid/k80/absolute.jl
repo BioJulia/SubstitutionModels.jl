@@ -14,7 +14,7 @@ struct K80abs <: K80
 end
 
 
-function show(io::IO, object::K80abs)
+function Base.show(io::IO, object::K80abs)
   print(io, "\r\e[0m\e[1mK\e[0mimura 19\e[1m80\e[0m model (absolute rate form)
 α = $(object.α), β = $(object.β)")
 end

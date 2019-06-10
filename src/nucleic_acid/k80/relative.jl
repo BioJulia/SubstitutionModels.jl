@@ -12,7 +12,7 @@ struct K80rel <: K80
 end
 
 
-function show(io::IO, object::K80rel)
+function Base.show(io::IO, object::K80rel)
   print(io, "\r\e[0m\e[1mK\e[0mimura 19\e[1m80\e[0m model (relative rate form)
 κ = $(object.κ)")
 end

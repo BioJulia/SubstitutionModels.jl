@@ -37,7 +37,7 @@ struct GTRabs <: GTR
 end
 
 
-function show(io::IO, object::GTRabs)
+function Base.show(io::IO, object::GTRabs)
   print(io, "\r\e[0m\e[1mG\e[0meneralised \e[1mT\e[0mime \e[1mR\e[0meversible model (absolute rate form)
 α = $(object.α), β = $(object.β), γ = $(object.γ), δ = $(object.δ), ϵ = $(object.ϵ), η = $(object.η), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end

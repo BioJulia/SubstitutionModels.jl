@@ -21,7 +21,7 @@ struct F84rel <: F84
 end
 
 
-function show(io::IO, object::F84rel)
+function Base.show(io::IO, object::F84rel)
   print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m84\e[0m substitution model (relative rate form)
 κ = $(object.κ), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end

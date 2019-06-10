@@ -27,7 +27,7 @@ struct TN93abs <: TN93
 end
 
 
-function show(io::IO, object::TN93abs)
+function Base.show(io::IO, object::TN93abs)
   print(io, "\r\e[0m\e[1mT\e[0mamura and \e[1mN\e[0mei 19\e[1m93\e[0m model (absolute rate form)
 α1 = $(object.α1), α2 = $(object.α2), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end

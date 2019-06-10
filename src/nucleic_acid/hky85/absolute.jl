@@ -24,7 +24,7 @@ struct HKY85abs <: HKY85
 end
 
 
-function show(io::IO, object::HKY85abs)
+function Base.show(io::IO, object::HKY85abs)
   print(io, "\r\e[0m\e[1mH\e[0masegawa, \e[1mK\e[0mishino, and \e[1mY\e[0mano 19\e[1m85\e[0m model (absolute rate form)
 α = $(object.α), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
