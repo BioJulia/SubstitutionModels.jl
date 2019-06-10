@@ -23,22 +23,6 @@ function show(io::IO, object::F81rel)
 end
 
 
-F81(πA, πC, πG, πT, safe::Bool=true) = F81rel(πA, πC, πG, πT)
-
-
-function F81rel(θ_vec::A,
-                π_vec::A,
-                safe::Bool=true) where A <: AbstractArray
-  if safe
-    if length(θ_vec) != 0
-      error("Incorrect parameter vector length")
-    elseif length(π_vec) != 4
-      error("Incorrect base frequency vector length")
-    end
-  end
-  return F81rel(π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
-end
-
 @inline function Q(mod::F81rel)
   πA = _πA(mod); πC = _πC(mod); πG = _πG(mod); πT = _πT(mod)
 

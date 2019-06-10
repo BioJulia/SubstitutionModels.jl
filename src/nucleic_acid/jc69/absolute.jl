@@ -11,24 +11,10 @@ struct JC69abs <: JC69
 end
 
 
-function JC69abs(θ_vec::A,
-                 safe::Bool=true) where A <: AbstractArray
-  if safe
-    if length(θ_vec) != 1
-      error("Incorrect parameter vector length")
-    end
-  end
-  return  JC69abs(θ_vec[1], safe)
-end
-
-
 function show(io::IO, object::JC69abs)
   print(io, "\r\e[0m\e[1mJ\e[0mukes and \e[1mC\e[0mantor 19\e[1m69\e[0m model (absolute rate form)
 λ = $(object.λ)")
 end
-
-
-JC69(λ::Float64, safe::Bool=true) = JC69abs(λ, safe)
 
 
 function Q(mod::JC69abs)

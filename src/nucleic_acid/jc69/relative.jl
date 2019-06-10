@@ -6,20 +6,6 @@ function show(io::IO, object::JC69rel)
 end
 
 
-JC69() = JC69rel()
-
-
-function JC69rel(θ_vec::A,
-                 safe::Bool=true) where A <: AbstractArray
-  if safe
-    if length(θ_vec) != 0
-      error("Incorrect parameter vector length")
-    end
-  end
-  return JC69rel()
-end
-
-
 @inline function Q(mod::JC69rel)
   Q₁ =  0.25
   Q₂ = -(Q₁ * 3)

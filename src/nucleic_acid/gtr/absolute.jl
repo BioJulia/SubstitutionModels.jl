@@ -43,26 +43,4 @@ function show(io::IO, object::GTRabs)
 end
 
 
-GTR(α, β, γ, δ, ϵ, η, πA, πC, πG, πT, safe::Bool=true) = GTRabs(α, β, γ, δ, ϵ, η, πA, πC, πG, πT, safe)
-
-
-function GTRabs(θ_vec::A,
-                π_vec::A,
-                safe::Bool=true) where A <: AbstractArray
-  if safe
-    if length(θ_vec) != 6
-      error("Incorrect parameter vector length")
-    elseif length(π_vec) != 4
-      error("Incorrect base frequency vector length")
-    end
-  end
-  return GTRabs(θ_vec[1], θ_vec[2], θ_vec[3], θ_vec[4], θ_vec[5], θ_vec[6], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
-end
-
-
-const _α(mod::GTRabs) = mod.α
-const _β(mod::GTRabs) = mod.β
-const _γ(mod::GTRabs) = mod.γ
-const _δ(mod::GTRabs) = mod.δ
-const _ϵ(mod::GTRabs) = mod.ϵ
-const _η(mod::GTRabs) = mod.η
+_η(mod::GTRabs) = mod.η
