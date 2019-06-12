@@ -6,232 +6,75 @@ using StaticArrays
 
 
 import SubstitutionModels._π,
+       SubstitutionModels._scale,
+       SubstitutionModels.scale_generic,
        SubstitutionModels.P_generic
 
 
-function Qtest(mod::NASM)
-  x = Q(mod)
-  return x[DNA_A, DNA_A] ≈ -(x[DNA_A, DNA_C] +
-                              x[DNA_A, DNA_G] +
-                              x[DNA_A, DNA_T]) &&
-         x[DNA_C, DNA_C] ≈ -(x[DNA_C, DNA_A] +
-                              x[DNA_C, DNA_G] +
-                              x[DNA_C, DNA_T]) &&
-         x[DNA_G, DNA_G] ≈ -(x[DNA_G, DNA_A] +
-                              x[DNA_G, DNA_C] +
-                              x[DNA_G, DNA_T]) &&
-         x[DNA_T, DNA_T] ≈ -(x[DNA_T, DNA_A] +
-                              x[DNA_T, DNA_C] +
-                              x[DNA_T, DNA_G])
+function test_mod_fun(mod::Type{T}, n_params::Int64, equal_base_freqs::Bool, closed_form_p::Bool) where T <: NASM
+  _dummy_params = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
+  _dummy_freqs = [0.21, 0.29, 0.23, 0.27]
+  if equal_base_freqs
+    @test_throws ErrorException convert(mod, _dummy_params[1:n_params+1])
+    for i in 1:n_params
+      flip = fill(1.0, n_params)
+      flip[i] *= -1
+      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .* flip)
+    end
+    @test_throws MethodError convert(mod, _dummy_params[1:n_params], _dummy_freqs)
+    @test_nowarn convert(mod, _dummy_params[1:n_params])
+    x = mod(_dummy_params[1:n_params])
+    @test x == supertype(mod)(_dummy_params[1:n_params]) # Convenience constructor
+  else
+    @test_throws ErrorException convert(mod, _dummy_params[1:n_params+1], _dummy_freqs)
+    for i in 1:n_params
+      flip = fill(1.0, n_params)
+      flip[i] *= -1
+      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .* flip, _dummy_freqs)
+    end
+    @test_throws ErrorException convert(mod, _dummy_params[1:n_params], _dummy_freqs .+ 0.1)
+    @test_throws ErrorException convert(mod, _dummy_params[1:n_params], _dummy_freqs[1:3])
+    @test_throws MethodError convert(mod, _dummy_params[1:n_params])
+    @test_nowarn convert(mod, _dummy_params[1:n_params], _dummy_freqs)
+    x = mod(_dummy_params[1:n_params], _dummy_freqs)
+    @test x == supertype(mod)(_dummy_params[1:n_params], _dummy_freqs) # Convenience constructor
+  end
+  @test_nowarn Q(x)
+  @test_nowarn Q(x, true) # Scaled q matrix
+  q1 = Q(x)
+  q2 = Q(x, true) # Scaled q matrix
+  @test all(.≈(sum(q1, dims=2), 0.0, atol=1e-13)) # Q matrix col sums
+  @test all(.≈(sum(q2, dims=2), 0.0, atol=1e-13)) # Scaled Q matrix col sums
+  @test _scale(x) ≈ scale_generic(x) # Test specific vs. generic scale method
+  @test _π(x) ⋅ -diag(q2) ≈ 1.0 # Consistency of π with scaled Q matrix
+  @test_throws ErrorException P(x, -1e3)
+  @test P(x, [1e3]) ≈ P_generic(x, [1e3]) # Test P generic function
+  @test P(x, [1e3], true) ≈ P_generic(x, [1e3], true) # Test P generic function with scaling
+  if closed_form_p # If closed form solution to P matrix calculation
+    @test P(x, Inf) ≈ _π(x)' .* [1, 1, 1, 1] # P matrix asymptotics
+  end
 end
 
 
-function test_scaling(mod::NASM)
-  q = Q(mod, true)
-  return _π(mod) ⋅ -diag(q) ≈ 1.0
+for testmod in [(JC69abs, 1, true, true)
+                (JC69rel, 0, true, true)
+                (K80abs, 2, true, true)
+                (K80rel, 1, true, true)
+                (F81abs, 1, false, true)
+                (F81rel, 0, false, true)
+                (F84abs, 2, false, true)
+                (F84rel, 1, false, true)
+                (HKY85abs, 2, false, true)
+                (HKY85rel, 1, false, true)
+                (TN93abs, 3, false, true)
+                (TN93rel, 2, false, true)
+                (GTRabs, 6, false, false)
+                (GTRrel, 5, false, false)]
+  @testset "$(testmod[1])" begin
+    test_mod_fun(testmod...)
+  end
 end
 
-
-"""
-Test that P(t) = exp(Q × t) and Q × t = log(P(t))
-"""
-function test_p_q_relationship(mod::NASM, scaled::Bool)
-  q = Q(mod, scaled)
-  p_1 = P(mod, 1.0, scaled)
-  p_2 = P(mod, 2.0, scaled)
-
-  return p_1            ≈ exp(q) &&
-         p_2            ≈ exp(q * 2.0) &&
-         q              ≈ real(log(Array(p_1))) &&
-         q * 2.0        ≈ real(log(Array(p_2)))
-end
-
-@testset "JC69" begin
-  testmod1 = JC69()
-  testmod2 = JC69(1.0)
-  testmod3 = JC69(2.0)
-  @test Qtest(testmod1)
-  @test Q(testmod1) == Q(testmod2)
-  @test test_scaling(testmod1)
-  @test test_scaling(testmod2)
-  @test test_scaling(testmod3)
-  @test test_p_q_relationship(testmod1, true)
-  @test test_p_q_relationship(testmod2, true)
-  @test test_p_q_relationship(testmod3, true)
-  @test test_p_q_relationship(testmod1, false)
-  @test test_p_q_relationship(testmod2, false)
-  @test test_p_q_relationship(testmod3, false)
-  @test P_generic(testmod1, [1.5 3.0])[1] ≈ P(testmod1, 1.5)
-  @test P_generic(testmod1, [1.5 3.0])[2] ≈ P(testmod1, 3.0)
-  @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
-  @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
-  @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
-  @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
-  @test sum(_π(testmod1)) == 1.0
-  @test sum(_π(testmod2)) == 1.0
-  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
-  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
-end
-
-
-@testset "K80" begin
-  testmod1 = K80(0.5)
-  testmod2 = K80(0.5, 1.0)
-  testmod3 = K80(0.5, 2.0)
-  @test Qtest(testmod1)
-  @test Q(testmod1) == Q(testmod2)
-  @test test_scaling(testmod1)
-  @test test_scaling(testmod2)
-  @test test_scaling(testmod3)
-  @test test_p_q_relationship(testmod1, true)
-  @test test_p_q_relationship(testmod2, true)
-  @test test_p_q_relationship(testmod3, true)
-  @test test_p_q_relationship(testmod1, false)
-  @test test_p_q_relationship(testmod2, false)
-  @test test_p_q_relationship(testmod3, false)
-  @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
-  @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
-  @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
-  @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
-  @test sum(_π(testmod1)) == 1.0
-  @test sum(_π(testmod2)) == 1.0
-  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
-  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
-end
-
-
-@testset "F81" begin
-  testmod1 = F81(0.1, 0.2, 0.3, 0.4)
-  testmod2 = F81(1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = F81(2.0, 0.1, 0.2, 0.3, 0.4)
-  @test Qtest(testmod1)
-  @test Q(testmod1) == Q(testmod2)
-  @test test_scaling(testmod1)
-  @test test_scaling(testmod2)
-  @test test_scaling(testmod3)
-  @test test_p_q_relationship(testmod1, true)
-  @test test_p_q_relationship(testmod2, true)
-  @test test_p_q_relationship(testmod3, true)
-  @test test_p_q_relationship(testmod1, false)
-  @test test_p_q_relationship(testmod2, false)
-  @test test_p_q_relationship(testmod3, false)
-  @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
-  @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
-  @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
-  @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
-  @test sum(_π(testmod1)) == 1.0
-  @test sum(_π(testmod2)) == 1.0
-  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
-  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
-end
-
-
-@testset "F84" begin
-  testmod1 = F84(0.75, 0.1, 0.2, 0.3, 0.4)
-  testmod2 = F84(0.75, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = F84(0.75, 2.0, 0.1, 0.2, 0.3, 0.4)
-  @test Qtest(testmod1)
-  @test Q(testmod1) == Q(testmod2)
-  @test test_scaling(testmod1)
-  @test test_scaling(testmod2)
-  @test test_scaling(testmod3)
-  @test test_p_q_relationship(testmod1, true)
-  @test test_p_q_relationship(testmod2, true)
-  @test test_p_q_relationship(testmod3, true)
-  @test test_p_q_relationship(testmod1, false)
-  @test test_p_q_relationship(testmod2, false)
-  @test test_p_q_relationship(testmod3, false)
-  @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
-  @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
-  @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
-  @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
-  @test sum(_π(testmod1)) == 1.0
-  @test sum(_π(testmod2)) == 1.0
-  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
-  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
-end
-
-
-@testset "HKY85" begin
-  testmod1 = HKY85(0.75, 0.1, 0.2, 0.3, 0.4)
-  testmod2 = HKY85(0.75, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = HKY85(0.75, 2.0, 0.1, 0.2, 0.3, 0.4)
-  @test Qtest(testmod1)
-  @test Q(testmod1) == Q(testmod2)
-  @test test_scaling(testmod1)
-  @test test_scaling(testmod2)
-  @test test_scaling(testmod3)
-  @test test_p_q_relationship(testmod1, true)
-  @test test_p_q_relationship(testmod2, true)
-  @test test_p_q_relationship(testmod3, true)
-  @test test_p_q_relationship(testmod1, false)
-  @test test_p_q_relationship(testmod2, false)
-  @test test_p_q_relationship(testmod3, false)
-  @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
-  @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
-  @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
-  @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
-  @test sum(_π(testmod1)) == 1.0
-  @test sum(_π(testmod2)) == 1.0
-  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
-  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
-end
-
-
-@testset "TN93" begin
-  testmod1 = TN93(0.6, 0.7, 0.1, 0.2, 0.3, 0.4)
-  testmod2 = TN93(0.6, 0.7, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = TN93(0.6, 0.7, 2.0, 0.1, 0.2, 0.3, 0.4)
-  @test Qtest(testmod1)
-  @test Q(testmod1) == Q(testmod2)
-  @test test_scaling(testmod1)
-  @test test_scaling(testmod2)
-  @test test_scaling(testmod3)
-  @test test_p_q_relationship(testmod1, true)
-  @test test_p_q_relationship(testmod2, true)
-  @test test_p_q_relationship(testmod3, true)
-  @test test_p_q_relationship(testmod1, false)
-  @test test_p_q_relationship(testmod2, false)
-  @test test_p_q_relationship(testmod3, false)
-  @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
-  @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
-  @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
-  @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
-  @test sum(_π(testmod1)) == 1.0
-  @test sum(_π(testmod2)) == 1.0
-  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
-  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
-end
-
-
-@testset "GTR" begin
-  testmod1 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 0.1, 0.2, 0.3, 0.4)
-  testmod2 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 0.1, 0.2, 0.3, 0.4)
-  testmod3 = GTR(1.0, 2.0, 3.0, 4.0, 5.0, 2.0, 0.1, 0.2, 0.3, 0.4)
-  @test Qtest(testmod1)
-  @test Q(testmod1) == Q(testmod2)
-  @test test_scaling(testmod1)
-  @test test_scaling(testmod2)
-  @test test_scaling(testmod3)
-  @test test_p_q_relationship(testmod1, true)
-  @test test_p_q_relationship(testmod2, true)
-  @test test_p_q_relationship(testmod3, true)
-  @test test_p_q_relationship(testmod1, false)
-  @test test_p_q_relationship(testmod2, false)
-  @test test_p_q_relationship(testmod3, false)
-  @test P(testmod1, 1.0e2) ≈ P_generic(testmod1, 1.0e2)
-  @test P(testmod2, 1.0e2) ≈ P_generic(testmod2, 1.0e2)
-  @test P(testmod1, [1.0 2.0])[1] ≈ P_generic(testmod1, 1.0)
-  @test P(testmod2, [1.0 2.0])[1] ≈ P_generic(testmod2, 1.0)
-  @test P(testmod1, [1.0 2.0])[2] ≈ P_generic(testmod1, 2.0)
-  @test P(testmod2, [1.0 2.0])[2] ≈ P_generic(testmod2, 2.0)
-  @test isapprox(diag(P(testmod1, 1.0e9)), _π(testmod1), atol = 1.0e-5)
-  @test isapprox(diag(P(testmod2, 1.0e9)), _π(testmod2), atol = 1.0e-5)
-  @test sum(_π(testmod1)) == 1.0
-  @test sum(_π(testmod2)) == 1.0
-  @test sum(P(testmod1, 2.5), dims=2) ≈ [1 1 1 1]'
-  @test sum(P(testmod2, 2.5), dims=2) ≈ [1 1 1 1]'
-end
 
 @testset "Indexing" begin
   testmat = MMatrix{4, 4,Int64}(1:16)

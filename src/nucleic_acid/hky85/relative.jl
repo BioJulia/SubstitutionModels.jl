@@ -5,26 +5,26 @@ struct HKY85rel <: HKY85
   πG::Float64
   πT::Float64
   function HKY85rel(κ::Float64,
-                  πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if κ <= 0.
-      error("HKY85 parameter κ must be positive")
-    elseif sum([πA,πC,πG,πT]) != 1.0
-      error("HKY85 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<=0.0)
-      error("HKY85 frequencies must be positive")
+                    πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                    safe::Bool=true)
+    if safe
+      if κ <= 0.
+        error("HKY85 parameter κ must be positive")
+      elseif sum([πA,πC,πG,πT]) != 1.0
+        error("HKY85 frequencies must sum to 1.0")
+      elseif any([πA,πC,πG,πT] .<=0.0)
+        error("HKY85 frequencies must be positive")
+      end
     end
     new(κ, πA, πC, πG, πT)
   end
 end
 
 
-function show(io::IO, object::HKY85rel)
+function Base.show(io::IO, object::HKY85rel)
   print(io, "\r\e[0m\e[1mH\e[0masegawa, \e[1mK\e[0mishino, and \e[1mY\e[0mano 19\e[1m85\e[0m model (absolute rate form)
 κ = $(object.κ), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
-
-
-HKY85(κ, πA, πC, πG, πT) = HKY85rel(κ, πA, πC, πG, πT)
 
 
 @inline function Q(mod::HKY85rel)

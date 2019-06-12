@@ -1,24 +1,23 @@
 struct K80abs <: K80
   α::Float64
   β::Float64
-  function K80abs(α::Float64, β::Float64)
-    if α <= 0.
-      error("K80 parameter α must be positive")
-    elseif β <= 0.
-      error("K80 parameter β must be positive")
+  function K80abs(α::Float64, β::Float64, safe::Bool=true)
+    if safe
+      if α <= 0.
+        error("K80 parameter α must be positive")
+      elseif β <= 0.
+        error("K80 parameter β must be positive")
+      end
     end
     new(α, β)
   end
 end
 
 
-function show(io::IO, object::K80abs)
+function Base.show(io::IO, object::K80abs)
   print(io, "\r\e[0m\e[1mK\e[0mimura 19\e[1m80\e[0m model (absolute rate form)
 α = $(object.α), β = $(object.β)")
 end
-
-
-const K80(α, β) = K80abs(α, β)
 
 
 @inline function Q(mod::K80abs)

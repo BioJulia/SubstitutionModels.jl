@@ -1,12 +1,9 @@
 struct JC69rel <: JC69 end
 
 
-function show(io::IO, object::JC69rel)
+function Base.show(io::IO, object::JC69rel)
   print(io, "\r\e[0m\e[1mJ\e[0mukes and \e[1mC\e[0mantor 19\e[1m69\e[0m model (relative rate form)")
 end
-
-
-JC69() = JC69rel()
 
 
 @inline function Q(mod::JC69rel)

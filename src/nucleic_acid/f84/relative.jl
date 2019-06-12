@@ -5,26 +5,26 @@ struct F84rel <: F84
   πG::Float64
   πT::Float64
   function F84rel(κ::Float64,
-                  πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if κ <= 0.
-      error("F84 parameter κ must be positive")
-    elseif sum([πA,πC,πG,πT]) != 1.0
-      error("F84 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<=0.0)
-      error("F84 frequencies must be positive")
+                  πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                  safe::Bool=true)
+    if safe
+      if κ <= 0.
+        error("F84 parameter κ must be positive")
+      elseif sum([πA,πC,πG,πT]) != 1.0
+        error("F84 frequencies must sum to 1.0")
+      elseif any([πA,πC,πG,πT] .<=0.0)
+        error("F84 frequencies must be positive")
+      end
     end
     new(κ, πA, πC, πG, πT)
   end
 end
 
 
-function show(io::IO, object::F84rel)
+function Base.show(io::IO, object::F84rel)
   print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m84\e[0m substitution model (relative rate form)
 κ = $(object.κ), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
-
-
-F84(κ, πA, πC, πG, πT) = F84rel(κ, πA, πC, πG, πT)
 
 
 @inline function Q(mod::F84rel)

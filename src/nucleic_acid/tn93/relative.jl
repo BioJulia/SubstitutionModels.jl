@@ -6,28 +6,28 @@ struct TN93rel <: TN93
   πG::Float64
   πT::Float64
   function TN93rel(κ1::Float64, κ2::Float64,
-                   πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if κ1 <= 0.
-      error("TN93 parameter κ1 must be positive")
-    elseif κ2 <= 0.
-      error("TN93 parameter κ2 must be positive")
-    elseif sum([πA, πC, πG, πT]) != 1.0
-      error("TN93 frequencies must sum to 1.0")
-    elseif any([πA, πC, πG, πT] .<= 0.0)
-      error("TN93 frequencies must be positive")
+                   πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                   safe::Bool=true)
+    if safe
+      if κ1 <= 0.
+        error("TN93 parameter κ1 must be positive")
+      elseif κ2 <= 0.
+        error("TN93 parameter κ2 must be positive")
+      elseif sum([πA, πC, πG, πT]) != 1.0
+        error("TN93 frequencies must sum to 1.0")
+      elseif any([πA, πC, πG, πT] .<= 0.0)
+        error("TN93 frequencies must be positive")
+      end
     end
     new(κ1, κ2, πA, πC, πG, πT)
   end
 end
 
 
-function show(io::IO, object::TN93rel)
+function Base.show(io::IO, object::TN93rel)
   print(io, "\r\e[0m\e[1mT\e[0mamura and \e[1mN\e[0mei 19\e[1m93\e[0m model (relative rate form)
 κ1 = $(object.κ1), κ2 = $(object.κ1), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
-
-
-const TN93(κ1, κ2, πA, πC, πG, πT) = TN93rel(κ1, κ2, πA, πC, πG, πT)
 
 
 @inline function Q(mod::TN93rel)

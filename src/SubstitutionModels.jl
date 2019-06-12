@@ -5,36 +5,15 @@ module SubstitutionModels
     StaticArrays,
     LinearAlgebra
 
-  import
-    Base.getindex,
-    Base.show,
-    Base.setindex!,
-    Base.checkbounds
-
   include("core.jl")
   include("indexing.jl")
   include("nucleic_acid/nucleic_acid.jl")
-  include("nucleic_acid/jc69/abstract.jl")
-  include("nucleic_acid/jc69/absolute.jl")
-  include("nucleic_acid/jc69/relative.jl")
-  include("nucleic_acid/k80/abstract.jl")
-  include("nucleic_acid/k80/absolute.jl")
-  include("nucleic_acid/k80/relative.jl")
-  include("nucleic_acid/f81/abstract.jl")
-  include("nucleic_acid/f81/absolute.jl")
-  include("nucleic_acid/f81/relative.jl")
-  include("nucleic_acid/f84/abstract.jl")
-  include("nucleic_acid/f84/absolute.jl")
-  include("nucleic_acid/f84/relative.jl")
-  include("nucleic_acid/hky85/abstract.jl")
-  include("nucleic_acid/hky85/absolute.jl")
-  include("nucleic_acid/hky85/relative.jl")
-  include("nucleic_acid/tn93/abstract.jl")
-  include("nucleic_acid/tn93/absolute.jl")
-  include("nucleic_acid/tn93/relative.jl")
-  include("nucleic_acid/gtr/abstract.jl")
-  include("nucleic_acid/gtr/absolute.jl")
-  include("nucleic_acid/gtr/relative.jl")
+
+  for m in ["jc69"; "k80"; "f81"; "f84"; "hky85"; "tn93"; "gtr"]
+    for f in ["abstract"; "absolute"; "relative"; "outer_constructors"]
+      include("nucleic_acid/$(m)/$(f).jl")
+    end
+  end
 
   export
     SubstitutionModel, SM,

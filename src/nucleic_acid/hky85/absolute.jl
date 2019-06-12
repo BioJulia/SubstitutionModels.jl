@@ -6,28 +6,28 @@ struct HKY85abs <: HKY85
   πG::Float64
   πT::Float64
   function HKY85abs(α::Float64, β::Float64,
-                  πA::Float64, πC::Float64, πG::Float64, πT::Float64)
-    if α <= 0.
-      error("HKY85 parameter α must be positive")
-    elseif β <= 0.
-      error("HKY85 parameter β must be positive")
-    elseif sum([πA,πC,πG,πT]) != 1.0
-      error("HKY85 frequencies must sum to 1.0")
-    elseif any([πA,πC,πG,πT] .<= 0.0)
-      error("HKY85 frequencies must be positive")
+                    πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                    safe::Bool=true)
+    if safe
+      if α <= 0.
+        error("HKY85 parameter α must be positive")
+      elseif β <= 0.
+        error("HKY85 parameter β must be positive")
+      elseif sum([πA,πC,πG,πT]) != 1.0
+        error("HKY85 frequencies must sum to 1.0")
+      elseif any([πA,πC,πG,πT] .<= 0.0)
+        error("HKY85 frequencies must be positive")
+      end
     end
     new(α, β, πA, πC, πG, πT)
   end
 end
 
 
-function show(io::IO, object::HKY85abs)
+function Base.show(io::IO, object::HKY85abs)
   print(io, "\r\e[0m\e[1mH\e[0masegawa, \e[1mK\e[0mishino, and \e[1mY\e[0mano 19\e[1m85\e[0m model (absolute rate form)
 α = $(object.α), β = $(object.β), π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
-
-
-HKY85(α, β, πA, πC, πG, πT) = HKY85abs(α, β, πA, πC, πG, πT)
 
 
 @inline function Q(mod::HKY85abs)

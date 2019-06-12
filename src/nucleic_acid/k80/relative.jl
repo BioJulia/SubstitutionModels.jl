@@ -1,21 +1,21 @@
 struct K80rel <: K80
   κ::Float64
-  function K80rel(κ::Float64)
-    if κ <= 0.
-      error("K80 parameter κ must be positive")
+  function K80rel(κ::Float64,
+                  safe::Bool=true)
+    if safe
+      if κ <= 0.
+        error("K80 parameter κ must be positive")
+      end
     end
     new(κ)
   end
 end
 
 
-function show(io::IO, object::K80rel)
+function Base.show(io::IO, object::K80rel)
   print(io, "\r\e[0m\e[1mK\e[0mimura 19\e[1m80\e[0m model (relative rate form)
 κ = $(object.κ)")
 end
-
-
-const K80(κ) = K80rel(κ)
 
 
 @inline function Q(mod::K80rel)
