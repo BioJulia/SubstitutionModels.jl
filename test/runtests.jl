@@ -15,27 +15,38 @@ function test_mod_fun(mod::Type{T}, n_params::Int64, equal_base_freqs::Bool, clo
   _dummy_params = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
   _dummy_freqs = [0.21, 0.29, 0.23, 0.27]
   if equal_base_freqs
-    @test_throws ErrorException convert(mod, _dummy_params[1:n_params+1])
+    @test_throws ErrorException convert(mod, _dummy_params[1:n_params+1], safe=true)
+    if n_params > 0
+      @test_throws BoundsError mod(_dummy_params[1:n_params-1], false) # safe = false
+    end
+    @test_nowarn mod(_dummy_params[1:n_params+1], false) # safe = false
     for i in 1:n_params
       flip = fill(1.0, n_params)
       flip[i] *= -1
-      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .* flip)
+      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .* flip, safe=true)
+      @test_nowarn mod(_dummy_params[1:n_params] .* flip, false) # safe = false
     end
     @test_throws MethodError convert(mod, _dummy_params[1:n_params], _dummy_freqs)
-    @test_nowarn convert(mod, _dummy_params[1:n_params])
+    @test_nowarn convert(mod, _dummy_params[1:n_params], safe=true)
     x = mod(_dummy_params[1:n_params])
     @test x == supertype(mod)(_dummy_params[1:n_params]) # Convenience constructor
   else
     @test_throws ErrorException convert(mod, _dummy_params[1:n_params+1], _dummy_freqs)
+    if n_params > 0
+      @test_throws BoundsError mod(_dummy_params[1:n_params-1], _dummy_freqs, false) # safe = false
+    end
     for i in 1:n_params
       flip = fill(1.0, n_params)
       flip[i] *= -1
       @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .* flip, _dummy_freqs)
+      @test_nowarn mod(_dummy_params[1:n_params] .* flip, _dummy_freqs, false) # safe = false
     end
     @test_throws ErrorException convert(mod, _dummy_params[1:n_params], _dummy_freqs .+ 0.1)
     @test_throws ErrorException convert(mod, _dummy_params[1:n_params], _dummy_freqs[1:3])
+    @test_nowarn mod(_dummy_params[1:n_params], [_dummy_freqs; 0.1], false) # safe = false
+    @test_throws BoundsError mod(_dummy_params[1:n_params], _dummy_freqs[1:3], false) # safe = false
     @test_throws MethodError convert(mod, _dummy_params[1:n_params])
-    @test_nowarn convert(mod, _dummy_params[1:n_params], _dummy_freqs)
+    @test_nowarn convert(mod, _dummy_params[1:n_params], _dummy_freqs, safe=true)
     x = mod(_dummy_params[1:n_params], _dummy_freqs)
     @test x == supertype(mod)(_dummy_params[1:n_params], _dummy_freqs) # Convenience constructor
   end
