@@ -1,6 +1,7 @@
-# Provided and custom models
+# Nucleic Acid Substitution Models
 
-Absolute and relative rate forms of the following popular substitution models are
+## Included Substitution Models
+Absolute and relative rate forms of the following common substitution models are
 currently included in SubstitutionModels.jl:
 * `JC69`
 * `K80`
@@ -10,7 +11,98 @@ currently included in SubstitutionModels.jl:
 * `TN93`
 * `GTR`
 
-## Custom substitution models
+## Construction
+For the convenience of the user, several construction methods exist for each substitution model. Each models are represented by immutable structs; i.e. once constructed, model parameters can not be changed.
+
+### Method 1
+The most basic construction method detects whether the absolute or relative rate form of a substitution model is being referenced based on the number of parameters, and constructs it:
+```jldoctest
+K80(1e-2)
+
+# output
+Kimura 1980 model (relative rate form)
+κ = 0.01
+```
+
+Substitution model construction involves a number of checks for parameter validity, though these may be optionally bypassed:
+
+```jldoctest
+K80(-1e-2, false)
+
+# output
+Kimura 1980 model (relative rate form)
+κ = -0.01
+```
+
+The exact model type may be specific as well, to avoid the software detection of absolute or relative rate specification. The specific forms are the parent models' name followed by `abs` for absolute or `rel` for relative rate form.
+
+```jldoctest
+K80rel<:K80, K80abs<:K80
+
+# output
+(true, true)
+```
+
+```jldoctest
+K80abs(1e-2, 1.5e-2)
+
+# output
+Kimura 1980 model (absolute rate form)
+α = 0.01, β = 0.015
+```
+
+For models requiring specification of base frequencies, those can be provided in the same manner as the other model parameters:
+
+```jldoctest
+fieldnames(F81abs)
+
+# output
+(:β, :πA, :πC, :πG, :πT)
+```
+
+```jldoctest
+F81abs(1e-2, 0.2475, 0.2425, 0.2575, 0.2525)
+
+# output
+Felsenstein 1981 model (absolute rate form)
+β = 0.01, π = [0.2475, 0.2425, 0.2575, 0.2525]
+```
+
+### Method 2
+It may be familar or convenient for some SubstitutionModels.jl users to construct substitution model objects using a parameter vector of some kind.
+This is also a supported construction method. When specifying a model with an equal base frequency, a single parameter vector is required for construction.
+For models that support different base frequencies, a parameter vector and a base frequency vector are both required.
+
+```jldoctest
+F81abs([1e-2], [0.2475, 0.2425, 0.2575, 0.2525])
+
+# output
+Felsenstein 1981 model (absolute rate form)
+β = 0.01, π = [0.2475, 0.2425, 0.2575, 0.2525]
+```
+
+The unsafe construction method is still available, as is auto-detection of absolute or relative rate types of substitution models.
+
+```jldoctest
+K80([1e-2, 1.5e-2], true)
+
+# output
+Kimura 1980 model (absolute rate form)
+α = 0.01, β = 0.015
+```
+
+### Method 3
+Lastly, `convert` methods are also provided for each substitution model type:
+
+```jldoctest
+convert(K80, [1e-2, 1.5e-2], true)
+
+# output
+Kimura 1980 model (absolute rate form)
+α = 0.01, β = 0.015
+```
+
+## User defined substitution models
 The set of substitution models included in this package is easily extended with
 user defined types. When defining a new substitution model, the minimum
 requirement is that it is a subtype of `NucleicAcidSubstitutionModel`, and that
@@ -44,6 +136,8 @@ SubstitutionModels.jl will calculate the correct Q and P matrices.
 
 The second method of describing a new substitution model's Q matrix is to do so
 directly by defining a new method for the `Q` function.
+
+Pull requests that provide additional substitution models are welcome.
 
 ### [P matrix calculation for user defined substitution models](@id pcomp)
 
