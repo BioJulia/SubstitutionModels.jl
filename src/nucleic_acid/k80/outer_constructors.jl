@@ -19,7 +19,7 @@ end
 function K80rel(θ_vec::A,
                 safe::Bool=true) where A <: AbstractArray
   if safe
-    if length(θ_vec) != 2
+    if length(θ_vec) != 1
       error("Incorrect parameter vector length")
     end
   end
