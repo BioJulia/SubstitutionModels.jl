@@ -11,39 +11,46 @@ import SubstitutionModels._π,
        SubstitutionModels.P_generic
 
 
-function test_mod_fun(mod::Type{T}, n_params::Int64, equal_base_freqs::Bool, p_specific::Bool) where T <: NASM
+function test_mod_fun(mod::Type{T}, n_params::Int64, equal_base_freqs::Bool, closed_form_p::Bool) where T <: NASM
   _dummy_params = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
   _dummy_freqs = [0.21, 0.29, 0.23, 0.27]
   if equal_base_freqs
     @test_throws ErrorException convert(mod, _dummy_params[1:n_params+1])
-    if n_params > 0
-      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .- 10.0)
+    for i in 1:n_params
+      flip = fill(1.0, n_params)
+      flip[i] *= -1
+      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .* flip)
     end
     @test_throws MethodError convert(mod, _dummy_params[1:n_params], _dummy_freqs)
-    @test_nowarn x = convert(mod, _dummy_params[1:n_params])
+    @test_nowarn convert(mod, _dummy_params[1:n_params])
     x = mod(_dummy_params[1:n_params])
+    @test x == supertype(mod)(_dummy_params[1:n_params]) # Convenience constructor
   else
     @test_throws ErrorException convert(mod, _dummy_params[1:n_params+1], _dummy_freqs)
-    if n_params > 0
-      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .- 1.0, _dummy_freqs)
+    for i in 1:n_params
+      flip = fill(1.0, n_params)
+      flip[i] *= -1
+      @test_throws ErrorException convert(mod, _dummy_params[1:n_params] .* flip, _dummy_freqs)
     end
     @test_throws ErrorException convert(mod, _dummy_params[1:n_params], _dummy_freqs .+ 0.1)
     @test_throws ErrorException convert(mod, _dummy_params[1:n_params], _dummy_freqs[1:3])
     @test_throws MethodError convert(mod, _dummy_params[1:n_params])
-    @test_nowarn x = convert(mod, _dummy_params[1:n_params], _dummy_freqs)
+    @test_nowarn convert(mod, _dummy_params[1:n_params], _dummy_freqs)
     x = mod(_dummy_params[1:n_params], _dummy_freqs)
+    @test x == supertype(mod)(_dummy_params[1:n_params], _dummy_freqs) # Convenience constructor
   end
-  @test_nowarn q1 = Q(x)
-  @test_nowarn q2 = Q(x, true) # Scaled q matrix
+  @test_nowarn Q(x)
+  @test_nowarn Q(x, true) # Scaled q matrix
   q1 = Q(x)
   q2 = Q(x, true) # Scaled q matrix
   @test all(.≈(sum(q1, dims=2), 0.0, atol=1e-13)) # Q matrix col sums
   @test all(.≈(sum(q2, dims=2), 0.0, atol=1e-13)) # Scaled Q matrix col sums
   @test _scale(x) ≈ scale_generic(x) # Test specific vs. generic scale method
   @test _π(x) ⋅ -diag(q2) ≈ 1.0 # Consistency of π with scaled Q matrix
-  @test P(x, 1e3) ≈ P_generic(x, 1e3) # Test P generic function
-  @test P(x, 1e3, true) ≈ P_generic(x, 1e3, true) # Test P generic function with scaling
-  if p_specific # If closed form solution to P matrix calculation
+  @test_throws ErrorException P(x, -1e3)
+  @test P(x, [1e3]) ≈ P_generic(x, [1e3]) # Test P generic function
+  @test P(x, [1e3], true) ≈ P_generic(x, [1e3], true) # Test P generic function with scaling
+  if closed_form_p # If closed form solution to P matrix calculation
     @test P(x, Inf) ≈ _π(x)' .* [1, 1, 1, 1] # P matrix asymptotics
   end
 end
