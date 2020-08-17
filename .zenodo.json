@@ -1,0 +1,28 @@
+{ "description": "<p>Biological sequence substitution models for Julia</p>",
+  "language": "eng",
+  "license": "MIT",
+  "upload_type": "software",
+  "creators": [
+    {
+        "orcid": "0000-0002-3373-5009",
+        "affiliation": "University of Guelph",
+        "name": "Angevaare, Justin"
+    },
+    {
+        "affiliation": "University of Cambridge",
+        "name": "Gori, Kevin"
+    },
+    {
+        "affiliation": "Earlham Institute"
+        "name": "Ward, Ben J."
+    },
+    {
+        "affiliation": "University of Guelph",
+        "name": "Feng, Zeny"
+    },
+    {
+        "affiliation": "University of Calgary",
+        "name": "Deardon, Rob"
+    }
+  ]
+}
