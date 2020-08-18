@@ -1,7 +1,7 @@
 # SubstitutionModels.jl
 
 **Release status:**
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3988662.svg)](https://doi.org/10.5281/zenodo.3988662)
 [![Latest Release](https://img.shields.io/github/release/BioJulia/SubstitutionModels.jl.svg)](https://github.com/BioJulia/SubstitutionModels.jl/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/SubstitutionModels.jl/blob/master/LICENSE)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/stable)
