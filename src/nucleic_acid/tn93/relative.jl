@@ -6,7 +6,7 @@ struct TN93rel <: TN93
   πG::Float64
   πT::Float64
   function TN93rel(κ1::Float64, κ2::Float64,
-                   πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                   πA::Float64, πC::Float64, πG::Float64, πT::Float64;
                    safe::Bool=true)
     if safe
       if κ1 <= 0.

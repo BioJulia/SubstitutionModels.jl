@@ -6,7 +6,7 @@ struct HKY85abs <: HKY85
   πG::Float64
   πT::Float64
   function HKY85abs(α::Float64, β::Float64,
-                    πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                    πA::Float64, πC::Float64, πG::Float64, πT::Float64;
                     safe::Bool=true)
     if safe
       if α <= 0.

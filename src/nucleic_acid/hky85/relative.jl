@@ -5,7 +5,7 @@ struct HKY85rel <: HKY85
   πG::Float64
   πT::Float64
   function HKY85rel(κ::Float64,
-                    πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                    πA::Float64, πC::Float64, πG::Float64, πT::Float64;
                     safe::Bool=true)
     if safe
       if κ <= 0.

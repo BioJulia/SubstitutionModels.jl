@@ -1,6 +1,6 @@
 struct K80rel <: K80
   κ::Float64
-  function K80rel(κ::Float64,
+  function K80rel(κ::Float64;
                   safe::Bool=true)
     if safe
       if κ <= 0.

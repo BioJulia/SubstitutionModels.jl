@@ -1,3 +1,9 @@
+```@meta
+DocTestSetup = quote
+  using SubstitutionModels
+end
+```
+
 # Nucleic Acid Substitution Models
 
 ## Included Substitution Models
@@ -20,17 +26,19 @@ The most basic construction method detects whether the absolute or relative rate
 K80(1e-2)
 
 # output
-Kimura 1980 model (relative rate form)
+
+[0m[1mK[0mimura 19[1m80[0m model (relative rate form)
 κ = 0.01
 ```
 
 Substitution model construction involves a number of checks for parameter validity, though these may be optionally bypassed:
 
 ```jldoctest
-K80(-1e-2, false)
+K80(-1e-2, safe=false)
 
 # output
-Kimura 1980 model (relative rate form)
+
+[0m[1mK[0mimura 19[1m80[0m model (relative rate form)
 κ = -0.01
 ```
 
@@ -47,7 +55,8 @@ K80rel<:K80, K80abs<:K80
 K80abs(1e-2, 1.5e-2)
 
 # output
-Kimura 1980 model (absolute rate form)
+
+[0m[1mK[0mimura 19[1m80[0m model (absolute rate form)
 α = 0.01, β = 0.015
 ```
 
@@ -64,7 +73,8 @@ fieldnames(F81abs)
 F81abs(1e-2, 0.2475, 0.2425, 0.2575, 0.2525)
 
 # output
-Felsenstein 1981 model (absolute rate form)
+
+[0m[1mF[0melsenstein 19[1m81[0m model (absolute rate form)
 β = 0.01, π = [0.2475, 0.2425, 0.2575, 0.2525]
 ```
 
@@ -77,17 +87,19 @@ For models that support different base frequencies, a parameter vector and a bas
 F81abs([1e-2], [0.2475, 0.2425, 0.2575, 0.2525])
 
 # output
-Felsenstein 1981 model (absolute rate form)
+
+[0m[1mF[0melsenstein 19[1m81[0m model (absolute rate form)
 β = 0.01, π = [0.2475, 0.2425, 0.2575, 0.2525]
 ```
 
 The unsafe construction method is still available, as is auto-detection of absolute or relative rate types of substitution models.
 
 ```jldoctest
-K80([1e-2, 1.5e-2], true)
+K80([1e-2, 1.5e-2], safe = true)
 
 # output
-Kimura 1980 model (absolute rate form)
+
+[0m[1mK[0mimura 19[1m80[0m model (absolute rate form)
 α = 0.01, β = 0.015
 ```
 
@@ -95,10 +107,11 @@ Kimura 1980 model (absolute rate form)
 Lastly, `convert` methods are also provided for each substitution model type:
 
 ```jldoctest
-convert(K80, [1e-2, 1.5e-2], true)
+convert(K80, [1e-2, 1.5e-2])
 
 # output
-Kimura 1980 model (absolute rate form)
+
+[0m[1mK[0mimura 19[1m80[0m model (absolute rate form)
 α = 0.01, β = 0.015
 ```
 

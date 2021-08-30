@@ -3,7 +3,7 @@ struct F81rel <: F81
   πC::Float64
   πG::Float64
   πT::Float64
-  function F81rel(πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+  function F81rel(πA::Float64, πC::Float64, πG::Float64, πT::Float64;
                   safe::Bool=true)
     if safe
       if sum([πA,πC,πG,πT]) != 1.0

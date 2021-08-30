@@ -1,3 +1,9 @@
+```@meta
+DocTestSetup = quote
+  using SubstitutionModels
+end
+```
+
 # Q and P Matrices
 
 Evolutionary analyses of sequences are conducted on a wide variety of time scales.
