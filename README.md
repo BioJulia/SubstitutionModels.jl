@@ -10,7 +10,7 @@
 
 **Development status:**
 
-[![Build Status](https://travis-ci.org/BioJulia/SubstitutionModels.jl.svg?branch=master)](https://travis-ci.org/BioJulia/SubstitutionModels.jl)
+[![CI-stable](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/ci-stable.yml/badge.svg)](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/ci-stable.yml)
 [![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master)
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/latest)
 
