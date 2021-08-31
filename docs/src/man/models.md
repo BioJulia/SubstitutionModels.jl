@@ -1,9 +1,3 @@
-```@meta
-DocTestSetup = quote
-  using SubstitutionModels
-end
-```
-
 # SubstitutionModels.jl
 
 ## What are subsitution models?
