@@ -1,9 +1,10 @@
-using Documenter, SubstitutionModels
+using Documenter
+using SubstitutionModels
 
 makedocs(
-    modules = [SubstitutionModels],
+    sitename = "SubstitutionModels",
     format = Documenter.HTML(),
-    sitename = "SubstitutionModels.jl",
+    modules = [SubstitutionModels],
     pages = [
         "Home" => "index.md",
         "Manual" => [
@@ -17,5 +18,6 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/BioJulia/SubstitutionModels.jl.git"
+    repo = "github.com/BioJulia/SubstitutionModels.jl.git",
+    push_preview = true
 )

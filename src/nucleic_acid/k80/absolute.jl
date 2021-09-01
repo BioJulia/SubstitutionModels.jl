@@ -1,7 +1,7 @@
 struct K80abs <: K80
   α::Float64
   β::Float64
-  function K80abs(α::Float64, β::Float64, safe::Bool=true)
+  function K80abs(α::Float64, β::Float64; safe::Bool=true)
     if safe
       if α <= 0.
         error("K80 parameter α must be positive")
