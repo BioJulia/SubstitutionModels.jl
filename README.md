@@ -10,7 +10,9 @@
 
 **Development status:**
 
-[![CI-stable](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/ci-stable.yml/badge.svg)](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/ci-stable.yml)
+[![test-lts](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/test-lts.yml/badge.svg)](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/test-lts.yml)
+[![test-stable](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/test-stable.yml/badge.svg)](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/test-stable.yml)
+[![test-nightly](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/test-nightly.yml/badge.svg)](https://github.com/BioJulia/SubstitutionModels.jl/actions/workflows/test-nightly.yml)
 [![codecov.io](http://codecov.io/github/BioJulia/SubstitutionModels.jl/coverage.svg?branch=master)](http://codecov.io/github/BioJulia/SubstitutionModels.jl?branch=master)
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://BioJulia.github.io/SubstitutionModels.jl/latest)
 
@@ -30,8 +32,8 @@ The current release version can be installed
 from the Julia REPL:
 
 ```julia
-julia> using Pkg
-julia> add("SubstitutionModels")
+using Pkg
+Pkg.add("SubstitutionModels")
 ```
 
 ## Contributing and Questions

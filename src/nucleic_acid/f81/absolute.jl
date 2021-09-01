@@ -5,7 +5,7 @@ struct F81abs <: F81
   πG::Float64
   πT::Float64
   function F81abs(β::Float64,
-                  πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                  πA::Float64, πC::Float64, πG::Float64, πT::Float64;
                   safe::Bool=true)
     if safe
       if β <= 0.

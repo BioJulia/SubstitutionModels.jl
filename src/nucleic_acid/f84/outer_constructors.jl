@@ -1,17 +1,17 @@
 F84(κ::F,
-    πA::F, πC::F, πG::F, πT::F,
+    πA::F, πC::F, πG::F, πT::F;
     safe::Bool=true) where F <: Float64 =
-  F84rel(κ, πA, πC, πG, πT, safe)
+  F84rel(κ, πA, πC, πG, πT, safe=safe)
 
 
 F84(κ::F, β::F,
-    πA::F, πC::F, πG::F, πT::F,
+    πA::F, πC::F, πG::F, πT::F;
     safe::Bool=true) where F <: Float64 =
-  F84abs(κ, β, πA, πC, πG, πT, safe)
+  F84abs(κ, β, πA, πC, πG, πT, safe=safe)
 
 
 function F84(θ_vec::A,
-             π_vec::A,
+             π_vec::A;
              safe::Bool=true) where A <: AbstractArray
   if safe && length(π_vec) != 4
     error("Incorrect base frequency vector length")
@@ -19,11 +19,11 @@ function F84(θ_vec::A,
   if length(θ_vec) == 1
     return F84rel(θ_vec[1],
                   π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T],
-                  safe)
+                  safe=safe)
   elseif length(θ_vec) == 2
     return F84abs(θ_vec[1], θ_vec[2],
                   π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T],
-                  safe)
+                  safe=safe)
   else
     error("Parameter vector length incompatiable with absolute or relative rate form of substitution model")
   end
@@ -31,7 +31,7 @@ end
 
 
 function F84rel(θ_vec::A,
-                π_vec::A,
+                π_vec::A;
                 safe::Bool=true) where A <: AbstractArray
   if safe
     if length(θ_vec) != 1
@@ -40,12 +40,12 @@ function F84rel(θ_vec::A,
       error("Incorrect base frequency vector length")
     end
   end
-  return F84rel(θ_vec[1], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
+  return F84rel(θ_vec[1], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe=safe)
 end
 
 
 function F84abs(θ_vec::A,
-                π_vec::A,
+                π_vec::A;
                 safe::Bool=true) where A <: AbstractArray
   if safe
     if length(θ_vec) != 2
@@ -54,5 +54,5 @@ function F84abs(θ_vec::A,
       error("Incorrect base frequency vector length")
     end
   end
-  return F84abs(θ_vec[1], θ_vec[2], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe)
+  return F84abs(θ_vec[1], θ_vec[2], π_vec[DNA_A], π_vec[DNA_C], π_vec[DNA_G], π_vec[DNA_T], safe=safe)
 end

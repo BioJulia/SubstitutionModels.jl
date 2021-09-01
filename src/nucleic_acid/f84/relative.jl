@@ -5,7 +5,7 @@ struct F84rel <: F84
   πG::Float64
   πT::Float64
   function F84rel(κ::Float64,
-                  πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                  πA::Float64, πC::Float64, πG::Float64, πT::Float64;
                   safe::Bool=true)
     if safe
       if κ <= 0.

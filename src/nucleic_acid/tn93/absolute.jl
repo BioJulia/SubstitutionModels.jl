@@ -7,7 +7,7 @@ struct TN93abs <: TN93
   πG::Float64
   πT::Float64
   function TN93abs(α1::Float64, α2::Float64, β::Float64,
-                   πA::Float64, πC::Float64, πG::Float64, πT::Float64,
+                   πA::Float64, πC::Float64, πG::Float64, πT::Float64;
                    safe::Bool=true)
     if safe
       if α1 <= 0.
