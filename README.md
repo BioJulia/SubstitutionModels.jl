@@ -40,7 +40,7 @@ Pkg.add("SubstitutionModels")
 
 We appreciate contributions from users including reporting bugs, fixing issues,
 improving performance and adding new features.
-Please go to the [contributing section of the documentation](http://biojulia.net/Contributing/latest/)
+Please go to the [contributing section of the documentation](http://biojulia.dev/Contributing/latest/)
 for more information.
 
 If you have a question about
