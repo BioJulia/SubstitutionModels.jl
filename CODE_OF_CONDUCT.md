@@ -94,7 +94,7 @@ behaviour is hostile and not acceptable, please report it (see next section).
 If you are affected by the behaviour of a member or contributor of BioJulia,
 we ask that you report it by contacting the
 [BioJulia Admin Team](https://github.com/orgs/BioJulia/teams/admin/members)
-collectively, by emailing [admin@biojulia.net](admin@biojulia.net).
+collectively, by emailing [admin@biojulia.dev](admin@biojulia.dev).
 They will get back to you and begin to resolve the situation.
 In some cases we may determine that a public statement will need to be made.
 If that's the case, the identities of all involved will remain
