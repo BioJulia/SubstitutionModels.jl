@@ -17,8 +17,8 @@ struct F81rel <: F81
 end
 
 
-function Base.show(io::IO, object::F81rel)
-  print(io, "\r\e[0m\e[1mF\e[0melsenstein 19\e[1m81\e[0m model (relative rate form)
+function Base.show(io::IO, ::MIME"text/plain", object::F81rel)
+  print(io, "Felsenstein 1981 model (relative rate form)
 π = [$(object.πA), $(object.πC), $(object.πG), $(object.πT)]")
 end
 

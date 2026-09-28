@@ -25,6 +25,6 @@ module SubstitutionModels
     HKY85, HKY85abs, HKY85rel,
     TN93, TN93abs, TN93rel,
     GTR, GTRabs, GTRrel,
-    Q, P, nucleotide_index
+    Q, P, nucleotide_index, NucleotideView
 
 end # module

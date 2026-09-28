@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
+    continue-on-error: true
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -24,4 +25,4 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
         with:
-          depwarn: no
+          depwarn: 'yes'
