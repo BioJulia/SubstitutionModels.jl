@@ -1,4 +1,4 @@
-name: julia-1.0
+name: julia-1.10
 
 on: [push, pull_request]
 
@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        julia-version: ['1.0']
+        julia-version: ['1.10']
         julia-arch: [x64]
         os: [ubuntu-24.04]
 
@@ -24,4 +24,17 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
         with:
-          depwarn: no
+          depwarn: 'yes'
+      - name: Test normal bounds behavior
+        run: julia --project=. --check-bounds=auto --depwarn=yes test/runtests.jl
+
+  minimum:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: '1.0'
+      - run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
+      - run: julia --project=. test/runtests.jl
+      - run: julia --project=. --check-bounds=yes test/runtests.jl

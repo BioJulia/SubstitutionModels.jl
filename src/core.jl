@@ -34,3 +34,14 @@ end
 function Base.convert(::Type{T}, θ_vec::AbstractArray, π_vec::AbstractArray; safe::Bool=true) where T <: NASM
   return T(θ_vec, π_vec, safe=safe)
 end
+
+
+function Base.show(io::IO, mod::NASM)
+  print(io, nameof(typeof(mod)), '(')
+  for i in 1:fieldcount(typeof(mod))
+    i > 1 && print(io, ", ")
+    show(io, getfield(mod, i))
+  end
+  print(io, ')')
+  return nothing
+end

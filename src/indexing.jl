@@ -12,38 +12,47 @@ function nucleotide_index(nt::NucleicAcid)
   throw(ArgumentError("Expected an unambiguous nucleotide (A, C, G, T/U), got $nt"))
 end
 
-function indexing_depwarn(method::Symbol)
-  Base.depwarn("Indexing arbitrary AbstractArrays with DNA/RNA symbols is deprecated " *
-               "and will be removed in SubstitutionModels 0.6.0. " *
-               "Use array[nucleotide_index(nt)] (convert both indices for matrices).", method)
+"""
+    NucleotideView(a)
+
+Wrap a four-element vector or a 4×4 matrix with nucleotide indexing in A/C/G/T(U)
+order, sharing its storage. Only one-based axes are supported. Integer indexing
+and iteration follow the parent array; a single index on a matrix is linear.
+Ambiguities and gaps throw `ArgumentError`. Mutation requires a mutable parent.
+Use `parent` to retrieve the array or `copy` to wrap a separate copy.
+"""
+struct NucleotideView{T,N,A<:AbstractArray{T,N}} <: AbstractArray{T,N}
+  data::A
+  function NucleotideView(a::AbstractArray{T,N}) where {T,N}
+    ((N == 1 && size(a) == (4,)) || (N == 2 && size(a) == (4,4))) ||
+      throw(ArgumentError("Expected a four-element vector or a 4×4 matrix"))
+    all(ax -> ax == Base.OneTo(4), axes(a)) ||
+      throw(ArgumentError("Nucleotide views require one-based axes"))
+    new{T,N,typeof(a)}(a)
+  end
 end
 
-function Base.checkbounds(a::AbstractArray, i::NucleicAcid)
-  indexing_depwarn(:checkbounds)
-  checkbounds(a, nucleotide_index(i))
+NucleotideView(a::NucleotideView) = a
+Base.parent(a::NucleotideView) = a.data
+Base.size(a::NucleotideView) = size(parent(a))
+Base.axes(a::NucleotideView) = axes(parent(a))
+Base.IndexStyle(::Type{NucleotideView{T,N,A}}) where {T,N,A} = IndexStyle(A)
+Base.getindex(a::NucleotideView, inds::Vararg{Int}) = getindex(parent(a), inds...)
+function Base.setindex!(a::NucleotideView, x, inds::Vararg{Int})
+  setindex!(parent(a), x, inds...)
+  return a
 end
+Base.copy(a::NucleotideView) = NucleotideView(copy(parent(a)))
+Base.similar(a::NucleotideView, ::Type{T}, dims::Dims) where T = similar(parent(a), T, dims)
 
-function Base.checkbounds(a::AbstractArray, i::T, j::T) where T <: NucleicAcid
-  indexing_depwarn(:checkbounds)
-  checkbounds(a, nucleotide_index(i), nucleotide_index(j))
-end
-
-function Base.getindex(a::AbstractArray, i::NucleicAcid)
-  indexing_depwarn(:getindex)
-  return a[nucleotide_index(i)]
-end
-
-function Base.getindex(a::AbstractArray, i::T, j::T) where T <: NucleicAcid
-  indexing_depwarn(:getindex)
-  return a[nucleotide_index(i), nucleotide_index(j)]
-end
-
-function Base.setindex!(a::AbstractArray, x, i::NucleicAcid)
-  indexing_depwarn(:setindex!)
-  return setindex!(a, x, nucleotide_index(i))
-end
-
-function Base.setindex!(a::AbstractArray, x, i::T, j::T) where T <: NucleicAcid
-  indexing_depwarn(:setindex!)
-  return setindex!(a, x, nucleotide_index(i), nucleotide_index(j))
-end
+Base.dataids(a::NucleotideView) = Base.dataids(parent(a))
+Base.unaliascopy(a::NucleotideView) = NucleotideView(Base.unaliascopy(parent(a)))
+Base.to_index(a::NucleotideView, nt::NucleicAcid) = nucleotide_index(nt)
+Base.checkbounds(::Type{Bool}, a::NucleotideView, nt::NucleicAcid) =
+  checkbounds(Bool, parent(a), nucleotide_index(nt))
+Base.checkbounds(::Type{Bool}, a::NucleotideView, i::NucleicAcid, j) =
+  checkbounds(Bool, parent(a), nucleotide_index(i), j)
+Base.checkbounds(::Type{Bool}, a::NucleotideView, i, j::NucleicAcid) =
+  checkbounds(Bool, parent(a), i, nucleotide_index(j))
+Base.checkbounds(::Type{Bool}, a::NucleotideView, i::NucleicAcid, j::NucleicAcid) =
+  checkbounds(Bool, parent(a), nucleotide_index(i), nucleotide_index(j))

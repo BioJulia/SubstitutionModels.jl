@@ -1,4 +1,4 @@
-name: julia-1.6
+name: julia-1.13
 
 on: [push, pull_request]
 
@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        julia-version: ['1.6', '1.10', '1.13']
+        julia-version: ['1.13']
         julia-arch: [x64]
         os: [ubuntu-24.04]
 

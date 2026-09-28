@@ -40,20 +40,12 @@ p[nucleotide_index(DNA_A), nucleotide_index(DNA_G)]
 and gaps. An index outside the array throws `BoundsError`, including when a
 model constructor is called with `safe=false`.
 
-In 0.5.1, direct indexing such as `f[DNA_A]` and `p[DNA_A, DNA_G]` remains
-available but is deprecated. Julia displays the migration warning when
-deprecation warnings are enabled, for example with `--depwarn=yes`.
-These methods will be removed in 0.6.0. Convert each nucleotide index explicitly
-as above. A single nucleotide index on a matrix still means a linear index:
-`p[DNA_G]` means `p[3]`, not a row or column.
-
-In 0.6.0, use the exported `NucleotideView(a)` constructor to opt into nucleotide
-indexing on a four-element vector or a 4×4 matrix:
+Direct nucleotide indexing on arbitrary arrays was deprecated in 0.5.1 and
+removed in 0.6.0. Convert each index as above, or wrap the array explicitly:
 
 ```julia
-# Requires SubstitutionModels 0.6.0
 v = NucleotideView(f)
-v[DNA_A] # 0.21
+v[DNA_A] # 0.21; v shares f's storage
 v[RNA_C] = 0.3 # updates f[2]
 q = NucleotideView(p)
 q[DNA_A, DNA_G]
@@ -62,14 +54,18 @@ view(q, :, RNA_G) # view the G column
 parent(q) === p # true
 ```
 
-The wrapper shares its parent's storage and requires one-based axes. Mutation
-requires a mutable parent; use `copy` to obtain a wrapper over separate storage.
-A single index on a wrapped matrix is linear. Ambiguities and gaps still throw
-`ArgumentError`. This constructor is available starting in 0.6.0; for 0.5.1,
-use `nucleotide_index` as shown above.
+The wrapper accepts four-element vectors and 4×4 matrices with one-based axes.
+It preserves integer indexing, iteration, and the parent's mutability. Wrapping
+an immutable static matrix does not make it mutable. `copy(v)` wraps a separate
+copy of the parent. Array operations such as slicing and broadcasting return
+ordinary numerical arrays. A single nucleotide index on a matrix remains linear:
+`q[DNA_G]` means `p[3]`.
 
-`P` and `Q` continue to return ordinary static numerical matrices.
+`P` and `Q` still return static numerical matrices. Downstream packages that
+restrict SubstitutionModels to 0.5 must also update their dependency bounds
+when migrating to 0.6.
 
 ```@docs
 nucleotide_index
+NucleotideView
 ```

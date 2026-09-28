@@ -82,15 +82,20 @@ function P_generic(mod::NASM, t::Array{Float64})
         error("t must be positive")
     end
 
+    q = Q(mod)
+    π = _π(mod)
+    if any(x -> !isfinite(x) || x <= 0, π)
+        return [P_generic(mod, i) for i in t]
+    end
+
     try
-        q = Q(mod)
 
         # Use symmetrical similar matrix if possible:
         # B is similar (has same eigenvalues) to Q, but is symmetrical if the model is reversible.
         # Eigenvalue decomposition is easier with symmetrical matrix
         # NB: computation of B described in Inferring Phylogenies, Felsenstein, p.206
 
-        rootπ = sqrt.(_π(mod))
+        rootπ = sqrt.(π)
         b = diagm(0 => rootπ) * q * diagm(0 => 1.0 ./ rootπ)
 
         # If B is symmetrical, then do eigenvalue decomposition on B. The resulting
@@ -109,8 +114,9 @@ function P_generic(mod::NASM, t::Array{Float64})
 
         return [SMatrix{size(q)...}(eig_vecs * diagm(0 => exp.(eig_vals .* i)) * eig_vecs_inv) for i in t]
 
-    catch
-        # Any errors, fall back to direct use of matrix exponential
+    catch err
+        (err isa LinearAlgebra.LAPACKException || err isa SingularException) || rethrow()
+        # A failed decomposition can still have a well-defined matrix exponential.
         return [P_generic(mod, i) for i in t]
 
     end
