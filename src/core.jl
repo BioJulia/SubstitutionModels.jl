@@ -31,6 +31,6 @@ function Base.convert(::Type{T}, θ_vec::A; safe::Bool=true) where {T <: NASM, A
 end
 
 
-function Base.convert(::Type{T}, θ_vec::A, π_vec::A; safe::Bool=true) where {T <: NASM, A <: AbstractArray}
+function Base.convert(::Type{T}, θ_vec::AbstractArray, π_vec::AbstractArray; safe::Bool=true) where T <: NASM
   return T(θ_vec, π_vec, safe=safe)
 end

@@ -48,10 +48,15 @@ function test_mod_fun(mod::Type{T}, n_params::Int64, equal_base_freqs::Bool, clo
     @test_throws MethodError convert(mod, _dummy_params[1:n_params])
     @test_nowarn convert(mod, _dummy_params[1:n_params], _dummy_freqs, safe=true)
     x = mod(_dummy_params[1:n_params], _dummy_freqs)
+    @test mod(_dummy_params[1:n_params], view(_dummy_freqs, :)) == x
+    @test mod(view(_dummy_params, 1:n_params), _dummy_freqs) == x
+    @test convert(mod, _dummy_params[1:n_params], view(_dummy_freqs, :)) == x
     @test x == supertype(mod)(_dummy_params[1:n_params], _dummy_freqs) # Convenience constructor
   end
   @test_nowarn Q(x)
   @test_nowarn Q(x, true) # Scaled q matrix
+  @test Q(x) isa SMatrix{4,4,Float64}
+  @test P(x, 0.1) isa SMatrix{4,4,Float64}
   q1 = Q(x)
   q2 = Q(x, true) # Scaled q matrix
   @test all(.≈(sum(q1, dims=2), 0.0, atol=1e-13)) # Q matrix col sums
@@ -87,9 +92,67 @@ for testmod in [(JC69abs, 1, true, true)
 end
 
 
-@testset "Indexing" begin
-  testmat = MMatrix{4, 4,Int64}(1:16)
-  @test testmat[DNA_A] == testmat[DNA_A, DNA_A]
-  testmat[DNA_G] = 100
-  @test testmat[DNA_G] == 100
+@testset "Nucleotide indexing" begin
+  f = [0.21, 0.29, 0.23, 0.27]
+  @test f[DNA_A] == 0.21
+  @test_throws ArgumentError f[DNA_N]
+  f2 = [0.21, 0.29, 0.23]
+  @test_throws BoundsError f2[DNA_T]
+  sm = reshape(1:16, 4, 4)
+  @test [sm[i,j] for i in (RNA_A, RNA_C, RNA_G, RNA_U), j in (RNA_A, RNA_C, RNA_G, RNA_U)] == sm
+  @test_throws ArgumentError sm[DNA_G, DNA_N]
+  sm2 = reshape(1:9, 3, 3)
+  @test_throws BoundsError sm2[DNA_A, DNA_T]
+end
+
+const unambiguous_states = ((DNA_A, DNA_C, DNA_G, DNA_T),
+                          (RNA_A, RNA_C, RNA_G, RNA_U))
+const invalid_states = (DNA_N, RNA_N, DNA_R, RNA_Y, DNA_B, RNA_V,
+                        DNA_Gap, RNA_Gap)
+
+@testset "Nucleotide index conversion" begin
+  for states in unambiguous_states, (i, nt) in enumerate(states)
+    @test nucleotide_index(nt) == i
+  end
+  for nt in invalid_states
+    @test_throws ArgumentError nucleotide_index(nt)
+  end
+end
+
+@testset "Legacy array indexing" begin
+  for a in ([1,2,3,4], SVector(1,2,3,4), MVector(1,2,3,4), view(1:4, :))
+    @test [a[nt] for nt in (DNA_A, DNA_C, DNA_G, DNA_T)] == collect(a)
+    @test checkbounds(a, RNA_U) === nothing
+  end
+  for a in ([1,2,3], MVector(1,2,3), view([1,2,3], :))
+    @test_throws BoundsError checkbounds(a, DNA_T)
+    @test_throws BoundsError setindex!(a, 9, DNA_T)
+    @test_throws ArgumentError setindex!(a, 9, DNA_N)
+    @test a == [1,2,3]
+  end
+  a = MMatrix{3,3}(1:9)
+  @test_throws BoundsError setindex!(a, 9, DNA_A, DNA_T)
+  @test_throws ArgumentError setindex!(a, 9, DNA_N, DNA_A)
+  @test a == reshape(1:9, 3,3)
+  @test setindex!(a, 42, DNA_C, DNA_G)[2,3] == 42
+end
+
+@testset "Legacy deprecation migration" begin
+  mktemp() do path, io
+    close(io)
+    script = "using SubstitutionModels, BioSymbols; a = collect(1:4); a[DNA_A]"
+    cmd = `$(Base.julia_cmd()) --project=$(dirname(Base.active_project())) --startup-file=no --depwarn=yes -e $script`
+    run(pipeline(cmd, stderr=path))
+    warning = read(path, String)
+    @test occursin("deprecated", warning)
+    @test occursin("0.6.0", warning)
+    @test occursin("nucleotide_index", warning)
+  end
+  mktemp() do path, io
+    close(io)
+    script = "using SubstitutionModels; F81([1.0], [0.21, 0.29, 0.23, 0.27])"
+    cmd = `$(Base.julia_cmd()) --project=$(dirname(Base.active_project())) --startup-file=no --depwarn=yes -e $script`
+    run(pipeline(cmd, stderr=path))
+    @test !occursin("deprecated", read(path, String))
+  end
 end
