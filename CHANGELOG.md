@@ -4,9 +4,12 @@ Tagged entries were reconstructed from the changes between successive tags.
 The first release is summarized from its source tree. The `v0.5.0+docs` tag is
 included separately because it only changes documentation deployment.
 
-## Unreleased
+## Unreleased (version set to 0.6.1)
 
-### 0.6.0
+- Remove the optional LinearAlgebra version bound so packages using
+  SubstitutionModels can resolve their test environments on Julia 1.0.
+
+## [0.6.0](https://github.com/BioJulia/SubstitutionModels.jl/compare/v0.5.1...v0.6.0)
 
 - **Breaking:** Remove direct nucleotide indexing on arbitrary arrays. Use
   `a[nucleotide_index(nt)]` or wrap the array with `NucleotideView(a)`.
@@ -23,7 +26,7 @@ included separately because it only changes documentation deployment.
 - Allow overall coverage to decrease by up to 2.5 percentage points and make
   patch coverage informational.
 
-### 0.5.1 (merged into master; not yet tagged)
+## [0.5.1](https://github.com/BioJulia/SubstitutionModels.jl/compare/v0.5.0+docs...v0.5.1)
 
 - Fix unchecked nucleotide indexing: ambiguous symbols and gaps throw
   `ArgumentError`, and out-of-bounds accesses throw `BoundsError`. Rejected writes
@@ -37,9 +40,6 @@ included separately because it only changes documentation deployment.
 - Add regression tests and normal-bounds CI runs. Refresh GitHub Actions, add
   Dependabot updates and Julia caching, connect the Codecov token, and run CI
   on Linux with Ubuntu 24.04 runners.
-
-[0.5.1 changes](https://github.com/BioJulia/SubstitutionModels.jl/compare/v0.5.0+docs...ce4af96)
-· [0.6.0 changes](https://github.com/BioJulia/SubstitutionModels.jl/compare/ce4af96...release/0.6.0)
 
 ## [0.5.0+docs](https://github.com/BioJulia/SubstitutionModels.jl/compare/v0.5.0...v0.5.0+docs)
 
